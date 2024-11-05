@@ -19,6 +19,7 @@ export default {
     logoHeader:'rgba(105, 160, 0, 1)',
     logoHeaderBorderBottomColor:'rgba(255, 110, 0, 1)',
     tradeLogo:'rgba(255, 110, 0, 1)',
+    searchBar: '#f0f0f0',
 
   
     

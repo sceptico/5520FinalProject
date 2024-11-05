@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TextInput } from 'react-native';
+import React, { useState } from 'react';
 import Color from '../Style/Color';
-
 
 const categories = [
   { id: '1', name: 'Clubs', image: require('../assets/club.jpg') },
@@ -13,8 +12,19 @@ const categories = [
 ];
 
 export default function Shop() {
+  const [searchText, setSearchText] = useState('');
+
   return (
     <View style={styles.container}>
+      {/* Search Bar */}
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search for products or brands"
+        value={searchText}
+        onChangeText={text => setSearchText(text)}
+      />
+
+      {/* Category Images */}
       <FlatList
         data={categories}
         numColumns={3} // 3 items per row
@@ -35,10 +45,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.pageBackground,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 80,
-    
+    paddingTop: 40,
+  },
+  searchBar: {
+    height: 40,
+    width: '90%',
+    backgroundColor: Color.searchBar,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    fontSize: 14,
   },
   grid: {
     justifyContent: 'center',

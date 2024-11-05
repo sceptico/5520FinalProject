@@ -10,7 +10,7 @@ import Header from './Component/Header';
 import React from 'react';
 // import { Home, Sell, Shop, MyAccount, NewListing, ProductList } from './navigations/Screens';
 import Home from './Screen/Home';
-console.log(Home);
+// console.log(Home);
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
