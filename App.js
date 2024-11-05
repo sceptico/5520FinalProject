@@ -27,9 +27,9 @@ const Tab = createBottomTabNavigator(); // Create a bottom tab navigator
 function MainTabs() {
   return (
     <Tab.Navigator // Tab navigator for the main screens
-      initialRouteName="Home"
+      initialRouteName="ParTee Up"
       screenOptions={({ route }) => ({
-        headerTitleAlign: 'center',
+        headerTitleAlign: 'left',
         tabBarStyle: { backgroundColor: Color.headerBackground, },
         headerStyle: { backgroundColor: Color.pageBackground,
           elevation: 0, // Remove shadow on Android
@@ -43,7 +43,7 @@ function MainTabs() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
           let iconColor = color;
-          if (route.name === 'Home') {
+          if (route.name === 'ParTee Up') {
             iconName = 'home';
           } else if (route.name === 'Shop') {
             iconName = 'shopify';
@@ -62,7 +62,7 @@ function MainTabs() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="ParTee Up" component={Home} />
       <Tab.Screen name="Shop" component={Shop} />
       <Tab.Screen name="Trade" component={Sell} />
       <Tab.Screen name="Event" component={Event} />
