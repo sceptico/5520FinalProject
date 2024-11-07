@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TextInput, useNavigation } from 'react-native';
 import React, { useState } from 'react';
 import { globalStyles } from '../Style/Styles';
 import PressableItem from '../Component/PressableItem';
@@ -12,10 +12,11 @@ const categories = [
   { id: '6', name: 'Kids', image: require('../assets/kids.jpg') },
 ];
 
-export default function Shop() {
+export default function Shop({ navigation }) {
   const [searchText, setSearchText] = useState('');
 
   const onPressCategory = (category) => {
+    navigation.navigate('Product List', { categoryName: category.name })
     console.log(`Pressed category: ${category.name}`);
   }
 
@@ -36,7 +37,6 @@ export default function Shop() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <PressableItem
-            item={item}
             pressedFunction={() => onPressCategory(item)}>
             <View style={globalStyles.itemContainer}>
               <Image source={item.image} style={globalStyles.image} />
