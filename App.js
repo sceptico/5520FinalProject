@@ -10,12 +10,13 @@ import Header from './Component/Header';
 import React from 'react';
 // import { Home, Sell, Shop, MyAccount, NewListing, ProductList } from './navigations/Screens';
 import Home from './Screen/Home';
-console.log(Home);
+// console.log(Home);
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
 import NewListing from './Screen/NewListing';
 import ProductList from './Screen/ProductList';
+import Event from './Screen/Event';
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
@@ -26,9 +27,9 @@ const Tab = createBottomTabNavigator(); // Create a bottom tab navigator
 function MainTabs() {
   return (
     <Tab.Navigator // Tab navigator for the main screens
-      initialRouteName="Home"
+      initialRouteName="ParTee Up"
       screenOptions={({ route }) => ({
-        headerTitleAlign: 'center',
+        headerTitleAlign: 'left',
         tabBarStyle: { backgroundColor: Color.headerBackground, },
         headerStyle: { backgroundColor: Color.pageBackground,
           elevation: 0, // Remove shadow on Android
@@ -41,24 +42,31 @@ function MainTabs() {
         tabBarInactiveTintColor: Color.inactiveIcon,
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === 'Home') {
+          let iconColor = color;
+          if (route.name === 'ParTee Up') {
             iconName = 'home';
           } else if (route.name === 'Shop') {
             iconName = 'shopify';
-          } else if (route.name === 'Sell') {
+          } else if (route.name === 'Trade') {
             iconName = 'dollar-sign';
+            // iconName ='plus';
+            iconColor = Color.tradeLogo;
           }
-          else if (route.name === 'MyAccount') {
+          else if (route.name === 'Event') {
+            iconName = 'calendar';
+          }
+          else if (route.name === 'My Account') {
             iconName = 'user';
           }
-          return <FontAwesome5 name={iconName} size={size} color={color} />;
+          return <FontAwesome5 name={iconName} size={size} color={iconColor} />;
         },
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="ParTee Up" component={Home} />
       <Tab.Screen name="Shop" component={Shop} />
-      <Tab.Screen name="Sell" component={Sell} />
-      <Tab.Screen name="MyAccount" component={MyAccount} />
+      <Tab.Screen name="Trade" component={Sell} />
+      <Tab.Screen name="Event" component={Event} />
+      <Tab.Screen name="My Account" component={MyAccount} />
 
     </Tab.Navigator>
   );
@@ -81,12 +89,12 @@ export default function App() {
 
 
           <Stack.Screen
-            name="MainTabs"  // MainTab represents the tab navigator
+            name="Main Tabs"  // MainTab represents the tab navigator
             component={MainTabs}
             options={{ headerShown: false }}
           />
           <Stack.Screen 
-            name="NewListing" 
+            name="New Listing" 
             component={NewListing} 
             options={{ title: 'New Listing' }}
           />
@@ -96,7 +104,7 @@ export default function App() {
             options={{ title: 'Product' }}
           />
           <Stack.Screen 
-              name="MyAccount" 
+              name="My Account" 
               component={MyAccount} 
               options={{ 
                 title: 'My Account',

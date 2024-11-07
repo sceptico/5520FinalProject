@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Color from '../Style/Color'
 
-export default function ProductList() {
+export default function Event() {
   return (
     <View style={styles.container}>
-      <Text>Product List</Text>
+      <Text>Event</Text>
     </View>
   )
 }
