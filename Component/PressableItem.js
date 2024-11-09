@@ -22,8 +22,6 @@ const PressableItem = (props) => {
         pressed && props.pressedStyle, // pressed style
       ]}
     >
-      <Text style={[styles.buttonText, props.textStyle]}>{props.title}</Text>
-      <Ionicons name={props.iconName} size={26} color="rgba(245, 238, 11, 0.8)" />
       {props.children}
     </Pressable>
   );
@@ -36,7 +34,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'purple',
     justifyContent: 'center',
   },
 
