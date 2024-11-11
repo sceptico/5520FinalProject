@@ -2,7 +2,7 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../Style/Styles'
 import ItemsList from '../Component/ItemsList'
-import { getItemsByCategory } from '../Firebase/firebaseHelper'
+import { fetchAllDocuments, getItemsByCategory } from '../Firebase/firebaseHelper'
 
 
 export default function ProductList({navigation, route}) {
@@ -11,7 +11,8 @@ export default function ProductList({navigation, route}) {
 
   const getItems = async () => {
     try {
-      const data = await getItemsByCategory('items', categoryName)
+      // const data = await getItemsByCategory('items', categoryName)
+      const data = await fetchAllDocuments('items')
       setItems(data)
     } catch (error) {
       console.log("Error getting items: ${error}")

@@ -34,17 +34,12 @@ export async function getItem(collectionName, id) {
 
 export async function getItemsByCategory(collectionName, category) {
     try {
-        const querySnapshot = await getDocs(collection(db, collectionName));
-        const items = [];
-        querySnapshot.forEach((doc) => {
-            if (doc.data().category === category) {
-                items.push({ id: doc.id, ...doc.data() });
-            }
-        });
-        return items;
-    } catch (err) {
-        console.error(`Error fetching documents from ${collectionName}:`, err);
-    }
+        const allItems = await fetchAllDocuments(collectionName);
+        console.log('allItems:', allItems);
+        return allItems.filter(item => item.category === category);
+    } catch (error) {
+        console.error(`Error fetching items by category ${category}:`, error);
+}
 }
 
 
