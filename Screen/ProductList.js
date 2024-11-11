@@ -9,10 +9,14 @@ export default function ProductList({navigation, route}) {
   const {categoryName} = route.params
   const [items, setItems] = useState([])
 
+  useEffect(() => {
+        navigation.setOptions({ title: categoryName });
+    }, [navigation, categoryName]);
+    
   const getItems = async () => {
     try {
-      // const data = await getItemsByCategory('items', categoryName)
-      const data = await fetchAllDocuments('items')
+      const data = await getItemsByCategory('items', categoryName)
+      // const data = await fetchAllDocuments('items')
       setItems(data)
     } catch (error) {
       console.log("Error getting items: ${error}")
