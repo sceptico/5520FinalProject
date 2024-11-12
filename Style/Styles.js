@@ -78,4 +78,71 @@ export const globalStyles = StyleSheet.create({
     color: colors.headerBackground,
     fontWeight: 'bold',
   },
+  listContainer: {
+    flex: 1,
+    backgroundColor: colors.pageBackground,
+    alignItems: 'center',
+  },
+  listSeparator: {
+    height: 3,
+    marginVertical: 3,
+    backgroundColor: colors.border,
+  },
+  productContainer: {
+    backgroundColor: colors.darkPageBackground,
+    padding: spacing.medium,
+    margin: spacing.small,
+  },  
+  formContainer: {
+    width: '90%',
+    padding: spacing.large,
+    backgroundColor: colors.inputBackground,
+    borderRadius: 8,
+    marginVertical: spacing.medium,
+  },
+  label: {
+    fontSize: typography.subtitle.fontSize,
+    fontWeight: typography.subtitle.fontWeight,
+    color: colors.darkText,
+    marginBottom: spacing.small,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.inputBorder,
+    backgroundColor: colors.inputBackground,
+    padding: spacing.medium,
+    borderRadius: 5,
+    marginBottom: spacing.medium,
+    fontSize: typography.body.fontSize,
+  },
+  textArea: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
+  picker: {
+    height: 50,
+    borderColor: colors.inputBorder,
+    backgroundColor: colors.inputBackground,
+    borderRadius: 5,
+    paddingHorizontal: spacing.small,
+    marginBottom: spacing.medium,
+  },
+  button: {
+    padding: spacing.medium,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: spacing.small,
+  },
+  saveButton: {
+    backgroundColor: colors.saveButton,
+  },
+  cancelButton: {
+    backgroundColor: colors.cancelButton,
+  },
+  buttonText: {
+    color: colors.buttonText,
+    fontWeight: 'bold',
+    fontSize: typography.body.fontSize,
+  },
 });
