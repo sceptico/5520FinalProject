@@ -2,7 +2,7 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../Style/Styles'
 import ItemsList from '../Component/ItemsList'
-import { fetchAllDocuments, getItemsByCategory } from '../Firebase/firebaseHelper'
+import { getItemsByCategory } from '../Firebase/firebaseHelper'
 
 
 export default function ProductList({navigation, route}) {
@@ -10,13 +10,12 @@ export default function ProductList({navigation, route}) {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-        navigation.setOptions({ title: categoryName });
-    }, [navigation, categoryName]);
+    navigation.setOptions({ title: categoryName });
+}, [navigation, categoryName]);
 
   const getItems = async () => {
     try {
-      const data = await getItemsByCategory('items', categoryName)
-      // const data = await fetchAllDocuments('items')
+      const data = await getItemsByCategory('Product', categoryName)
       setItems(data)
     } catch (error) {
       console.log("Error getting items: ${error}")
@@ -31,9 +30,9 @@ export default function ProductList({navigation, route}) {
     }, [navigation])
 
   return (
-    <View style={globalStyles.listContainer} >
+    <View style={globalStyles.listContainer}>
+      {/* <Text>{categoryName}</Text> */}
       <ItemsList items={items} navigation={navigation} />
     </View>
   )
 }
-
