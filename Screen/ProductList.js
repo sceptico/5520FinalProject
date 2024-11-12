@@ -6,8 +6,16 @@ import { getItemsByCategory } from '../Firebase/firebaseHelper'
 
 
 export default function ProductList({navigation, route}) {
-  const {categoryName} = route.params
+  const { categoryName } = route.params || {};
   const [items, setItems] = useState([])
+
+  if (!categoryName) {
+    return (
+      <View>
+        <Text>No category selected</Text>
+      </View>
+    );
+  }
 
   useEffect(() => {
     navigation.setOptions({ title: categoryName });
