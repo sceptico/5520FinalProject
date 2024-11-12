@@ -5,7 +5,7 @@ import React from 'react'
 export default function ProductItem({item}) {
   return (
     <View>
-      <Text>{item.name}</Text>
+      <Text>{item.name} $xx location:xx pic_url</Text>
     </View>
   )
 }

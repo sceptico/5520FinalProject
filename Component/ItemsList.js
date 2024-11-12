@@ -2,6 +2,7 @@ import { FlatList, Text, View } from 'react-native'
 import React from 'react'
 import PressableItem from './PressableItem'
 import ProductItem from './ProductItem'
+import { globalStyles } from '../Style/Styles'
 
 export default function ItemsList({ items, navigation }) {
   console.log('ItemsList items:', items)
@@ -16,12 +17,14 @@ export default function ItemsList({ items, navigation }) {
               pressedFunction={() => {
                 //navigate to ProductDetail screen with itemId as parameter
                 navigation.navigate('ProductDetail', { itemId: item.id })
-              }}>
+              }}
+              componentStyle={globalStyles.productContainer}>
               <ProductItem item={item} />
             </PressableItem>
           )
         }
       }
+      ItemSeparatorComponent={() => <View style={globalStyles.listSeparator}/>}
       />
     </View>
   )
