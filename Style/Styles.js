@@ -78,4 +78,19 @@ export const globalStyles = StyleSheet.create({
     color: colors.headerBackground,
     fontWeight: 'bold',
   },
+  listContainer: {
+    flex: 1,
+    backgroundColor: colors.pageBackground,
+    alignItems: 'center',
+  },
+  listSeparator: {
+    height: 3,
+    marginVertical: 3,
+    backgroundColor: colors.border,
+  },
+  productContainer: {
+    backgroundColor: colors.darkPageBackground,
+    padding: spacing.medium,
+    margin: spacing.small,
+  }
 });

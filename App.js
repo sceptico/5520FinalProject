@@ -17,6 +17,7 @@ import MyAccount from './Screen/MyAccount';
 import NewListing from './Screen/NewListing';
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
+import ProductDetail from './Screen/ProductDetail';
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
@@ -86,8 +87,6 @@ export default function App() {
             headerBackTitleVisible: false,
             headerStyle: { backgroundColor: Color.headerBackground },
           }}>
-
-
           <Stack.Screen
             name="Main Tabs"  // MainTab represents the tab navigator
             component={MainTabs}
@@ -101,7 +100,12 @@ export default function App() {
           <Stack.Screen 
             name="Product List" 
             component={ProductList} 
-            options={{ title: 'Product' }}
+            // options={{ title: 'Product' }}
+          />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductDetail}
+            options={{ title: 'Product Details' }}
           />
           <Stack.Screen 
               name="My Account" 
@@ -116,13 +120,6 @@ export default function App() {
           
         </Stack.Navigator>
     </NavigationContainer>
-      
-      
-
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
 
   );
 }
