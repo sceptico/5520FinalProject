@@ -1,19 +1,38 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Color from '../Style/Color'
+import { Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { globalStyles } from '../Style/Styles'
+import ItemsList from '../Component/ItemsList'
+import { getItemsByCategory } from '../Firebase/firebaseHelper'
 
-export default function Sell() {
+
+export default function ProductList({navigation, route}) {
+  const {categoryName} = route.params
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    navigation.setOptions({ title: categoryName });
+}, [navigation, categoryName]);
+
+  const getItems = async () => {
+    try {
+      const data = await getItemsByCategory('Product', categoryName)
+      setItems(data)
+    } catch (error) {
+      console.log("Error getting items: ${error}")
+    }
+  }
+
+    useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        getItems()
+      })
+      return unsubscribe
+    }, [navigation])
+
   return (
-    <View style={styles.container}>
-      <Text>Sell</Text>
+    <View style={globalStyles.listContainer}>
+      {/* <Text>{categoryName}</Text> */}
+      <ItemsList items={items} navigation={navigation} />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.pageBackground,
-
-  },
-})
