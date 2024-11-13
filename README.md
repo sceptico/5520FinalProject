@@ -16,18 +16,20 @@ This project is a marketplace application designed for buying and selling golf e
 │   ├── Header.js 
 │   ├── ItemsList.js
 │   ├── PressableItem.js
+│   ├── EventItem.js
 │   └── ProductItem.js
 ├── Firebase                      # Firebase configuration and helper functions (Jie set up Firebase, Haoyi updated read data functions, both memeber tested CRUD implementations on individual account)
 │   ├── firebaseHelper.js
 │   └── firebaseSetup.js
 ├── Screen                        # Screens for various app features
-│   ├── Event.js                  # Event information screen (Pending)
+│   ├── Event.js                  # Event information screen (Haoyi)
+│   ├── EventDetail.js            # Event details screen (Haoyi)
 │   ├── Home.js                   # Home screen with scrolling images (contributed by Jie) (in progress)
 │   ├── MyAccount.js              # Displays user account information upon login (Haoyi's contribution) (in progress)
-│   ├── NewListing.js             # New product listing screen (Pending)
 │   ├── ProductDetail.js          # Detailed view of individual products (in progress)
 │   ├── ProductList.js            # Renders product listings by category (Haoyi’s contribution) (in progress)
 │   ├── Sell.js                   # Sell screen setup by Jie (in progress)
+│   ├── UserFavorite.js           # Conditionally renders user's choice of dataset from MyAccount screen (LikedProducts, myListings..) (Haoyi)
 │   └── Shop.js                   # Shop screen setup and CRUD testing on Product collection by Jie 
 ├── Style                         # Styles shared between components and screens
 │   ├── Color.js
@@ -71,6 +73,7 @@ This project is a marketplace application designed for buying and selling golf e
 - Structured **Component breakdown** and created reusable components like `Header.js`, `ItemsList.js`, `PressableItem.js`, and `ProductItem.js`.
 - Worked on **ProductList.js**, rendering products based on category.
 - Developed the **MyAccount.js** screen to display user information after login.
+- Constructed the **UserFavorite.js** screen to display datasets belonging to the logged in user 'likedProducts, interestedEvents..'
 
 ### Shared Style Contributions:
 - Both Jie and Haoyi equally contributed to styling components and screens, including colors and shared styles (`Color.js` and `Styles.js`).
@@ -133,8 +136,6 @@ This project is a marketplace application designed for buying and selling golf e
 ### CRUD Operations:
 - **Create**: Add a new event to the collection.
 - **Read**: Retrieve event details for display or filtering by location, title, etc.
-- **Update**: Modify event details (e.g., description, location).
-- **Delete**: Remove an event from the collection.
 
 ---
 
