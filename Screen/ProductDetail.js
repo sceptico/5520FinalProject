@@ -1,18 +1,21 @@
 import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getItem,deleteDocument } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
+import { getItem, deleteDocument, updateDocument } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
 import { Alert } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 
 export default function ProductDetail() {
+  //const {currentUser} = auth // get the current user after auth implementation
   const navigation = useNavigation();
   const route = useRoute();
   const { itemId } = route.params;
 
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [liked, setLiked] = useState(false); // State to track if the product is liked by the user
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -39,6 +42,14 @@ export default function ProductDetail() {
 
   const { title, description, listedDate, condition } = item;
 
+  const handleLike = () => {
+    // push the likedProduct to the user's likedProducts array
+    // and update the user document in the 'users' collection
+    // prompts the user to login if not authenticated
+
+    setLiked(!liked);
+
+  }
   const handleUpdate = () => {
     navigation.navigate('Trade', { 
       title: item.title, 
@@ -84,6 +95,12 @@ export default function ProductDetail() {
       <Text style={styles.condition}>Condition: {condition}</Text>
       <Button title="Update" onPress={handleUpdate} />
       <Button title="Delete" onPress={handleDelete} />
+      <FontAwesome
+        name={liked ? 'heart' : 'heart-o'}
+        size={24}
+        color={liked ? 'red' : 'black'}
+        onPress={handleLike}
+      />
     </View>
   );
 }
