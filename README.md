@@ -1,3 +1,86 @@
+# Project README
+
+## Project Overview Iteration 1
+This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
+
+## Features
+- **Product Listings**: Users can view, add, update, and delete product listings.
+- **User Profiles**: Displays user information after login and registration.
+- **Event Information**: Users can view and interact with golf-related events.
+- **Category-Based Browsing**: Product listings are organized by categories for easy navigation.
+
+## File Structure
+```plaintext
+├── App.js                        # Main app setup (Jie set up the navigation)
+├── Component                     # Component directory (Haoyi created component breakdown)
+│   ├── Header.js 
+│   ├── ItemsList.js
+│   ├── PressableItem.js
+│   └── ProductItem.js
+├── Firebase                      # Firebase configuration and helper functions (Jie set up Firebase, Haoyi updated read data functions, both memeber tested CRUD implementations on individual account)
+│   ├── firebaseHelper.js
+│   └── firebaseSetup.js
+├── Screen                        # Screens for various app features
+│   ├── Event.js                  # Event information screen (Pending)
+│   ├── Home.js                   # Home screen with scrolling images (contributed by Jie) (in progress)
+│   ├── MyAccount.js              # Displays user account information upon login (Haoyi's contribution) (in progress)
+│   ├── NewListing.js             # New product listing screen (Pending)
+│   ├── ProductDetail.js          # Detailed view of individual products (in progress)
+│   ├── ProductList.js            # Renders product listings by category (Haoyi’s contribution) (in progress)
+│   ├── Sell.js                   # Sell screen setup by Jie (in progress)
+│   └── Shop.js                   # Shop screen setup and CRUD testing on Product collection by Jie 
+├── Style                         # Styles shared between components and screens
+│   ├── Color.js
+│   └── Styles.js                 # Style contributions shared equally
+├── assets                        # Static assets like images and icons
+│   ├── Men.jpg
+│   ├── accessories.jpg
+│   ├── adaptive-icon.png
+│   ├── club.jpg
+│   ├── favicon.png
+│   ├── golfApparel.png
+│   ├── golfCourse.jpg
+│   ├── greenfuture.png
+│   ├── icon.png
+│   ├── kids.jpg
+│   ├── parteelogo.jpg
+│   ├── parteelogo.png
+│   ├── parteesplash.jpg
+│   ├── parteesplash.png
+│   ├── socialGolf.png
+│   ├── splash.png
+│   └── women.jpg
+├── app.json
+├── babel.config.js
+├── navigations
+│   └── Screens.js                # Screen navigation setup (Pending)
+├── package-lock.json
+└── package.json
+
+
+## Contributions Breakdown
+
+### Jie:
+- Set up **navigation** in `App.js`.
+- Configured **Firebase** and tested it on an individual Firebase account (`firebaseHelper.js`, `firebaseSetup.js`).
+- Worked on **Home screen** with scrolling images.
+- Created **Sell.js** and **Shop.js** screens.
+- Implemented **CRUD functionality** for products, including add, update, delete, and read operations on the Product collection.
+
+### Haoyi:
+- Structured **Component breakdown** and created reusable components like `Header.js`, `ItemsList.js`, `PressableItem.js`, and `ProductItem.js`.
+- Worked on **ProductList.js**, rendering products based on category.
+- Developed the **MyAccount.js** screen to display user information after login.
+
+### Shared Style Contributions:
+- Both Jie and Haoyi equally contributed to styling components and screens, including colors and shared styles (`Color.js` and `Styles.js`).
+
+## Screenshots
+*Include screenshots of key screens, such as Home, Product List, My Account, and Product Detail.*
+
+
+
+
 # Data Model Overview
 
 ## 1. Product Collection
