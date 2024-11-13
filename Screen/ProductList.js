@@ -7,6 +7,7 @@ import { getItemsByCategory } from '../Firebase/firebaseHelper'
 
 export default function ProductList({navigation, route}) {
   const { categoryName } = route.params || {};
+  console.log(route.params)
   const [items, setItems] = useState([])
 
   if (!categoryName) {
