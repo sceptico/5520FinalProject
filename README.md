@@ -9,12 +9,13 @@
 - **listingDate**: Date the item was listed.
 - **condition**: Condition of the item (e.g., new, used).
 - **pictures**: Array of URLs linking to images of the product.
+- **price**: Price of the product.
 - **owner**: Reference or ID linking to the owner in the `user` collection.
 
 ### CRUD Operations:
 - **Create**: Add a new product to the collection with all necessary fields filled in.
-- **Read**: Retrieve product details based on various filters, such as category, condition, and owner.
-- **Update**: Modify product details (e.g., update description, condition, pictures).
+- **Read**: Retrieve product details based on various filters, such as category, condition, owner, and price.
+- **Update**: Modify product details (e.g., update description, condition, pictures, price).
 - **Delete**: Remove a product from the collection, which may also trigger updates in the `user` collection where it’s marked as a listed or favorite item.
 
 ---
