@@ -41,7 +41,7 @@ export default function ProductList({navigation, route}) {
   return (
     <View style={globalStyles.listContainer}>
       {/* <Text>{categoryName}</Text> */}
-      <ItemsList items={items} navigation={navigation} />
+      <ItemsList items={items} navigation={navigation} type='Product' />
     </View>
   )
 }
