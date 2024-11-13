@@ -18,6 +18,7 @@ import NewListing from './Screen/NewListing';
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
+import UserFavorite from './Screen/UserFavorite';
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
@@ -106,6 +107,11 @@ export default function App() {
             name="ProductDetail"
             component={ProductDetail}
             options={{ title: 'Product Details' }}
+          />
+          <Stack.Screen
+            name="User Favorite"
+            component={UserFavorite}
+            options={{ title: 'User Favorites' }}
           />
           <Stack.Screen 
               name="My Account" 
