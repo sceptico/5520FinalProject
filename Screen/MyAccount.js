@@ -5,8 +5,8 @@ import PressableItem from '../Component/PressableItem'
 
 export default function MyAccount({navigation}) {
   //const {currentUser} = auth //when using firebase authentication
+  const userId = 'ohsMnP6zdE7yXY9yYmpB' //temporary user id for testing
   
-
   return (
     <View style={styles.container}>
       <Text>User Name</Text>
@@ -14,17 +14,24 @@ export default function MyAccount({navigation}) {
       {/* <Text>Phone Number</Text> */}
       <PressableItem
         pressedFunction={() => {
-          navigation.navigate('User Favorite', { type: 'Product', userId: 'userId' })
+          navigation.navigate('User Favorite', { type: 'Product', userId: userId })
         }}
         componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
         <Text>Liked Products</Text>
       </PressableItem>
       <PressableItem
         pressedFunction={() => {
-          navigation.navigate('User Favorite', { type: 'Event', userId: 'userId' })
+          navigation.navigate('User Favorite', { type: 'Event', userId: userId })
         }}
         componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
         <Text>Interested Events</Text>
+      </PressableItem>
+      <PressableItem
+        pressedFunction={() => {
+          navigation.navigate('User Favorite', { type: 'Product', userId: userId, myListings: true })
+        }}
+        componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
+        <Text>My Listings</Text>
       </PressableItem>
     </View>
   )

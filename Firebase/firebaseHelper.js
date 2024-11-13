@@ -1,5 +1,5 @@
 import { db } from './firebaseSetup';
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { query, where, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore";
 
 // Fetch all documents from a specified collection
 export async function fetchAllDocuments(collectionName) {
@@ -80,38 +80,52 @@ export async function deleteDocument(collectionName, id) {
     }
   }
 
-  export async function getUserLikesOrInterests(userId, collectionName) {
-  try {
-    const userDocRef = doc(db, 'users', userId);
-    const userDocSnap = await getDoc(userDocRef);
+export async function getUserLikesOrInterests(userId, collectionName) {
+    try {
+        const userDocRef = doc(db, 'users', userId);
+        const userDocSnap = await getDoc(userDocRef);
 
-    if (userDocSnap.exists()) {
-      const userData = userDocSnap.data();
-      const itemIds = userData[collectionName === 'Product' ? 'likedProducts' : 'interestedEvents'] || [];
+        if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        const itemIds = userData[collectionName === 'Product' ? 'likedProducts' : 'interestedEvents'] || [];
 
-      const items = await fetchItemsByIds(collectionName, itemIds);
-      return items;
-    } else {
-      console.log("User not found");
-      return [];
+        const items = await fetchItemsByIds(collectionName, itemIds);
+        return items;
+        } else {
+        console.log("User not found");
+        return [];
+        }
+    } catch (error) {
+        console.error("Error fetching user likes or interests:", error);
     }
-  } catch (error) {
-    console.error("Error fetching user likes or interests:", error);
-  }
 }
 
 async function fetchItemsByIds(collectionName, itemIds) {
-  const items = [];
-  try {
-    for (const id of itemIds) {
-      const docRef = doc(db, collectionName, id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        items.push({ id: docSnap.id, ...docSnap.data() });
-      }
+    const items = [];
+    try {
+        for (const id of itemIds) {
+        const docRef = doc(db, collectionName, id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            items.push({ id: docSnap.id, ...docSnap.data() });
+        }
+        }
+    } catch (error) {
+        console.error(`Error fetching items from ${collectionName}:`, error);
     }
-  } catch (error) {
-    console.error(`Error fetching items from ${collectionName}:`, error);
-  }
-  return items;
+    return items;
+    }
+
+export async function fetchUserListings(userId) {
+    try {
+        const q = query(collection(db, 'Product'), where('createdBy', '==', userId));
+        const querySnapshot = await getDocs(q);
+        const items = [];
+        querySnapshot.forEach((doc) => {
+        items.push({ id: doc.id, ...doc.data() });
+        });
+        return items;
+    } catch (error) {
+        console.error("Error fetching user listings:", error);
+    }
 }

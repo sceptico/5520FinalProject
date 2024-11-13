@@ -1,10 +1,11 @@
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import React from 'react'
 import PressableItem from './PressableItem'
 import ProductItem from './ProductItem'
+import EventItem from './EventItem'
 import { globalStyles } from '../Style/Styles'
 
-export default function ItemsList({ items, navigation }) {
+export default function ItemsList({ items, navigation, type }) {
   console.log('ItemsList items:', items)
   return (
     <View>
@@ -16,10 +17,14 @@ export default function ItemsList({ items, navigation }) {
             <PressableItem
               pressedFunction={() => {
                 //navigate to ProductDetail screen with itemId as parameter
-                navigation.navigate('ProductDetail', { itemId: item.id })
+                navigation.navigate(type == 'Product' ? 'ProductDetail' : 'EventDetail', { itemId: item.id })
               }}
               componentStyle={globalStyles.productContainer}>
-              <ProductItem item={item} />
+                {type == 'Product' ? (
+                  <ProductItem item={item} />
+                ) : (
+                  <EventItem item={item} />
+                )}
             </PressableItem>
           )
         }
