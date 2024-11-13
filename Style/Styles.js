@@ -145,4 +145,18 @@ export const globalStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: typography.body.fontSize,
   },
+  detailTitle: {
+    fontSize: typography.title.fontSize,
+    fontWeight: typography.title.fontWeight,
+    marginBottom: spacing.small,
+  },
+  detailText: {
+    fontSize: typography.body.fontSize,
+    color: colors.darkText,
+    marginBottom: spacing.small,
+  },
+  detailContainer: {
+    padding: spacing.medium,
+    backgroundColor: 'white',
+  },
 });

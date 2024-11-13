@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getItem } from '../Firebase/firebaseHelper';
+import { globalStyles } from '../Style/Styles';
 
 export default function EventDetail() {
   const navigation = useNavigation();
@@ -37,38 +38,11 @@ export default function EventDetail() {
   const { title, description, eventDate, location } = event;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-      <Text style={styles.date}>Event Date: {eventDate}</Text>
-      <Text style={styles.location}>Location: {location}</Text>
+    <View style={globalStyles.detailContainer}>
+      <Text style={globalStyles.detailTitle}>{title}</Text>
+      <Text style={globalStyles.detailText}>{description}</Text>
+      <Text style={globalStyles.detailText}>Event Date: {eventDate}</Text>
+      <Text style={globalStyles.detailText}>Location: {location}</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    color: '#555',
-    marginBottom: 8,
-  },
-  date: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 4,
-  },
-  location: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 16,
-  },
-});
