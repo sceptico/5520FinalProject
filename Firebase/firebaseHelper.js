@@ -32,6 +32,20 @@ export async function getItem(collectionName, id) {
     }
 }
 
+export async function getItemsByCategory(collectionName, category) {
+    try {
+        const querySnapshot = await getDocs(collection(db, collectionName));
+        const items = [];
+        querySnapshot.forEach((doc) => {
+            if (doc.data().category === category) {
+                items.push({ id: doc.id, ...doc.data() });
+            }
+        });
+        return items;
+    } catch (err) {
+        console.error(`Error fetching documents from ${collectionName}:`, err);
+    }
+}
 
 
 // Add a new document to a specified collection
