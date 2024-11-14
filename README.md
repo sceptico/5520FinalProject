@@ -3,6 +3,8 @@
 ## Project Overview Iteration 1
 This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
 
+![Shop Screen](./screenshots/Shopscreen.png)  <!-- Screen for shop tab -->
+
 ## Features
 - **Product Listings**: Users can view, add, update, and delete product listings.
 - **User Profiles**: Displays user information after login and registration.
@@ -34,6 +36,8 @@ This project is a marketplace application designed for buying and selling golf e
 ├── Style                         # Styles shared between components and screens
 │   ├── Color.js
 │   └── Styles.js                 # Style contributions shared equally
+├── sreenshots
+│   └── Shopscreen.png
 ├── assets                        # Static assets like images and icons
 │   ├── Men.jpg
 │   ├── accessories.jpg
