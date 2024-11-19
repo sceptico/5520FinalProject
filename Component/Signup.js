@@ -42,7 +42,7 @@ export default function Signup({navigation}) {
       const userCred = 
       await createUserWithEmailAndPassword(auth, email, password)
       console.log('userCred', userCred)
-      await writeUserDataToFirestore(user.uid, email)
+      await writeUserDataToFirestore(userCred.user.uid, userCred.user.email)
     } catch(err) {
       if(err.code === "auth/weak-password") {
         Alert.alert('Password is too weak')

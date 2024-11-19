@@ -40,8 +40,8 @@ export default function ProductDetail() {
         setLiked(false);
       }
       try {
-        const isLiked = await isProductLikedByUser(currentUser.uid, itemId);
-        console.log('current user:', currentUser.uid);
+        const isLiked = await isProductLikedByUser(itemId, currentUser.uid);
+        console.log('itemId:', itemId, 'isLiked:', isLiked);
         setLiked(isLiked);
       } catch (error) {
         console.error('Error checking if product is liked:', error);
