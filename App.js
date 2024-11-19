@@ -1,16 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import Color from './Style/Color';
 import Header from './Component/Header';
 
-import React from 'react';
-// import { Home, Sell, Shop, MyAccount, NewListing, ProductList } from './navigations/Screens';
+import React, {useState, useEffect} from 'react';
 import Home from './Screen/Home';
-// console.log(Home);
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
@@ -20,12 +18,65 @@ import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
 import UserFavorite from './Screen/UserFavorite';
 import EventDetail from './Screen/EventDetail';
+import Login from './Component/Login';
+import Signup from './Component/Signup';
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
 const Tab = createBottomTabNavigator(); // Create a bottom tab navigator
+const auth = getAuth();
 
+const AuthStack = (
+  <>
+    <Stack.Screen name="Login" component={Login} />
+    <Stack.Screen name="Signup" component={Signup} />
+  </>
+)
 
+const AppStack = (
+  <>
+    <Stack.Screen
+      name="Main Tabs"  // MainTab represents the tab navigator
+      component={MainTabs}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="New Listing" 
+      component={NewListing} 
+      options={{ title: 'New Listing' }}
+    />
+    <Stack.Screen 
+      name="Product List" 
+      component={ProductList} 
+      // options={{ title: 'Product' }}
+    />
+    <Stack.Screen
+      name="ProductDetail"
+      component={ProductDetail}
+      options={{ title: 'Product Details' }}
+    />
+    <Stack.Screen
+      name="EventDetail"
+      component={EventDetail}
+      options={{ title: 'Event Details' }}
+    />
+    <Stack.Screen
+      name="User Favorite"
+      component={UserFavorite}
+      options={{ title: 'User Favorites' }}
+    />
+    <Stack.Screen 
+        name="My Account" 
+        component={MyAccount} 
+        options={{ 
+          title: 'My Account',
+          headerTintColor: Color.headerText, // Consistent text color
+          headerStyle: { backgroundColor: Color.headerBackground }, // Consistent background
+          headerTitleStyle: { fontWeight: 'bold' }, // Consistent title style
+        }}
+      />
+  </>
+)
 // MainTabs component that contains the tab navigator
 function MainTabs() {
   return (
@@ -77,62 +128,36 @@ function MainTabs() {
 
 
 
+
 //stack navigator for the main screens
 export default function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsSignedIn(true);
+      } else {
+        setIsSignedIn(false);
+      }
+    })
+    return() => {
+      unsubscribe();
+    }
+  }, [])
 
   return (
     <NavigationContainer>
       <Header />
       <Stack.Navigator 
-          initialRouteName="MainTabs"
-          screenOptions={{
-            headerBackTitleVisible: false,
-            headerStyle: { backgroundColor: Color.headerBackground },
-          }}>
-          <Stack.Screen
-            name="Main Tabs"  // MainTab represents the tab navigator
-            component={MainTabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name="New Listing" 
-            component={NewListing} 
-            options={{ title: 'New Listing' }}
-          />
-          <Stack.Screen 
-            name="Product List" 
-            component={ProductList} 
-            // options={{ title: 'Product' }}
-          />
-          <Stack.Screen
-            name="ProductDetail"
-            component={ProductDetail}
-            options={{ title: 'Product Details' }}
-          />
-          <Stack.Screen
-            name="EventDetail"
-            component={EventDetail}
-            options={{ title: 'Event Details' }}
-          />
-          <Stack.Screen
-            name="User Favorite"
-            component={UserFavorite}
-            options={{ title: 'User Favorites' }}
-          />
-          <Stack.Screen 
-              name="My Account" 
-              component={MyAccount} 
-              options={{ 
-                title: 'My Account',
-                headerTintColor: Color.headerText, // Consistent text color
-                headerStyle: { backgroundColor: Color.headerBackground }, // Consistent background
-                headerTitleStyle: { fontWeight: 'bold' }, // Consistent title style
-              }}
-            />
-          
-        </Stack.Navigator>
+      initialRouteName={isSignedIn ? 'Main Tabs' : 'Signup'}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: { backgroundColor: Color.headerBackground },
+      }}>
+        {isSignedIn ? AppStack : AuthStack}
+      </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
 

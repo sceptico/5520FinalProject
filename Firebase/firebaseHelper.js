@@ -129,3 +129,20 @@ export async function fetchUserListings(userId) {
         console.error("Error fetching user listings:", error);
     }
 }
+
+export async function isProductLikedByUser(productId, userId) {
+    try {
+        const userDocRef = doc(db, 'users', userId);
+        const userDoc = await getDoc(userDocRef);
+        console.log('userDoc:', userDoc);
+        
+
+        const userData = userDoc.data();
+        const userLikedProducts = userData.likedProducts || [];
+
+        return userLikedProducts.includes(productId);
+    } catch (error) {
+        console.error('Error checking if product is liked:', error)
+        return false;
+    }
+}

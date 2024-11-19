@@ -14,7 +14,7 @@ const colors = {
   saveButton: 'rgba(67, 39, 156, 0.96)',
   cancelButton: 'rgba(222, 16, 119, 1)',
   inputBorder: 'lightgrey',
-  buttonText: 'rgba(245, 238, 11, 0.8)',
+  buttonText: '',
   logoHeader:'rgba(105, 160, 0, 1)',
   logoHeaderBorderBottomColor:'rgba(255, 110, 0, 1)',
   tradeLogo:'rgba(255, 110, 0, 1)',
@@ -141,7 +141,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.cancelButton,
   },
   buttonText: {
-    color: colors.buttonText,
+    color: colors.headerBackground,
     fontWeight: 'bold',
     fontSize: typography.body.fontSize,
   },
@@ -158,5 +158,16 @@ export const globalStyles = StyleSheet.create({
   detailContainer: {
     padding: spacing.medium,
     backgroundColor: 'white',
+  },
+  pressablePressed: {
+    backgroundColor: colors.headerBackground,
+    opacity: 0.2,
+  },
+  pressable: {
+    backgroundColor:'white',
+    width:150,
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
   },
 });
