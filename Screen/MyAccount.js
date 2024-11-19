@@ -1,16 +1,32 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { getAuth } from 'firebase/auth'
 import Color from '../Style/Color'
 import PressableItem from '../Component/PressableItem'
 
 export default function MyAccount({navigation}) {
-  //const {currentUser} = auth //when using firebase authentication
-  const userId = 'ohsMnP6zdE7yXY9yYmpB' //temporary user id for testing
+  const [user, setUser] = useState(null)
+  const auth = getAuth()
   
+  useEffect(() => {
+    const currentUser = auth.currentUser
+    if (currentUser) {
+      setUser({
+        email: currentUser.email,
+        uid: currentUser.uid,
+        // name: currentUser.displayName,
+        // phoneNumber: currentUser.phoneNumber,
+        // photo: currentUser.photoURL
+      })
+    }
+  }, [auth])
+
   return (
     <View style={styles.container}>
-      <Text>User Name</Text>
-      <Text>Email</Text>
+      {user ? (
+        <>
+        <Text>UID: {user.uid}</Text>
+        <Text>Email: {user.email}</Text>
       {/* <Text>Phone Number</Text> */}
       <PressableItem
         pressedFunction={() => {
@@ -33,6 +49,10 @@ export default function MyAccount({navigation}) {
         componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
         <Text>My Listings</Text>
       </PressableItem>
+      </>
+      ) : (
+        <Text>Not logged in</Text>
+      )}
     </View>
   )
 }

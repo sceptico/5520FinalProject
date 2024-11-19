@@ -31,9 +31,9 @@ export default function Login({navigation}) {
 
   return (
     <View>
-      <Text>Email Address</Text>
+      <Text style={globalStyles.buttonText}>Email Address</Text>
       <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
-      <Text>Password</Text>
+      <Text style={globalStyles.buttonText}>Password</Text>
       <TextInput style={globalStyles.input} placeholder='Password' onChangeText={passwordHandler}/>
       <View>
         <Button title='Login' onPress={loginHandler}/>

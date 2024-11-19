@@ -54,11 +54,11 @@ export default function Signup({navigation}) {
   }
   return (
     <View>
-      <Text>Email Address</Text>
+      <Text style={globalStyles.buttonText}>Email Address</Text>
       <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
-      <Text>Password</Text>
+      <Text style={globalStyles.buttonText}>Password</Text>
       <TextInput style={globalStyles.input} placeholder='Password' onChangeText={passwordHandler}/>
-      <Text>Confirm Password</Text>
+      <Text style={globalStyles.buttonText}>Confirm Password</Text>
       <TextInput style={globalStyles.input} placeholder='Password' onChangeText={confirmPasswordHandler}/>
       <View>
         <Button title='Register' onPress={registerHandler}/>
