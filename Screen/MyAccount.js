@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAuth } from 'firebase/auth'
-import Color from '../Style/Color'
+import { globalStyles } from '../Style/Styles'
+import { signOut } from 'firebase/auth'
 import PressableItem from '../Component/PressableItem'
 
 export default function MyAccount({navigation}) {
@@ -22,45 +23,53 @@ export default function MyAccount({navigation}) {
   }, [auth])
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.listContainer}>
       {user ? (
         <>
         <Text>UID: {user.uid}</Text>
         <Text>Email: {user.email}</Text>
+        <Button title='Sign Out' onPress={() => {
+          signOut(auth)
+          setUser(null)
+        }
+        }/>
       {/* <Text>Phone Number</Text> */}
       <PressableItem
         pressedFunction={() => {
-          navigation.navigate('User Favorite', { type: 'Product', userId: userId })
+          navigation.navigate('User Favorite', { type: 'Product', userId: user.uid })
         }}
-        componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
+        componentStyle={globalStyles.pressable}
+        pressedStyle={globalStyles.pressablePressed}>
         <Text>Liked Products</Text>
       </PressableItem>
       <PressableItem
         pressedFunction={() => {
-          navigation.navigate('User Favorite', { type: 'Event', userId: userId })
+          navigation.navigate('User Favorite', { type: 'Event', userId: user.uid })
         }}
-        componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
+        componentStyle={globalStyles.pressable}
+        pressedStyle={globalStyles.pressablePressed}>
         <Text>Interested Events</Text>
       </PressableItem>
       <PressableItem
         pressedFunction={() => {
-          navigation.navigate('User Favorite', { type: 'Product', userId: userId, myListings: true })
+          navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true })
         }}
-        componentStyle={{backgroundColor: 'white', padding: 10, margin: 5}}>
+        componentStyle={globalStyles.pressable}
+        pressedStyle={globalStyles.pressablePressed}>
         <Text>My Listings</Text>
       </PressableItem>
       </>
       ) : (
-        <Text>Not logged in</Text>
+        <>
+          <Text>Not logged in</Text>
+          <PressableItem
+            pressedFunction={() => {
+              navigation.navigate('Login')
+            }}>
+            <Text>Login</Text>
+          </PressableItem>
+        </>
       )}
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.pageBackground,
-
-  },
-})

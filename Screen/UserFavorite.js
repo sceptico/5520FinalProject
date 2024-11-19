@@ -15,7 +15,7 @@ export default function UserFavorite({navigation, route}) {
     navigation.setOptions({ 
       title: myListings ? 'My Listings' : type === 'Product' ? 'Liked Products' : 'Interested Events'});
   }
-  , [navigation, type]);
+  , [navigation, type, myListings]);
 
   const fetchItems = async () => {
     try {

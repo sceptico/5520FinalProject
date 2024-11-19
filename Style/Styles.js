@@ -159,4 +159,15 @@ export const globalStyles = StyleSheet.create({
     padding: spacing.medium,
     backgroundColor: 'white',
   },
+  pressablePressed: {
+    backgroundColor: colors.headerBackground,
+    opacity: 0.2,
+  },
+  pressable: {
+    backgroundColor:'white',
+    width:150,
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+  },
 });

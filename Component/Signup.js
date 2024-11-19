@@ -1,6 +1,8 @@
 import { TextInput, Text, View, Button, Alert } from 'react-native'
 import { useState } from 'react'
 import React from 'react'
+import { db } from '../Firebase/firebaseSetup'
+import { doc, setDoc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { globalStyles } from '../Style/Styles'
 
@@ -40,6 +42,7 @@ export default function Signup({navigation}) {
       const userCred = 
       await createUserWithEmailAndPassword(auth, email, password)
       console.log('userCred', userCred)
+      await writeUserDataToFirestore(user.uid, email)
     } catch(err) {
       if(err.code === "auth/weak-password") {
         Alert.alert('Password is too weak')
@@ -48,6 +51,21 @@ export default function Signup({navigation}) {
       Alert.alert(err.message)
     }
   }
+  const writeUserDataToFirestore = async (userId, email) => {
+    try {
+      // Create a reference to the 'users' collection and set user data
+      const userDocRef = doc(db, 'users', userId);
+      await setDoc(userDocRef, {
+        email: email,
+        uid: userId,
+        likedProducts: [] // Initialize liked products array
+      });
+
+      console.log('User data written to Firestore');
+    } catch (error) {
+      console.error('Error writing user data to Firestore:', error);
+    }
+  };
 
   const loginHandler=() => {
     navigation.replace('Login')
@@ -57,9 +75,13 @@ export default function Signup({navigation}) {
       <Text style={globalStyles.buttonText}>Email Address</Text>
       <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
       <Text style={globalStyles.buttonText}>Password</Text>
-      <TextInput style={globalStyles.input} placeholder='Password' onChangeText={passwordHandler}/>
+      <TextInput style={globalStyles.input} placeholder='Password' 
+      onChangeText={passwordHandler}
+      secureTextEntry={true}/>
       <Text style={globalStyles.buttonText}>Confirm Password</Text>
-      <TextInput style={globalStyles.input} placeholder='Password' onChangeText={confirmPasswordHandler}/>
+      <TextInput style={globalStyles.input} placeholder='Password' 
+      onChangeText={confirmPasswordHandler}
+      secureTextEntry={true}/>
       <View>
         <Button title='Register' onPress={registerHandler}/>
         <Button title='Already Registered? Login' onPress={loginHandler}/>

@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getItem, deleteDocument, updateDocument } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
+import { getItem, deleteDocument, isProductLikedByUser } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
 import { Alert } from 'react-native';
+import { auth, db } from '../Firebase/firebaseSetup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
 
 
 export default function ProductDetail() {
-  //const {currentUser} = auth // get the current user after auth implementation
+  const { currentUser } = auth; // get the current user after auth implementation
   const navigation = useNavigation();
   const route = useRoute();
   const { itemId } = route.params;
@@ -28,9 +30,25 @@ export default function ProductDetail() {
         setLoading(false);
       }
     };
-
     fetchItem();
   }, [itemId]);
+
+  useEffect(() => {
+    const checkLiked = async () => {
+      // Check if the product is liked by the current user
+      if (!currentUser) {
+        setLiked(false);
+      }
+      try {
+        const isLiked = await isProductLikedByUser(currentUser.uid, itemId);
+        console.log('current user:', currentUser.uid);
+        setLiked(isLiked);
+      } catch (error) {
+        console.error('Error checking if product is liked:', error);
+      }
+    }
+    checkLiked();
+  }, [itemId, currentUser]);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -42,14 +60,31 @@ export default function ProductDetail() {
 
   const { title, description, listedDate, condition } = item;
 
-  const handleLike = () => {
+  const handleLike = async () => {
     // push the likedProduct to the user's likedProducts array
     // and update the user document in the 'users' collection
     // prompts the user to login if not authenticated
-
+    if (!currentUser) {
+      Alert.alert('Please login to like this product');
+      return;
+    }
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      if (liked) {
+        await updateDoc(userRef, {
+          likedProducts: arrayRemove(itemId),
+        });
+      } else {
+        await updateDoc(userRef, {
+          likedProducts: arrayUnion(itemId),
+        });
+      }
     setLiked(!liked);
-
+    } catch (error) {
+      console.error('Error liking product:', error);
+    }
   }
+
   const handleUpdate = () => {
     navigation.navigate('Trade', { 
       title: item.title, 
