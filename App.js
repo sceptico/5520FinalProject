@@ -19,6 +19,7 @@ import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
 import Signup from './Component/Signup';
 import Login from './Component/Login';
+import RequireAuth from './Component/RequireAuth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,14 +82,14 @@ function MainTabs() {
       <Tab.Screen name="Shop" component={Shop} />
       <Tab.Screen
         name="Trade"
-        component={user ? Sell : Login}
-        options={{ title: user ? 'Trade' : 'Login Required' }}
+        component={user ? Sell : RequireAuth}
+  
       />
       <Tab.Screen name="Event" component={Event} />
       <Tab.Screen
         name="My Account"
-        component={user ? MyAccount : Login}
-        options={{ title: user ? 'My Account' : 'Login Required' }}
+        component={user ? MyAccount : RequireAuth}
+  
       />
     </Tab.Navigator>
   );

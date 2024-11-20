@@ -1,17 +1,33 @@
-import { TextInput, Text, View, Button, Alert } from 'react-native'
-import { useState } from 'react'
+import { TextInput, Text, View, Button, Alert, TouchableOpacity } from 'react-native'
+import { useState, useLayoutEffect } from 'react'
 import React from 'react'
 import { db } from '../Firebase/firebaseSetup'
 import { doc, setDoc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { globalStyles } from '../Style/Styles'
+import { FontAwesome5 } from '@expo/vector-icons'
+import Color from '../Style/Color'
+
 
 export default function Signup({navigation}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-
   const auth = getAuth()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Main Tabs')}
+          style={{ marginLeft: 15 }}
+        >
+          <FontAwesome5 name="home" size={24} color= {Color.tradeLogo}/>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
 
   const emailHandler = (text) => {
     setEmail(text)
