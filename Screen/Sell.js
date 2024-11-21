@@ -37,7 +37,8 @@ export default function Sell() {
   ];
 
   // const isEdit = route.params?.isEdit || false;
-  const productId = route.params?.id;
+  //const productId = route.params.id;
+  //console.log('route.params:', route.params.id);
 
   useEffect(() => {
     // Dynamically update isEdit when route.params changes
@@ -58,6 +59,7 @@ export default function Sell() {
     setDescription('');
     setCondition('used');
     setCategory('');
+    setIsEdit(false);
   };
 
   const handleSubmit = async () => {
@@ -72,28 +74,30 @@ export default function Sell() {
       condition,
       category,
       createdAt: isEdit ? route.params.createdAt : new Date(),
+
       ownerId: auth.currentUser.uid,
     };
 
     setLoading(true);
     try {
       if (isEdit) {
-        await updateDocument('Product', productId, productData);
+        await updateDocument('Product', route.params.id, productData);
+        console.log(route.params);
         console.log('Product updated successfully!');
               // Reset `isEdit` and navigate to the ProductDetail page
-      navigation.navigate('ProductDetail', { itemId: productId, isEdit: false });
+      navigation.navigate('ProductDetail', { itemId: route.params.id });
 
-      } else {
+      } 
+      
+      else {
         await addDocument('Product', productData);
         console.log('Product added successfully!');
+        navigation.navigate('Shop');
       }
 
-      setTitle('');
-      setDescription('');
-      setCondition('used');
-      setCategory('');
+      resetForm();
 
-      navigation.navigate('Shop');
+      
     } catch (error) {
       console.error('Error saving product to Firestore:', error);
     } finally {

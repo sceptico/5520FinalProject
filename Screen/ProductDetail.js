@@ -87,10 +87,11 @@ export default function ProductDetail() {
   }
 
   const handleUpdate = () => {
+    console.log('Update item:', item);
     navigation.navigate('Trade', { 
       title: item.title, 
       description: item.description, 
-      listedDate: item.listedDate, 
+      createdAt: item.createdAt, 
       condition: item.condition, 
       category: item.category,
       isEdit: true,   // Trigger edit mode
