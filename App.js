@@ -12,7 +12,6 @@ import Home from './Screen/Home';
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
-import NewListing from './Screen/NewListing';
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
@@ -41,11 +40,6 @@ const AppStack = (
       options={{ headerShown: false }}
     />
     <Stack.Screen 
-      name="New Listing" 
-      component={NewListing} 
-      options={{ title: 'New Listing' }}
-    />
-    <Stack.Screen 
       name="Product List" 
       component={ProductList} 
       // options={{ title: 'Product' }}
@@ -69,10 +63,7 @@ const AppStack = (
         name="My Account" 
         component={MyAccount} 
         options={{ 
-          title: 'My Account',
-          headerTintColor: Color.headerText, // Consistent text color
-          headerStyle: { backgroundColor: Color.headerBackground }, // Consistent background
-          headerTitleStyle: { fontWeight: 'bold' }, // Consistent title style
+          title: 'My Account'
         }}
       />
   </>
