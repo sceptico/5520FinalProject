@@ -15,7 +15,7 @@ export default function RequireAuth({ navigation }) {
         style={styles.image}
       />
       <Text style={styles.message}>
-        You need to sign in to access this page. 
+      Please log in to your ParTeeUp account to continue.
       </Text>
       <PressableItem 
         pressedFunction={signInHandler} 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.pageBackground, // Set background color for the page
   },
   message: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   buttonText: {
-    color: 'white',
+    color: Color.buttonText,
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -87,15 +87,15 @@ export default function Signup({navigation}) {
     navigation.replace('Login')
   }
   return (
-    <View>
-      <Text style={globalStyles.buttonText}>Email Address</Text>
+    <View style = {globalStyles.authPage}>
+      {/* <Text style={globalStyles.buttonText}>Email Address</Text> */}
       <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
-      <Text style={globalStyles.buttonText}>Password</Text>
+      {/* <Text style={globalStyles.buttonText}>Password</Text> */}
       <TextInput style={globalStyles.input} placeholder='Password' 
       onChangeText={passwordHandler}
       secureTextEntry={true}/>
-      <Text style={globalStyles.buttonText}>Confirm Password</Text>
-      <TextInput style={globalStyles.input} placeholder='Password' 
+      {/* <Text style={globalStyles.buttonText}>Confirm Password</Text> */}
+      <TextInput style={globalStyles.input} placeholder='Confirm Password' 
       onChangeText={confirmPasswordHandler}
       secureTextEntry={true}/>
       <View>

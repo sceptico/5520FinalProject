@@ -106,15 +106,31 @@ export const globalStyles = StyleSheet.create({
     color: colors.darkText,
     marginBottom: spacing.small,
   },
+  authPage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
+    alignItems: 'center',
+
+  },
+
   input: {
     borderWidth: 1,
     borderColor: colors.inputBorder,
     backgroundColor: colors.inputBackground,
-    padding: spacing.medium,
+    paddingVertical: spacing.medium, // Maintain vertical padding
+    paddingHorizontal: spacing.medium, // Typed text starts from here
     borderRadius: 5,
     marginBottom: spacing.medium,
     fontSize: typography.body.fontSize,
+    width: '80%',
   },
+
   textArea: {
     height: 100,
     textAlignVertical: 'top',
@@ -170,4 +186,8 @@ export const globalStyles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
   },
+
+
+
+
 });
