@@ -13,17 +13,16 @@ import Home from './Screen/Home';
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
-
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
 import Signup from './Component/Signup';
+import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 // MainTabs component
 function MainTabs() {

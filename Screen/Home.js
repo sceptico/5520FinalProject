@@ -2,8 +2,6 @@ import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Dimensions }
 import React, { useState, useRef, useEffect } from 'react';
 import Color from '../Style/Color';
 import { useNavigation } from '@react-navigation/native';
-import Shop from './Shop';
-import Event from './Event';
 
 // Get the width of the device screen
 const { width: screenWidth } = Dimensions.get('window');

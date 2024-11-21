@@ -94,11 +94,11 @@ export const globalStyles = StyleSheet.create({
     margin: spacing.small,
   },  
   formContainer: {
-    width: '90%',
+    flex:1,
     padding: spacing.large,
-    backgroundColor: colors.inputBackground,
+    backgroundColor: colors.pageBackground,
     borderRadius: 8,
-    marginVertical: spacing.medium,
+    // marginVertical: spacing.medium,
   },
   label: {
     fontSize: typography.subtitle.fontSize,
@@ -181,10 +181,12 @@ export const globalStyles = StyleSheet.create({
   },
   pressable: {
     backgroundColor:'white',
-    width:150,
+    width:180,
     borderRadius: 5,
     padding: 10,
     marginVertical: 5,
+    justifyContent: 'center',
+    position: 'relative',
   },
 
 

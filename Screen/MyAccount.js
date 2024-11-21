@@ -1,9 +1,11 @@
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAuth } from 'firebase/auth'
 import { globalStyles } from '../Style/Styles'
 import { signOut } from 'firebase/auth'
 import PressableItem from '../Component/PressableItem'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Color from '../Style/Color'
 
 export default function MyAccount({navigation}) {
   const [user, setUser] = useState(null)
@@ -23,24 +25,47 @@ export default function MyAccount({navigation}) {
   }, [auth])
 
   return (
-    <View style={globalStyles.listContainer}>
+    <View style={globalStyles.formContainer}>
       {user ? (
         <>
-        <Text>UID: {user.uid}</Text>
-        <Text>Email: {user.email}</Text>
-        <Button title='Sign Out' onPress={() => {
-          signOut(auth)
-          setUser(null)
-        }
-        }/>
-      {/* <Text>Phone Number</Text> */}
+        <View style={{marginBottom:30, gap:10}}>
+          <Text>UID: {user.uid}</Text>
+          <Text>Email: {user.email}</Text>
+          {user.name && <Text>Name: {user.name}</Text>}
+          {user.phoneNumber && <Text>Phone: {user.phoneNumber}</Text>}
+          <PressableItem
+            pressedFunction={() => {
+              console.log({ user })
+              navigation.navigate('Edit Profile', { user })
+            }}>
+            <Text>Edit Profile</Text>
+          </PressableItem>
+          <PressableItem
+            componentStyle={{backgroundColor: Color.headerBackground, width:80, borderRadius:5}}
+            pressedFunction={() => {
+              signOut(auth)
+              setUser(null)
+            }}>
+            <Text style={{color:'white'}}>Logout</Text>
+          </PressableItem>
+          
+      </View>
+        
       <PressableItem
         pressedFunction={() => {
           navigation.navigate('User Favorite', { type: 'Product', userId: user.uid })
         }}
         componentStyle={globalStyles.pressable}
         pressedStyle={globalStyles.pressablePressed}>
-        <Text>Liked Products</Text>
+        <View style={{flexDirection: 'row', width:160 }}>
+          <FontAwesome
+          name={'heart-o'}
+          size={16}
+          color={'black'}
+          style={{left:10}}
+          />
+          <Text style={{left:30}}>Liked Products</Text>
+        </View>
       </PressableItem>
       <PressableItem
         pressedFunction={() => {
@@ -48,7 +73,15 @@ export default function MyAccount({navigation}) {
         }}
         componentStyle={globalStyles.pressable}
         pressedStyle={globalStyles.pressablePressed}>
-        <Text>Interested Events</Text>
+        <View style={{flexDirection: 'row', width:160 }}>
+          <FontAwesome
+          name={'star-o'}
+          size={16}
+          color={'black'}
+          style={{left:10}}
+          />
+          <Text style={{left:30}}>Interested Events</Text>
+        </View>
       </PressableItem>
       <PressableItem
         pressedFunction={() => {
@@ -56,18 +89,20 @@ export default function MyAccount({navigation}) {
         }}
         componentStyle={globalStyles.pressable}
         pressedStyle={globalStyles.pressablePressed}>
-        <Text>My Listings</Text>
+        <View style={{flexDirection: 'row', width:160 }}>
+          <FontAwesome
+          name={'list-alt'}
+          size={16}
+          color={'black'}
+          style={{left:10}}
+          />
+          <Text style={{left:30}}>My Listings</Text>
+        </View>
       </PressableItem>
       </>
       ) : (
         <>
           <Text>Not logged in</Text>
-          <PressableItem
-            pressedFunction={() => {
-              navigation.navigate('Login')
-            }}>
-            <Text>Login</Text>
-          </PressableItem>
         </>
       )}
     </View>
