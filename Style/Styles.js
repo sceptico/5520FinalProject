@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const colors = {
   headerBackground: 'rgba(105, 160, 0, 1)', 
-  pageBackground: 'rgba(255, 170, 151, 0.19)', 
+  pageBackground: 'rgba(0, 0, 0, 0)', 
   darkPageBackground: 'rgba(220, 183, 173, 1)',
   headerText: 'rgba(255, 255, 255, 1)',
   darkText: 'rgba(104, 77, 194, 0.8)',
@@ -106,15 +106,31 @@ export const globalStyles = StyleSheet.create({
     color: colors.darkText,
     marginBottom: spacing.small,
   },
+  authPage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
+    alignItems: 'center',
+
+  },
+
   input: {
     borderWidth: 1,
     borderColor: colors.inputBorder,
     backgroundColor: colors.inputBackground,
-    padding: spacing.medium,
+    paddingVertical: spacing.medium, 
+    paddingHorizontal: spacing.medium, 
     borderRadius: 5,
     marginBottom: spacing.medium,
     fontSize: typography.body.fontSize,
+    width: '80%',
   },
+
   textArea: {
     height: 100,
     textAlignVertical: 'top',
@@ -170,4 +186,8 @@ export const globalStyles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
   },
+
+
+
+
 });

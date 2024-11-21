@@ -1,64 +1,99 @@
-import { TextInput, Text, View, Button, Alert } from 'react-native'
-import { useState } from 'react'
-import React from 'react'
-import { db } from '../Firebase/firebaseSetup'
-import { doc, setDoc } from 'firebase/firestore'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import { globalStyles } from '../Style/Styles'
+import { TextInput, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
+import { useState, useLayoutEffect } from 'react';
+import React from 'react';
+import { db } from '../Firebase/firebaseSetup';
+import { doc, setDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { globalStyles } from '../Style/Styles';
+import { FontAwesome5 } from '@expo/vector-icons';
+import Color from '../Style/Color';
 
-export default function Signup({navigation}) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+export default function Signup({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordWarning, setPasswordWarning] = useState('');
+  const [confirmPasswordWarning, setConfirmPasswordWarning] = useState('');
+  const auth = getAuth();
 
-  const auth = getAuth()
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Main Tabs')}
+          style={{ marginLeft: 15 }}
+        >
+          <FontAwesome5 name="arrow-left" size={24} color={Color.tradeLogo} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const emailHandler = (text) => {
-    setEmail(text)
-  }
+    setEmail(text);
+  };
 
   const passwordHandler = (text) => {
-    setPassword(text)
-  }
+    setPassword(text);
+    if (!validatePassword(text)) {
+      setPasswordWarning(
+        'Password must be at least 6 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.'
+      );
+    } else {
+      setPasswordWarning(''); // Clear warning if password is valid
+    }
+  };
 
   const confirmPasswordHandler = (text) => {
-    setConfirmPassword(text)
-  }
+    setConfirmPassword(text);
+    if (text !== password) {
+      setConfirmPasswordWarning('Passwords do not match.');
+    } else {
+      setConfirmPasswordWarning(''); // Clear warning if passwords match
+    }
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/;
+    return passwordRegex.test(password);
+  };
 
   const registerHandler = async () => {
     try {
       if (password !== confirmPassword) {
-        Alert.alert('Passwords do not match')
-        return
+        Alert.alert('Passwords do not match');
+        return;
       }
-      if (email.length ===0 || password.length === 0 || confirmPassword.length === 0) {
-        Alert.alert('Please fill in all fields')
-        return
+      if (email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+        Alert.alert('Please fill in all fields');
+        return;
       }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        Alert.alert('Please enter a valid email address')
-        return
+        Alert.alert('Please enter a valid email address');
+        return;
       }
-      const userCred = 
-      await createUserWithEmailAndPassword(auth, email, password)
-      console.log('userCred', userCred)
-      await writeUserDataToFirestore(userCred.user.uid, userCred.user.email)
-    } catch(err) {
-      if(err.code === "auth/weak-password") {
-        Alert.alert('Password is too weak')
-        return
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('userCred', userCred);
+      await writeUserDataToFirestore(userCred.user.uid, userCred.user.email);
+
+      Alert.alert('User registered successfully');
+      navigation.navigate('Main Tabs', { screen: 'My Account' });
+    } catch (err) {
+      if (err.code === 'auth/weak-password') {
+        Alert.alert('Password must be at least 6 characters long');
+        return;
       }
-      Alert.alert(err.message)
+      Alert.alert(err.message);
     }
-  }
+  };
+
   const writeUserDataToFirestore = async (userId, email) => {
     try {
-      // Create a reference to the 'users' collection and set user data
       const userDocRef = doc(db, 'users', userId);
       await setDoc(userDocRef, {
         email: email,
         uid: userId,
-        likedProducts: [] // Initialize liked products array
+        likedProducts: [], // Initialize liked products array
       });
 
       console.log('User data written to Firestore');
@@ -67,25 +102,39 @@ export default function Signup({navigation}) {
     }
   };
 
-  const loginHandler=() => {
-    navigation.replace('Login')
-  }
+  const loginHandler = () => {
+    navigation.replace('Login');
+  };
+
   return (
-    <View>
-      <Text style={globalStyles.buttonText}>Email Address</Text>
-      <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
-      <Text style={globalStyles.buttonText}>Password</Text>
-      <TextInput style={globalStyles.input} placeholder='Password' 
-      onChangeText={passwordHandler}
-      secureTextEntry={true}/>
-      <Text style={globalStyles.buttonText}>Confirm Password</Text>
-      <TextInput style={globalStyles.input} placeholder='Password' 
-      onChangeText={confirmPasswordHandler}
-      secureTextEntry={true}/>
+    <View style={globalStyles.authPage}>
+      <TextInput
+        style={globalStyles.input}
+        placeholder="Email"
+        onChangeText={emailHandler}
+      />
+      <TextInput
+        style={globalStyles.input}
+        placeholder="Password"
+        onChangeText={passwordHandler}
+        secureTextEntry={true}
+      />
+      {passwordWarning ? (
+        <Text style={{ color: 'red', marginBottom: 10 }}>{passwordWarning}</Text>
+      ) : null}
+      <TextInput
+        style={globalStyles.input}
+        placeholder="Confirm Password"
+        onChangeText={confirmPasswordHandler}
+        secureTextEntry={true}
+      />
+      {confirmPasswordWarning ? (
+        <Text style={{ color: 'red', marginBottom: 10 }}>{confirmPasswordWarning}</Text>
+      ) : null}
       <View>
-        <Button title='Register' onPress={registerHandler}/>
-        <Button title='Already Registered? Login' onPress={loginHandler}/>
-        </View>
+        <Button title="Register" onPress={registerHandler} />
+        <Button title="Already Registered? Login" onPress={loginHandler} />
+      </View>
     </View>
-  )
+  );
 }
