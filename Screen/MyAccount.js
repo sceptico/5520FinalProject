@@ -1,4 +1,4 @@
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAuth } from 'firebase/auth'
 import { globalStyles } from '../Style/Styles'
@@ -34,6 +34,13 @@ export default function MyAccount({navigation}) {
           {user.name && <Text>Name: {user.name}</Text>}
           {user.phoneNumber && <Text>Phone: {user.phoneNumber}</Text>}
           <PressableItem
+            pressedFunction={() => {
+              console.log({ user })
+              navigation.navigate('Edit Profile', { user })
+            }}>
+            <Text>Edit Profile</Text>
+          </PressableItem>
+          <PressableItem
             componentStyle={{backgroundColor: Color.headerBackground, width:80, borderRadius:5}}
             pressedFunction={() => {
               signOut(auth)
@@ -41,6 +48,7 @@ export default function MyAccount({navigation}) {
             }}>
             <Text style={{color:'white'}}>Logout</Text>
           </PressableItem>
+          
       </View>
         
       <PressableItem
@@ -95,12 +103,6 @@ export default function MyAccount({navigation}) {
       ) : (
         <>
           <Text>Not logged in</Text>
-          <PressableItem
-            pressedFunction={() => {
-              navigation.navigate('Login')
-            }}>
-            <Text>Login</Text>
-          </PressableItem>
         </>
       )}
     </View>

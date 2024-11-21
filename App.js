@@ -19,6 +19,7 @@ import UserFavorite from './Screen/UserFavorite';
 import EventDetail from './Screen/EventDetail';
 import Login from './Component/Login';
 import Signup from './Component/Signup';
+import EditProfile from './Screen/EditProfile';
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
@@ -60,12 +61,19 @@ const AppStack = (
       options={{ title: 'User Favorites' }}
     />
     <Stack.Screen 
-        name="My Account" 
-        component={MyAccount} 
-        options={{ 
-          title: 'My Account'
-        }}
-      />
+      name="My Account" 
+      component={MyAccount} 
+      options={{ 
+        title: 'My Account'
+      }}
+    />
+    <Stack.Screen
+      name='Edit Profile'
+      component={EditProfile}
+      options={{ 
+        title: 'Edit Profile'
+      }}
+    />
   </>
 )
 // MainTabs component that contains the tab navigator
