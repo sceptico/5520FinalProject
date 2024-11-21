@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const colors = {
   headerBackground: 'rgba(105, 160, 0, 1)', 
-  pageBackground: 'rgba(255, 170, 151, 0.19)', 
+  pageBackground: 'rgba(0, 0, 0, 0)', 
   darkPageBackground: 'rgba(220, 183, 173, 1)',
   headerText: 'rgba(255, 255, 255, 1)',
   darkText: 'rgba(104, 77, 194, 0.8)',

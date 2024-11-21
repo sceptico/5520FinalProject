@@ -18,7 +18,7 @@ export default function Login({navigation}) {
           onPress={() => navigation.navigate('Main Tabs')}
           style={{ marginLeft: 15 }}
         >
-       <FontAwesome5 name="home" size={24} color= {Color.tradeLogo}/>
+       <FontAwesome5 name="arrow-left" size={24} color= {Color.tradeLogo}/>
         </TouchableOpacity>
       ),
     });

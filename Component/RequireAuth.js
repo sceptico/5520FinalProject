@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import PressableItem from './PressableItem';
 import Color from '../Style/Color';
 
 export default function RequireAuth({ navigation }) {
@@ -9,19 +10,20 @@ export default function RequireAuth({ navigation }) {
 
   return (
     <View style={styles.container}>
-   
       <Image
         source={require('../assets/notice.png')} 
         style={styles.image}
       />
-         <Text style={styles.message}>
+      <Text style={styles.message}>
         You need to sign in to access this page. 
-       
       </Text>
-      <View style={styles.buttonContainer}>
-
-        <Button title="Login" onPress={signInHandler} />
-      </View>
+      <PressableItem 
+        pressedFunction={signInHandler} 
+        componentStyle={styles.buttonContainer} 
+        pressedStyle={styles.buttonContainerPressed}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </PressableItem>
     </View>
   );
 }
@@ -40,14 +42,25 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 150, // Set the desired width of the image
-    height: 150, // Set the desired height of the image
+    width: 150, // Set the width of the image
+    height: 150, // Set the height of the image
     marginBottom: 20,
   },
   buttonContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    width: '80%', // Set the width of the button
+    paddingVertical: 10,
     paddingHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: Color.headerBackground,
+    alignItems: 'center',
+  },
+  buttonContainerPressed: {
+    backgroundColor: Color.buttonPressedBackground,
+    opacity: 0.8,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
