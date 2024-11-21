@@ -34,11 +34,12 @@ export default function MyAccount({navigation}) {
           {user.name && <Text>Name: {user.name}</Text>}
           {user.phoneNumber && <Text>Phone: {user.phoneNumber}</Text>}
           <PressableItem
+            componentStyle={{backgroundColor: Color.headerBackground, width:80, borderRadius:5}}
             pressedFunction={() => {
               console.log({ user })
               navigation.navigate('Edit Profile', { user })
             }}>
-            <Text>Edit Profile</Text>
+            <Text style={{color:'white'}}>Edit Profile</Text>
           </PressableItem>
           <PressableItem
             componentStyle={{backgroundColor: Color.headerBackground, width:80, borderRadius:5}}

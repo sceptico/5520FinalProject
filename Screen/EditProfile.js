@@ -1,11 +1,10 @@
-import { Text, View } from 'react-native'
+import { Text, TextInput, View } from 'react-native'
 import React, {useEffect, useState} from 'react'
-
 import { globalStyles } from '../Style/Styles'
 
 export default function EditProfile({navigation, route}) {
   console.log(route.params)
-  
+
   const [uid, setUid] = useState('')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
@@ -13,18 +12,24 @@ export default function EditProfile({navigation, route}) {
   const [imageURL, setImageURL] = useState('')
 
   useEffect(() => {
-    const { uid, email, name, phone, imageURL } = route.params
-    setUid(uid)
-    setEmail(email)
-    setName(name)
-    setPhone(phone)
-    setImageURL(imageURL)
+    const user = route.params.user
+    setUid(user.uid)
+    setEmail(user.email)
+    setName(user.name)
+    setPhone(user.phone)
+    setImageURL(user.imageURL)
   }
   , [route.params])
 
+  const nameHandler = (text) => {
+    setName(text)
+  }
   return (
-    <View>
-      <Text>EditProfile</Text>
+    <View style={globalStyles.formContainer}>
+      <Text>UID: {uid}</Text>
+      <Text>Email: {email}</Text>
+      <Text>Name</Text>
+      <TextInput style={globalStyles.input} value={name} onChangeText={nameHandler}/>
     </View>
   )
 }
