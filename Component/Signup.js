@@ -59,6 +59,9 @@ export default function Signup({navigation}) {
       await createUserWithEmailAndPassword(auth, email, password)
       console.log('userCred', userCred)
       await writeUserDataToFirestore(userCred.user.uid, userCred.user.email)
+
+      Alert.alert('User registered successfully')
+      navigation.navigate('Main Tabs', { screen: 'My Account' });
     } catch(err) {
       if(err.code === "auth/weak-password") {
         Alert.alert('Password is too weak')
@@ -89,6 +92,7 @@ export default function Signup({navigation}) {
   return (
     <View style = {globalStyles.authPage}>
       {/* <Text style={globalStyles.buttonText}>Email Address</Text> */}
+
       <TextInput style={globalStyles.input} placeholder='Email' onChangeText={emailHandler}/>
       {/* <Text style={globalStyles.buttonText}>Password</Text> */}
       <TextInput style={globalStyles.input} placeholder='Password' 

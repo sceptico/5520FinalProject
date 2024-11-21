@@ -34,8 +34,14 @@ export default function Login({navigation}) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User signed in:', userCredential.user);
+      
+      Alert.alert('Welcome Back!');
+      navigation.navigate('Main Tabs', { screen: 'My Account' });
+
+
+
     } catch (error) {
-      Alert.alert('Login Error', error.message);
+      Alert.alert('Login Error', "Your email or password is incorrect");
     }
   };
 
