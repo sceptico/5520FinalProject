@@ -14,6 +14,7 @@ export default function ProductDetail() {
   const navigation = useNavigation();
   const route = useRoute();
   const { itemId } = route.params;
+  const { ownerId } = route.params;
 
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ export default function ProductDetail() {
       }
     };
     fetchItem();
-  }, [itemId]);
+  }, [itemId, route.params]);
 
   useEffect(() => {
     const checkLiked = async () => {
@@ -86,15 +87,17 @@ export default function ProductDetail() {
   }
 
   const handleUpdate = () => {
+    console.log('Update item:', item);
     navigation.navigate('Trade', { 
       title: item.title, 
       description: item.description, 
-      listedDate: item.listedDate, 
+      createdAt: item.createdAt, 
       condition: item.condition, 
-      // createdAt: item.createdAt,
+      category: item.category,
       isEdit: true,   // Trigger edit mode
       id: itemId      // Pass the item ID to allow updating this specific product
     });
+
   };
 
   const handleDelete = () => {
@@ -120,6 +123,7 @@ export default function ProductDetail() {
     );
   };
   
+  const isOwnedByCurrentUser = currentUser && item?.ownerId === currentUser.uid;
     
 
   return (
@@ -128,8 +132,12 @@ export default function ProductDetail() {
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.date}>Listed Date: {listedDate}</Text>
       <Text style={styles.condition}>Condition: {condition}</Text>
+      {isOwnedByCurrentUser && (
+        <>
       <Button title="Update" onPress={handleUpdate} />
       <Button title="Delete" onPress={handleDelete} />
+      </>
+      )}  
       <FontAwesome
         name={liked ? 'heart' : 'heart-o'}
         size={24}

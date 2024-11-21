@@ -1,31 +1,49 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { auth, db } from '../Firebase/firebaseSetup';
+import { doc, getDoc } from 'firebase/firestore';
 import Color from '../Style/Color';
 
-export default function Header() {
+export default function Header({ navigation }) {
   const [city, setCity] = useState(''); // State to store city name
   const [errorMsg, setErrorMsg] = useState(null);
+  const [favoritesCount, setFavoritesCount] = useState(0);
 
   useEffect(() => {
+    // Fetch location data
     (async () => {
-      // Request location permissions
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
 
-      // Get the current location
       let location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Highest,
       });
-      
-      // Reverse geocode to get the city name
+
       let address = await Location.reverseGeocodeAsync(location.coords);
-      setCity(address[0]?.city || 'Unknown City'); // Set city or default to "Unknown City"
+      setCity(address[0]?.city || 'Unknown City');
     })();
+  }, []);
+
+  useEffect(() => {
+    // Fetch favorite items count if user is logged in
+    const fetchFavoritesCount = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setFavoritesCount(data.likedProducts?.length || 0);
+        }
+      }
+    };
+
+    fetchFavoritesCount();
   }, []);
 
   return (
@@ -37,6 +55,13 @@ export default function Header() {
           {errorMsg ? errorMsg : city}
         </Text>
       </View>
+      <TouchableOpacity
+        style={styles.heartContainer}
+        onPress={() => navigation.navigate('Product List')}
+      >
+        <FontAwesome5 name="heart" size={20} color="white" />
+        <Text style={styles.heartCount}>{favoritesCount}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -56,7 +81,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     position: 'absolute',
-    bottom: 1, // Adjust position above city text
+    bottom: 1,
     alignSelf: 'center',
     resizeMode: 'contain',
   },
@@ -64,15 +89,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 20, // Position near the bottom of the header
+    bottom: 20,
     left: 5,
   },
   compassIcon: {
-    marginRight: 5, // Space between icon and city name
-    marginLeft: 5, // Space between icon and edge of screen,
+    marginRight: 5,
   },
   cityText: {
     fontSize: 12,
-    color: 'white', // Customize the text color
+    color: 'white',
+  },
+  heartContainer: {
+    position: 'absolute',
+    right: 10,
+    bottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  heartCount: {
+    marginLeft: 5,
+    fontSize: 14,
+    color: 'white',
   },
 });
