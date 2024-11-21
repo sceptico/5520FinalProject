@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,7 +13,7 @@ import Home from './Screen/Home';
 import Sell from './Screen/Sell';
 import Shop from './Screen/Shop';
 import MyAccount from './Screen/MyAccount';
-import NewListing from './Screen/NewListing';
+
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
@@ -28,6 +28,7 @@ const Tab = createBottomTabNavigator();
 // MainTabs component
 function MainTabs() {
   const [user, setUser] = useState(null);
+  const [favoritesCount, setFavoritesCount] = useState(0);
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
@@ -76,6 +77,7 @@ function MainTabs() {
           }
           return <FontAwesome5 name={iconName} size={size} color={iconColor} />;
         },
+
       })}
     >
       <Tab.Screen name="ParTee Up" component={Home} />
@@ -112,11 +114,7 @@ export default function App() {
           component={MainTabs}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="New Listing"
-          component={NewListing}
-          options={{ title: 'New Listing' }}
-        />
+
         <Stack.Screen name="Product List" component={ProductList} />
         <Stack.Screen
           name="ProductDetail"

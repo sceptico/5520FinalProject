@@ -123,8 +123,8 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.inputBorder,
     backgroundColor: colors.inputBackground,
-    paddingVertical: spacing.medium, // Maintain vertical padding
-    paddingHorizontal: spacing.medium, // Typed text starts from here
+    paddingVertical: spacing.medium, 
+    paddingHorizontal: spacing.medium, 
     borderRadius: 5,
     marginBottom: spacing.medium,
     fontSize: typography.body.fontSize,
