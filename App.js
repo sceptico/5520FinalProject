@@ -20,6 +20,7 @@ import Signup from './Component/Signup';
 import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
+import UserFavorite from './Screen/UserFavorite'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +50,14 @@ function MainTabs() {
       screenOptions={({ route }) => ({
         headerTitleAlign: 'left',
         tabBarStyle: { backgroundColor: Color.headerBackground },
+        header: ({ navigation, route }) => (
+          <Header
+            navigation={navigation}
+            route={route}
+            favoritesCount={favoritesCount}
+            user={user}
+          />
+        ),
         headerStyle: {
           backgroundColor: Color.pageBackground,
           elevation: 0,
@@ -100,7 +109,6 @@ function MainTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Header />
       <Stack.Navigator
         initialRouteName="MainTabs"
         screenOptions={{
@@ -114,7 +122,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen name="Product List" component={ProductList} />
+        <Stack.Screen name="Product List" 
+        component={ProductList} />
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}
@@ -129,6 +138,11 @@ export default function App() {
           name="Signup"
           component={Signup}
           options={{ title: 'Signup' }}
+        />
+        <Stack.Screen
+          name="User Favorite"
+          component={UserFavorite}
+          options={{ headershown:false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

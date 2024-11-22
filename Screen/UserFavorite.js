@@ -39,7 +39,7 @@ export default function UserFavorite({navigation, route}) {
   if (loading) {
     return (
       <View style={globalStyles.container}>
-        <Text>Loading {type === 'Product' ? 'liked products' : 'interested events'}...</Text>
+        {myListings ? <Text>Loading My listings</Text>:<Text>Loading {type === 'Product' ? 'liked products' : 'interested events'}...</Text>}
       </View>
     );
   }
@@ -47,10 +47,12 @@ export default function UserFavorite({navigation, route}) {
   return (
     <View style={globalStyles.container}>
       {items.length > 0 ? (
-        <ItemsList items={items} navigation={navigation} type={type} />
-      ) : (
-        <Text>No {type === 'Product' ? 'liked products' : 'interested events'}</Text>
-      )}
+      <ItemsList items={items} navigation={navigation} type={type} />
+    ) : myListings ? (
+      <Text>No listings yet</Text>
+    ) : (
+      <Text>No {type === 'Product' ? 'liked products' : 'interested events'}</Text>
+    )}
     </View>
   );
 }

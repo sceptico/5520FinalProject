@@ -118,7 +118,7 @@ async function fetchItemsByIds(collectionName, itemIds) {
 
 export async function fetchUserListings(userId) {
     try {
-        const q = query(collection(db, 'Product'), where('createdBy', '==', userId));
+        const q = query(collection(db, 'Product'), where('ownerId', '==', userId));
         const querySnapshot = await getDocs(q);
         const items = [];
         querySnapshot.forEach((doc) => {
