@@ -5,11 +5,16 @@ import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { auth, db } from '../Firebase/firebaseSetup';
 import { doc, getDoc } from 'firebase/firestore';
 import Color from '../Style/Color';
+import PressableItem from './PressableItem';
+import { globalStyles } from '../Style/Styles';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Header({ navigation }) {
+export default function Header() {
   const [city, setCity] = useState(''); // State to store city name
   const [errorMsg, setErrorMsg] = useState(null);
   const [favoritesCount, setFavoritesCount] = useState(0);
+  const user = auth.currentUser;
+  const navigation = useNavigation()
 
   useEffect(() => {
     // Fetch location data
@@ -32,7 +37,6 @@ export default function Header({ navigation }) {
   useEffect(() => {
     // Fetch favorite items count if user is logged in
     const fetchFavoritesCount = async () => {
-      const user = auth.currentUser;
       if (user) {
         const userDocRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userDocRef);
@@ -44,7 +48,7 @@ export default function Header({ navigation }) {
     };
 
     fetchFavoritesCount();
-  }, []);
+  }, [user]);
 
   return (
     <View style={styles.headerContainer}>
@@ -55,13 +59,25 @@ export default function Header({ navigation }) {
           {errorMsg ? errorMsg : city}
         </Text>
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.heartContainer}
-        onPress={() => navigation.navigate('Product List')}
+        onPress={() => {
+          navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true })
+        }}
       >
         <FontAwesome5 name="heart" size={20} color="white" />
         <Text style={styles.heartCount}>{favoritesCount}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <PressableItem
+        componentStyle={styles.heartContainer}
+        pressedStyle={globalStyles.pressablePressed}
+        pressedFunction={() => {
+          navigation.navigate('User Favorite', { type: 'Product', userId: user.uid })
+        }}
+      >
+        <FontAwesome5 name="heart" size={20} color="white" />
+        <Text style={styles.heartCount}>{favoritesCount}</Text>
+      </PressableItem>
     </View>
   );
 }
@@ -105,6 +121,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'center'
   },
   heartCount: {
     marginLeft: 5,

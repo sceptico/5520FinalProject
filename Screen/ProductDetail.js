@@ -39,6 +39,7 @@ export default function ProductDetail() {
       // Check if the product is liked by the current user
       if (!currentUser) {
         setLiked(false);
+        return
       }
       try {
         const isLiked = await isProductLikedByUser(itemId, currentUser.uid);
@@ -67,6 +68,7 @@ export default function ProductDetail() {
     // prompts the user to login if not authenticated
     if (!currentUser) {
       Alert.alert('Please login to like this product');
+      navigation.navigate("Login")
       return;
     }
     try {

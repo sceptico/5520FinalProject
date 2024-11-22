@@ -20,6 +20,7 @@ import Signup from './Component/Signup';
 import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
+import UserFavorite from './Screen/UserFavorite'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -114,7 +115,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen name="Product List" component={ProductList} />
+        <Stack.Screen name="Product List" 
+        component={ProductList} />
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}
@@ -129,6 +131,11 @@ export default function App() {
           name="Signup"
           component={Signup}
           options={{ title: 'Signup' }}
+        />
+        <Stack.Screen
+          name="User Favorite"
+          component={UserFavorite}
+          options={{ headershown:false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
