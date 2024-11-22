@@ -14,6 +14,7 @@ export default function Header() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [favoritesCount, setFavoritesCount] = useState(0);
   const user = auth.currentUser;
+  console.log(user)
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -59,15 +60,6 @@ export default function Header() {
           {errorMsg ? errorMsg : city}
         </Text>
       </View>
-      {/* <TouchableOpacity
-        style={styles.heartContainer}
-        onPress={() => {
-          navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true })
-        }}
-      >
-        <FontAwesome5 name="heart" size={20} color="white" />
-        <Text style={styles.heartCount}>{favoritesCount}</Text>
-      </TouchableOpacity> */}
       <PressableItem
         componentStyle={styles.heartContainer}
         pressedStyle={globalStyles.pressablePressed}
@@ -75,8 +67,8 @@ export default function Header() {
           navigation.navigate('User Favorite', { type: 'Product', userId: user.uid })
         }}
       >
-        <FontAwesome5 name="heart" size={20} color="white" />
-        <Text style={styles.heartCount}>{favoritesCount}</Text>
+        {user!==null ? <FontAwesome5 name="heart" size={20} color="white" /> :<></>}
+        {user!==null ?<Text style={styles.heartCount}>{favoritesCount}</Text> :<></>}
       </PressableItem>
     </View>
   );

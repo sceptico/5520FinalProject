@@ -50,6 +50,14 @@ function MainTabs() {
       screenOptions={({ route }) => ({
         headerTitleAlign: 'left',
         tabBarStyle: { backgroundColor: Color.headerBackground },
+        header: ({ navigation, route }) => (
+          <Header
+            navigation={navigation}
+            route={route}
+            favoritesCount={favoritesCount}
+            user={user}
+          />
+        ),
         headerStyle: {
           backgroundColor: Color.pageBackground,
           elevation: 0,
@@ -101,7 +109,6 @@ function MainTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Header />
       <Stack.Navigator
         initialRouteName="MainTabs"
         screenOptions={{
