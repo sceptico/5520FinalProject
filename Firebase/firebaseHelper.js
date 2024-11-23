@@ -1,5 +1,5 @@
 import { db } from './firebaseSetup';
-import { query, where, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { query, where, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc, GeoPoint } from "firebase/firestore";
 
 // Fetch all documents from a specified collection
 export async function fetchAllDocuments(collectionName) {
@@ -146,3 +146,23 @@ export async function isProductLikedByUser(productId, userId) {
         return false;
     }
 }
+
+export async function writeUserDataToFirestore(userId, email, displayName) {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      await setDoc(userDocRef, {
+        userName: displayName, // Store the username as displayName
+        email: email,
+        uid: userId,
+        photoURI: null, // Set photoURI to null initially
+        likedProducts: [], // Initialize liked products array
+        interestedEvents: [], // Initialize interested events array
+        location: new GeoPoint(0, 0),  // Add location field with default GeoPoint
+      });
+  
+      console.log("User data written to Firestore");
+    } catch (error) {
+      console.error("Error writing user data to Firestore:", error);
+    }
+  }
+  

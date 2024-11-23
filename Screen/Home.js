@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Dimensions }
 import React, { useState, useRef, useEffect } from 'react';
 import Color from '../Style/Color';
 import { useNavigation } from '@react-navigation/native';
+import Weather from '../Component/Weather';
 
 // Get the width of the device screen
 const { width: screenWidth } = Dimensions.get('window');
@@ -48,6 +49,7 @@ export default function Home() {
         )}
         onScrollToIndexFailed={() => {}}
       />
+      <Weather />
     </View>
   );
 }
