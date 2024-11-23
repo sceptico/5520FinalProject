@@ -2,6 +2,7 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../Style/Styles'
 import { fetchAllDocuments } from '../Firebase/firebaseHelper'
+import LocationManager from '../Component/LocationManager'
 
 export default function Event({navigation}) {
   const [events, setEvents] = useState('')
@@ -27,12 +28,15 @@ export default function Event({navigation}) {
 
   return (
     <View style={globalStyles.container}>
+      <LocationManager />
       {loading ? (
         <Text>Loading...</Text>
       ) : (
         // displaying successful reads from Event firebase collection
         events.map((event) => (
-          <Text key={event.id}>{event.title}</Text>
+          <Text key={event.id}>{event.name} 
+          </Text>
+         
 
         ))
       )}

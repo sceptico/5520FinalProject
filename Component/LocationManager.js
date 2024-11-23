@@ -14,6 +14,8 @@ import { auth } from "../Firebase/firebaseSetup";
 import PressableItem from "./PressableItem";
 import { globalStyles } from "../Style/Styles";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { GeoPoint } from "firebase/firestore";
+
 
 export default function LocationManager() {
   const [location, setLocation] = useState(null);
@@ -70,7 +72,9 @@ export default function LocationManager() {
 
   function saveLocationHandler() {
     try {
-      updateDocument("users", auth.currentUser.uid, { location });
+      updateDocument("users", auth.currentUser.uid, {
+        location: new GeoPoint(location.latitude, location.longitude),
+      });
       Alert.alert("Success", "Your location has been saved.");
       console.log("Before setting isLocationSelected:", isLocationSelected);
       setIsLocationSelected(false); // Reset to show "Choose My Location"
