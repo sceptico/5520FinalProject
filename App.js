@@ -16,6 +16,7 @@ import MyAccount from './Screen/MyAccount';
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
+import EventDetail from './Screen/EventDetail';
 import Signup from './Component/Signup';
 import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
@@ -131,6 +132,11 @@ export default function App() {
           name="ProductDetail"
           component={ProductDetail}
           options={{ title: 'Product Details' }}
+        />
+        <Stack.Screen
+          name="EventDetail"
+          component={EventDetail}
+          options={{ title: 'Event Details' }}
         />
         <Stack.Screen
           name="Login"

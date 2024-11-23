@@ -156,6 +156,7 @@ export async function writeUserDataToFirestore(userId, email, displayName) {
         uid: userId,
         photoURI: null, // Set photoURI to null initially
         likedProducts: [], // Initialize liked products array
+        interestedEvents: [], // Initialize interested events array
         location: new GeoPoint(0, 0),  // Add location field with default GeoPoint
       });
   
