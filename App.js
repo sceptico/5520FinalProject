@@ -21,6 +21,8 @@ import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
 import UserFavorite from './Screen/UserFavorite'
+import Map from './Component/Map';
+// import * as Notifications from 'expo-notifications';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -143,6 +145,16 @@ export default function App() {
           name="User Favorite"
           component={UserFavorite}
           options={{ headershown:false }}
+        />
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditProfile}
+          options={{ title: 'Edit Profile' }}
+        />
+        <Stack.Screen
+          name="Map"
+          component={Map}
+          options={{ title: 'Map' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

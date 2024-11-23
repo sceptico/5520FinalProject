@@ -146,3 +146,21 @@ export async function isProductLikedByUser(productId, userId) {
         return false;
     }
 }
+
+export async function writeUserDataToFirestore (userId, email, displayName) {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      await setDoc(userDocRef, {
+        userName: displayName, // Store the username as displayName
+        email: email,
+        uid: userId,
+        photoURI: null, // Set photoURI to null initially
+        likedProducts: [], // Initialize liked products array
+      });
+  
+      console.log("User data written to Firestore");
+    } catch (error) {
+      console.error("Error writing user data to Firestore:", error);
+    }
+  };
+  

@@ -33,6 +33,7 @@ export default function Event({navigation}) {
         // displaying successful reads from Event firebase collection
         events.map((event) => (
           <Text key={event.id}>{event.title}</Text>
+
         ))
       )}
     </View>

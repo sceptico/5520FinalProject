@@ -181,8 +181,8 @@ export const globalStyles = StyleSheet.create({
   },
   pressable: {
     backgroundColor:'white',
-    width:180,
-    borderRadius: 5,
+    width:"95%",
+    borderRadius: 20,
     padding: 10,
     marginVertical: 5,
     justifyContent: 'center',
