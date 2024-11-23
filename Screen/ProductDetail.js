@@ -1,24 +1,42 @@
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { Image, StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getItem, deleteDocument, isProductLikedByUser } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
 import { Alert } from 'react-native';
-import { auth, db } from '../Firebase/firebaseSetup';
+import { auth, db, storage } from '../Firebase/firebaseSetup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-
+import { getDownloadURL, ref } from 'firebase/storage';
 
 
 export default function ProductDetail() {
   const { currentUser } = auth; // get the current user after auth implementation
   const navigation = useNavigation();
   const route = useRoute();
-  const { itemId } = route.params;
-  const { ownerId } = route.params;
+  console.log('params', route.params)
+  const itemId = route.params.itemId
 
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false); // State to track if the product is liked by the user
+  const [downloadURL, setDownloadURL] = useState('')
+
+  useEffect(() => {
+    async function getImageDownloadURL() {
+      try {
+        if (route.params && route.params.imageUri) {
+          const imageRef = ref(storage, route.params.imageUri)
+          const downloadImageURL = await getDownloadURL(imageRef)
+          console.log('downloadImageURL', downloadImageURL)
+          setDownloadURL(downloadImageURL)
+        } 
+        } catch (error) {
+        console.log(error)
+    }
+    
+    }
+    getImageDownloadURL()
+  }, [route.params])
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -32,7 +50,7 @@ export default function ProductDetail() {
       }
     };
     fetchItem();
-  }, [itemId, route.params]);
+  }, [route.params]);
 
   useEffect(() => {
     const checkLiked = async () => {
@@ -96,6 +114,7 @@ export default function ProductDetail() {
       createdAt: item.createdAt, 
       condition: item.condition, 
       category: item.category,
+      imageUri:item.imageUri,
       isEdit: true,   // Trigger edit mode
       id: itemId      // Pass the item ID to allow updating this specific product
     });
@@ -130,6 +149,9 @@ export default function ProductDetail() {
 
   return (
     <View style={styles.container}>
+      {downloadURL && (
+        <Image source={{uri:downloadURL}} style={styles.image}/>
+      )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.date}>Listed Date: {listedDate}</Text>
@@ -175,4 +197,8 @@ const styles = StyleSheet.create({
     color: '#888',
     marginBottom: 16,
   },
+  image: {
+    width: 150,
+    height: 150
+  }
 });

@@ -134,7 +134,7 @@ export async function isProductLikedByUser(productId, userId) {
     try {
         const userDocRef = doc(db, 'users', userId);
         const userDoc = await getDoc(userDocRef);
-        console.log('userDoc:', userDoc);
+        //console.log('userDoc:', userDoc);
         
 
         const userData = userDoc.data();

@@ -5,7 +5,9 @@ import { globalStyles } from '../Style/Styles';
 import Color from '../Style/Color';
 import { addDocument, updateDocument } from '../Firebase/firebaseHelper'; 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { auth } from '../Firebase/firebaseSetup';
+import { auth, storage } from '../Firebase/firebaseSetup';
+import ImageManager from '../Component/ImageManager';
+import { ref, uploadBytesResumable } from 'firebase/storage'
 
 export default function Sell() {
   const route = useRoute();
@@ -17,9 +19,13 @@ export default function Sell() {
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false); // Local state for isEdit
-
+  const [imageUri, setImageUri] = useState(null)
   const [openCondition, setOpenCondition] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+
+  const receiveImageUri = (uri) => {
+    setImageUri(uri)
+  }
 
   const conditionItems = [
     { label: 'Used', value: 'used' },
@@ -49,6 +55,7 @@ export default function Sell() {
       setDescription(route.params.description || '');
       setCondition(route.params.condition || 'used');
       setCategory(route.params.category || '');
+      setImageUri(route.params.imageUri || '')
     } else {
       resetForm(); // Reset form fields for add mode
     }
@@ -60,12 +67,37 @@ export default function Sell() {
     setCondition('used');
     setCategory('');
     setIsEdit(false);
+    setImageUri('')
   };
 
-  const handleSubmit = async () => {
-    if (!title || !description || !condition || !category) {
-      Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
-      return;
+  async function handleImageData(uri){
+    try {
+      let uploadUrl = ""
+      const response = await fetch(uri)
+      const blob = await response.blob()
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = await ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log(uploadResult.metadata.fullPath)
+      uploadUrl = uploadResult.metadata.fullPath
+      return uploadUrl
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+const handleSubmit = async () => {
+  if (!title || !description || !condition || !category || !imageUri) {
+    Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    let uploadedImageUrl = imageUri;
+    if (imageUri) {
+      uploadedImageUrl = await handleImageData(imageUri);
     }
 
     const productData = {
@@ -74,40 +106,32 @@ export default function Sell() {
       condition,
       category,
       createdAt: isEdit ? route.params.createdAt : new Date(),
-
       ownerId: auth.currentUser.uid,
+      imageUri: uploadedImageUrl, // Use the uploaded image URL
     };
 
-    setLoading(true);
-    try {
-      if (isEdit) {
-        await updateDocument('Product', route.params.id, productData);
-        console.log(route.params);
-        console.log('Product updated successfully!');
-              // Reset `isEdit` and navigate to the ProductDetail page
+    if (isEdit) {
+      await updateDocument('Product', route.params.id, productData);
+      console.log('Product updated successfully!');
       navigation.navigate('ProductDetail', { itemId: route.params.id });
-
-      } 
-      
-      else {
-        await addDocument('Product', productData);
-        console.log('Product added successfully!');
-        navigation.navigate('Shop');
-      }
-
-      resetForm();
-
-      
-    } catch (error) {
-      console.error('Error saving product to Firestore:', error);
-    } finally {
-      setLoading(false);
+    } else {
+      await addDocument('Product', productData);
+      console.log('Product added successfully!');
+      navigation.navigate('Shop');
     }
-  };
+
+    resetForm();
+  } catch (error) {
+    console.error('Error saving product to Firestore:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <View style={globalStyles.container}>
       {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
+      <ImageManager receiveImageUri={receiveImageUri} />
       <Text style={globalStyles.label}>Title</Text>
       <TextInput
         style={globalStyles.input}
@@ -151,7 +175,6 @@ export default function Sell() {
           style={globalStyles.picker}
         />
       </View>
-
       <Button
         title={isEdit ? 'Update Product' : 'Add Product'}
         onPress={handleSubmit}

@@ -28,7 +28,6 @@ const Tab = createBottomTabNavigator();
 // MainTabs component
 function MainTabs() {
   const [user, setUser] = useState(null);
-  const [favoritesCount, setFavoritesCount] = useState(0);
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
@@ -54,7 +53,6 @@ function MainTabs() {
           <Header
             navigation={navigation}
             route={route}
-            favoritesCount={favoritesCount}
             user={user}
           />
         ),
