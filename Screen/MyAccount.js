@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
-import { getItem } from "../Firebase/firebaseHelper"; // Import the helper function
+import { getItem,updateDocument } from "../Firebase/firebaseHelper"; // Import the helper function
 import { globalStyles } from "../Style/Styles";
 import PressableItem from "../Component/PressableItem";
 import FontAwesome from "react-native-vector-icons/FontAwesome";

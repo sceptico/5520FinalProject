@@ -147,7 +147,7 @@ export async function isProductLikedByUser(productId, userId) {
     }
 }
 
-export async function writeUserDataToFirestore (userId, email, displayName) {
+export async function writeUserDataToFirestore(userId, email, displayName) {
     try {
       const userDocRef = doc(db, "users", userId);
       await setDoc(userDocRef, {
@@ -156,11 +156,12 @@ export async function writeUserDataToFirestore (userId, email, displayName) {
         uid: userId,
         photoURI: null, // Set photoURI to null initially
         likedProducts: [], // Initialize liked products array
+        location: null, // Add location field, initially null
       });
   
       console.log("User data written to Firestore");
     } catch (error) {
       console.error("Error writing user data to Firestore:", error);
     }
-  };
+  }
   
