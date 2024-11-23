@@ -171,6 +171,7 @@ import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import { globalStyles } from "../Style/Styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Color from "../Style/Color";
+import { writeUserDataToFirestore } from "../Firebase/firebaseHelper";
 
 export default function Signup({ navigation }) {
   const [userName, setUserName] = useState("");

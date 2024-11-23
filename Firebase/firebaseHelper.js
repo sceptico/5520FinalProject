@@ -1,5 +1,5 @@
 import { db } from './firebaseSetup';
-import { query, where, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { query, where, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 
 // Fetch all documents from a specified collection
 export async function fetchAllDocuments(collectionName) {
