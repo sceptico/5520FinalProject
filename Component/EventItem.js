@@ -1,39 +1,200 @@
-import { Text, View, StyleSheet } from 'react-native';
-import React from 'react';
 
-export default function EventItem({ item }) {
+
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-native";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { db, auth } from "../Firebase/firebaseSetup";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+export default function EventCard({ item }) {
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [liked, setLiked] = useState(false); // State to track if the event is liked
+  const currentUser = auth.currentUser;
+
+  const fetchEvent = async () => {
+    try {
+      const eventDocRef = doc(db, "Event", item.id); 
+      const eventSnapshot = await getDoc(eventDocRef);
+
+      if (eventSnapshot.exists()) {
+        setEvent(eventSnapshot.data());
+        // Check if the current user has liked the event
+        if (currentUser && eventSnapshot.data().likedBy?.includes(currentUser.uid)) {
+          setLiked(true);
+        }
+      } else {
+        console.log("Event not found.");
+      }
+    } catch (error) {
+      console.error("Error fetching event:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleLike = async () => {
+    if (!currentUser) {
+      Alert.alert("Please login to like this event");
+      return;
+    }
+
+    try {
+      const eventRef = doc(db, "Event", item.id); 
+      if (liked) {
+        await updateDoc(eventRef, {
+          likedBy: arrayRemove(currentUser.uid),
+        });
+        setLiked(false);
+      } else {
+        await updateDoc(eventRef, {
+          likedBy: arrayUnion(currentUser.uid),
+        });
+        setLiked(true);
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvent();
+  }, [item.id]); 
+
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (!event) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Event not found</Text>
+      </View>
+    );
+  }
+
   return (
-    <View style={[styles.card]}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+    <View style={styles.wrapper}>
+      <View style={styles.container}>
+        {/* Event Image */}
+        <View style={styles.photoContainer}>
+          <Image
+            source={
+              event.image
+                ? { uri: event.image }
+                : require("../assets/club.jpg") // Default image if no image URL
+            }
+            style={styles.photo}
+          />
+        </View>
+
+        {/* Event Details */}
+        <View style={styles.right}>
+          <Text style={styles.name}>{event.name}</Text>
+          <Text style={styles.date}>{new Date(event.date.seconds * 1000).toLocaleString()}</Text>
+          <Text style={styles.description} numberOfLines={5}>
+            {event.description}
+          </Text>
+          <Text style={styles.organizer}>{event.organizer}</Text>
+        </View>
+
+        {/* Like Icon */}
+        <View style={styles.likeWrapper}>
+          <FontAwesome
+            name={liked ? "star" : "star-o"}
+            size={24}
+            color={liked ? "gold" : "black"}
+            onPress={toggleLike}
+          />
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#fff',
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 8,
-    shadowColor: '#000',
+  wrapper: {
+    width: "95%",
+    height: 200,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    marginVertical: 0,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
+  container: {
+    flexDirection: "row",
+    width: "100%",
+    height: "100%",
+    padding: 15,
+    alignItems: "center",
+  },
+  photoContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 16,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  photo: {
+    width: "100%",
+    height: "100%",
+  },
+  right: {
+    flex: 1,
+    paddingLeft: 15,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 5,
+  },
+  date: {
+    fontSize: 12,
+    color: "#444",
+    marginBottom: 5,
   },
   description: {
     fontSize: 14,
-    color: '#555',
-    marginBottom: 4,
+    color: "#555",
+    marginBottom: 5,
   },
-  condition: {
+  organizer: {
     fontSize: 12,
-    color: '#888',
+    color: "#888",
+  },
+  likeWrapper: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    right: 5,
+    top: 5,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    textAlign: "center",
   },
 });

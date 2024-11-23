@@ -16,11 +16,14 @@ import MyAccount from './Screen/MyAccount';
 import ProductList from './Screen/ProductList';
 import Event from './Screen/Event';
 import ProductDetail from './Screen/ProductDetail';
+import EventDetail from './Screen/EventDetail';
 import Signup from './Component/Signup';
 import EditProfile from './Screen/EditProfile';
 import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
 import UserFavorite from './Screen/UserFavorite'
+import Map from './Component/Map';
+// import * as Notifications from 'expo-notifications';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -111,6 +114,7 @@ export default function App() {
         initialRouteName="MainTabs"
         screenOptions={{
           headerBackTitleVisible: false,
+          headerTintColor: Color.headerText,
           headerStyle: { backgroundColor: Color.headerBackground },
         }}
       >
@@ -128,6 +132,11 @@ export default function App() {
           options={{ title: 'Product Details' }}
         />
         <Stack.Screen
+          name="EventDetail"
+          component={EventDetail}
+          options={{ title: 'Event Details' }}
+        />
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: 'Login' }}
@@ -141,6 +150,16 @@ export default function App() {
           name="User Favorite"
           component={UserFavorite}
           options={{ headershown:false }}
+        />
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditProfile}
+          options={{ title: 'Edit Profile' }}
+        />
+        <Stack.Screen
+          name="Map"
+          component={Map}
+          options={{ title: 'Map' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
