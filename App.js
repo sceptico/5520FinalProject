@@ -115,6 +115,7 @@ export default function App() {
         initialRouteName="MainTabs"
         screenOptions={{
           headerBackTitleVisible: false,
+          headerTintColor: Color.headerText,
           headerStyle: { backgroundColor: Color.headerBackground },
         }}
       >

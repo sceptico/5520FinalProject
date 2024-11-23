@@ -9,13 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { GeoPoint } from "firebase/firestore";
 import { updateDocument } from "../Firebase/firebaseHelper";
 import { auth } from "../Firebase/firebaseSetup";
 import PressableItem from "./PressableItem";
 import { globalStyles } from "../Style/Styles";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { GeoPoint } from "firebase/firestore";
-
 
 export default function LocationManager() {
   const [location, setLocation] = useState(null);
@@ -66,7 +65,7 @@ export default function LocationManager() {
   function chooseLocationHandler() {
     navigation.navigate("Map", {
       initialLocation: location, // Pass the current location
-     
+      mode: route.name === "Event" ? "view-events" : "select-location", // Pass the mode
     });
   }
 
@@ -76,14 +75,11 @@ export default function LocationManager() {
         location: new GeoPoint(location.latitude, location.longitude),
       });
       Alert.alert("Success", "Your location has been saved.");
-      console.log("Before setting isLocationSelected:", isLocationSelected);
       setIsLocationSelected(false); // Reset to show "Choose My Location"
-      console.log("After setting isLocationSelected:", isLocationSelected);
     } catch (err) {
       console.log("Error saving location: ", err);
     }
   }
-  
 
   return (
     <View>
@@ -121,12 +117,14 @@ export default function LocationManager() {
         >
           <View style={{ flexDirection: "row", width: 200 }}>
             <FontAwesome
-              name="map-marker"
+              name={route.name === "Event" ? "search" : "map-marker"}
               size={16}
               color="black"
               style={{ left: 10 }}
             />
-            <Text style={{ left: 30 }}>Choose My Location</Text>
+            <Text style={{ left: 30 }}>
+              {route.name === "Event" ? "View Nearby Events" : "Choose My Location"}
+            </Text>
           </View>
         </PressableItem>
       )}
