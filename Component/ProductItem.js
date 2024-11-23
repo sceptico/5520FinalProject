@@ -4,6 +4,7 @@ import { auth, db, storage} from '../Firebase/firebaseSetup';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getDownloadURL, ref } from 'firebase/storage';
+import { isProductLikedByUser } from '../Firebase/firebaseHelper';
 
 export default function ProductItem({ item }) {
   const currentUser = auth.currentUser; // Get the current user
@@ -27,18 +28,28 @@ export default function ProductItem({ item }) {
   }, [item])
 
   useEffect(() => {
-    // Check if the current user has liked the product
-    if (currentUser && item.likedBy?.includes(currentUser.uid)) {
-      setLiked(true);
+    const checkLiked = async () => {
+      // Check if the product is liked by the current user
+      if (!currentUser) {
+        setLiked(false);
+        return
+      }
+      try {
+        const isLiked = await isProductLikedByUser(item.id, currentUser.uid);
+        console.log('itemId:', item.id, 'isLiked:', isLiked);
+        setLiked(isLiked);
+      } catch (error) {
+        console.error('Error checking if product is liked:', error);
+      }
     }
-  }, [currentUser, item.likedBy]);
+    checkLiked();
+  }, [item.id, currentUser]);
 
   const handleLikeToggle = async () => {
     if (!currentUser) {
       Alert.alert('Please login to like this product');
       return;
     }
-
     try {
       const userRef = doc(db, 'users', currentUser.uid);
 
