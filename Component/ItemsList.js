@@ -17,7 +17,7 @@ export default function ItemsList({ items, navigation, type }) {
             <PressableItem
               pressedFunction={() => {
                 //navigate to ProductDetail screen with itemId as parameter
-                navigation.navigate(type == 'Product' ? 'ProductDetail' : 'EventDetail', { itemId: item.id })
+                navigation.navigate(type == 'Product' ? 'ProductDetail' : 'EventDetail', { itemId: item.id, imageUri: item.imageUri })
               }}
               componentStyle={globalStyles.productContainer}>
                 {type == 'Product' ? (
