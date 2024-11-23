@@ -150,7 +150,9 @@ export default function ProductDetail() {
   return (
     <View style={styles.container}>
       {downloadURL && (
+        <View style={styles.imageContainer}>
         <Image source={{uri:downloadURL}} style={styles.image}/>
+        </View>
       )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
@@ -199,6 +201,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 150,
-    height: 150
+    height: 150,
+    margin:10
+  },
+  imageContainer: {
+    alignItems:'center',
   }
 });
