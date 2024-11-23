@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import * as Location from "expo-location";
@@ -8,8 +9,7 @@ export default function Weather() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchWeather = async (latitude, longitude) => {
-    const apiKey = "62e31edefe8360d37e2387302a807ad7"
-    // const apiKey = process.env.EXPO_PUBLIC_weatherApiKey
+    const apiKey = "62e31edefe8360d37e2387302a807ad7";
 
     try {
       const response = await fetch(
@@ -20,8 +20,8 @@ export default function Weather() {
       if (data.cod === 200) {
         setWeatherData(data);
       } else {
-        console.error("API Error:", data);
-        setErrorMessage("Failed to fetch weather data.");
+        console.error("API Error:", data.message);
+        setErrorMessage(data.message || "Failed to fetch weather data.");
       }
     } catch (error) {
       console.error("Error fetching weather data:", error);
@@ -43,8 +43,6 @@ export default function Weather() {
 
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
-      console.log("Latitude:", latitude, "Longitude:", longitude);
-
 
       fetchWeather(latitude, longitude);
     } catch (error) {
@@ -54,34 +52,21 @@ export default function Weather() {
     }
   };
 
-//   useEffect(() => {
-//     getLocationAndFetchWeather();
-//   }, []);
-
-//   if (loading) {
-//     return <ActivityIndicator size="large" color="#0000ff" />;
-//   }
-
-//   if (errorMessage) {
-//     return <Text style={styles.errorText}>{errorMessage}</Text>;
-//   }
-
-//   if (!weatherData) {
-//     return <Text style={styles.errorText}>Failed to load weather data.</Text>;
-//   }
-
-useEffect(() => {
-    const mockData = {
-      coord: { lon: -122.4194, lat: 37.7749 },
-      weather: [{ id: 801, main: "Clouds", description: "few clouds", icon: "02n" }],
-      main: { temp: 11.65 },
-      sys: { country: "US" },
-      name: "San Francisco",
-    };
-    setWeatherData(mockData);
-    setLoading(false);
+  useEffect(() => {
+    getLocationAndFetchWeather();
   }, []);
-  
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (errorMessage) {
+    return <Text style={styles.errorText}>{errorMessage}</Text>;
+  }
+
+  if (!weatherData) {
+    return <Text style={styles.errorText}>Failed to load weather data.</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -97,7 +82,6 @@ useEffect(() => {
       </Text>
     </View>
   );
-  
 }
 
 const styles = StyleSheet.create({

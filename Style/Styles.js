@@ -14,7 +14,7 @@ const colors = {
   saveButton: 'rgba(67, 39, 156, 0.96)',
   cancelButton: 'rgba(222, 16, 119, 1)',
   inputBorder: 'lightgrey',
-  buttonText: '',
+  buttonText: 'rgba(245, 238, 11, 0.8)',
   logoHeader:'rgba(105, 160, 0, 1)',
   logoHeaderBorderBottomColor:'rgba(255, 110, 0, 1)',
   tradeLogo:'rgba(255, 110, 0, 1)',
@@ -47,7 +47,7 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.pageBackground,
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 10,
   },
   searchBar: {
     height: 40,
@@ -80,19 +80,20 @@ export const globalStyles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    backgroundColor: colors.pageBackground,
+    backgroundColor: colors.bkacjpageBackground,
     alignItems: 'center',
+    top: 10,
   },
   listSeparator: {
     height: 3,
-    marginVertical: 3,
+    marginVertical: 1,
     backgroundColor: colors.border,
   },
-  productContainer: {
-    backgroundColor: colors.darkPageBackground,
-    padding: spacing.medium,
-    margin: spacing.small,
-  },  
+  // productContainer: {
+  //   backgroundColor: colors.pageBackground,
+  //   padding: spacing.medium,
+  
+  // },  
   formContainer: {
     flex:1,
     padding: spacing.large,
