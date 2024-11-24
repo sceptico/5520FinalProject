@@ -85,6 +85,34 @@
 
 ```
 
+# Contributions Overview
+
+## Jie
+- Set up navigation in **App.js** and configured Firebase (**firebaseHelper.js**, **firebaseSetup.js**).
+- Implemented the **Home.js** screen with scrolling images.
+- Worked on **Event.js**, **Sell.js**, and **Shop.js** screens.
+- Integrated Weather API in **Weather.js**.
+- Updated the **MyAccount.js** screen to display user data.
+- Implemented map markers and location selection in **Map.js**.
+- Worked on location management in **LocationManager.js**.
+- Tested Firestore configurations and updated styles in **EventItem.js**.
+- Contributed to authentication in **RequireAuth.js**.
+- Contributed equally to styling in **Color.js** and **Styles.js**.
+- Collaborated on CRUD functionality for products, including adding, updating, deleting, and reading operations.
+
+## Haoyi
+- Structured components and created reusable components like **Header.js**, **ItemsList.js**, **PressableItem.js**, and **ProductItem.js**.
+- Updated styles and integrated the image picker and like functionality in **ProductItem.js**.
+- Worked on **ProductList.js**, rendering products based on category.
+- Developed the **UserFavorite.js** screen to display datasets like `likedProducts` and `interestedEvents`.
+- Updated the **EditProfile.js** screen.
+- Collaborated on the login and signup pages (**Login.js** and **Signup.js**).
+- Contributed equally to styling in **Color.js** and **Styles.js**.
+- Contributed to authentication in **RequireAuth.js**.
+- Worked on camera functionality and image picker integration.
+- Collaborated on CRUD functionality for products, including adding, updating, deleting, and reading operations.
+
+
 
 
 
