@@ -40,10 +40,55 @@
 
 </div>
 
+# Project Directory Structure
+
+├── App.js                        # Haoyi and Jie worked on updating the stack structure and auth structure
+├── Component 
+│   ├── EventItem.js              # Jie updated style and tested Firestore configuration on the event collection
+│   ├── Header.js                 # Haoyi and Jie worked on header styling and user favorite functionality
+│   ├── ImageManager.js           # Haoyi worked on the ImageManager
+│   ├── ItemsList.js              # Haoyi and Jie worked on ItemsList to conditionally render product and event information
+│   ├── LocationManager.js        # Jie worked on Location Manager
+│   ├── Login.js                  # Haoyi and Jie worked on the Login page
+│   ├── Map.js                    # Jie worked on map markers and location selection
+│   ├── PressableItem.js          # No updates
+│   ├── ProductItem.js            # Haoyi and Jie updated style, image picker, and like functionality
+│   ├── RequireAuth.js            # Haoyi and Jie worked on authentication
+│   ├── Signup.js                 # Haoyi and Jie updated the Signup screen, styled it, and added new fields
+│   └── Weather.js                # Jie worked on the Weather API
+├── Firebase
+│   ├── firebaseHelper.js         # Haoyi and Jie updated the helper functions
+│   └── firebaseSetup.js          # Firebase setup by Jie
+├── README.md
+├── Screen
+│   ├── EditProfile.js            # Haoyi updated the Edit Profile screen
+│   ├── Event.js                  # Jie worked on the Event screen
+│   ├── EventDetail.js            # No updates
+│   ├── Home.js                   # Added external Weather API display
+│   ├── MyAccount.js              # Jie updated the My Account screen
+│   ├── ProductDetail.js          # Haoyi and Jie updated Product Detail style and added camera functionality
+│   ├── ProductList.js            # No updates
+│   ├── Sell.js                   # Haoyi and Jie updated the Sell screen for conditional rendering of new and updated listings
+│   ├── Shop.js                   # No updates
+│   └── UserFavorite.js           # Haoyi worked on User Favorite functionality
+├── Style
+│   ├── Color.js                  # No updates
+│   └── Styles.js                 # Style contributions shared equally
+├── app.json
+├── assets                        # Static assets like images and icons
+├── babel.config.js
+├── package-lock.json
+├── package.json
+├── screenshots
+│   └── Shopscreen.png
+└── tree_structure.txt
 
 
 
-## Project Overview Iteration 1
+
+
+
+# Project Overview Iteration 1
 This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
 
 
