@@ -1,10 +1,12 @@
 import { StyleSheet, Image, View, Button } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import * as ImagePicker from 'expo-image-picker'
+import { storage } from '../Firebase/firebaseSetup'
+import { ref, getDownloadURL } from "firebase/storage"
 
-export default function ImageManager({receiveImageUri}) {
+export default function ImageManager({receiveImageUri, initialUri}) {
   const [response, requestPermission] = ImagePicker.useCameraPermissions()
-  const [imageUri, setImageUri] = useState("")
+  const [imageUri, setImageUri] = useState(initialUri || "")
 
   async function verifyPermission() {
     //check if user has given permission
@@ -15,7 +17,27 @@ export default function ImageManager({receiveImageUri}) {
     const permissionResponse = await requestPermission()
     return permissionResponse.granted
   }
-  
+
+  useEffect(() => {
+      if (initialUri) {
+        const fetchUrl = async () => {
+          const url = await fetchDownloadUrl(initialUri);
+          setImageUri(url);
+        };
+      fetchUrl();
+    }
+  }, [initialUri]);
+
+  async function fetchDownloadUrl(path) {
+    try {
+      const imageRef = ref(storage, path);
+      const url = await getDownloadURL(imageRef);
+      return url;
+    } catch (error) {
+      console.error("Error fetching download URL:", error);
+    }
+  }
+
   async function takeImageHandler() {
     try {
       //call verify permission
