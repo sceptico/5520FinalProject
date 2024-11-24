@@ -44,7 +44,7 @@ export default function Sell() {
 
   // const isEdit = route.params?.isEdit || false;
   //const productId = route.params.id;
-  //console.log('route.params:', route.params.id);
+  //console.log('route.params:', route.params);
 
   useEffect(() => {
     // Dynamically update isEdit when route.params changes
@@ -87,7 +87,7 @@ export default function Sell() {
   }
 
 const handleSubmit = async () => {
-  if (!title || !description || !condition || !category || !imageUri) {
+  if (!title || !description || !condition || !category || (!imageUri && !isEdit)) {
     Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
     return;
   }
@@ -95,9 +95,13 @@ const handleSubmit = async () => {
   setLoading(true);
 
   try {
-    let uploadedImageUrl = imageUri;
+
+    if (isEdit) {
+      let uploadedImageUrl = imageUri;
     if (imageUri) {
       uploadedImageUrl = await handleImageData(imageUri);
+      console.log('upload image', uploadedImageUrl)
+      }
     }
 
     const productData = {
@@ -107,13 +111,13 @@ const handleSubmit = async () => {
       category,
       createdAt: isEdit ? route.params.createdAt : new Date(),
       ownerId: auth.currentUser.uid,
-      imageUri: uploadedImageUrl, // Use the uploaded image URL
+      imageUri: uploadedImageUrl || route.params.imageUri
     };
 
     if (isEdit) {
       await updateDocument('Product', route.params.id, productData);
       console.log('Product updated successfully!');
-      navigation.navigate('ProductDetail', { itemId: route.params.id });
+      navigation.navigate('ProductDetail', { itemId: route.params.id, imageUri: route.params.imageUri });
     } else {
       await addDocument('Product', productData);
       console.log('Product added successfully!');
@@ -131,7 +135,7 @@ const handleSubmit = async () => {
   return (
     <View style={globalStyles.container}>
       {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
-      <ImageManager receiveImageUri={receiveImageUri} />
+      <ImageManager receiveImageUri={receiveImageUri} initialUri={imageUri} />
       <Text style={globalStyles.label}>Title</Text>
       <TextInput
         style={globalStyles.input}
