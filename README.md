@@ -27,9 +27,14 @@
 1. **Notifications**
    - Implementation of local notifications is planned for future iterations to improve user engagement and alertness.
 
+<div style="display: flex; justify-content: space-between;">
+
 <img src="./screenshots/Shopscreen.png" alt="Shop Screen" width="300" height="500" />
 
 <img src="https://github.com/user-attachments/assets/73979402-1a9a-40b9-b2f4-24b277e87505" alt="Home Screen" width="300" height="500" />
+
+</div>
+
 
 
 ## Project Overview Iteration 1
