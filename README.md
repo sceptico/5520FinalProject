@@ -5,30 +5,33 @@
 ## Functionalities Included
 
 1. **Authentication**
-   - User authentication has been implemented, allowing users to securely log in and log out of the application.
-   - Firebase Authentication is used to manage user accounts.
+- User authentication has been implemented, allowing users to securely log in and log out of the application.
+- Firebase Authentication is used to manage user accounts.
+- Users can browse the **Home**, **Listed Products**, and **Events Information** sections anonymously.
+- Sign-in is required to:
+  - List a product for sale.
+  - Access the **My Account** section.
 
 2. **Camera Use**
-   - The app integrates the device's camera to allow users to capture photos for specific functionalities, such as adding a profile picture or uploading product images.
+   - The app integrates the device's camera to allow users to capture photos for specific functionalities, such as adding a profile picture (pending) or uploading product images (done).
 
 3. **Location Use**
-   - Location services have been integrated to fetch and display the user's current location or to tag items with a specific location.
+   - Location services have been integrated to fetch and display the user's current location or to select a specific location.
+   - An interactive map is included, marked with various event locations, allowing users to find nearby events.
 
 4. **External API Use**
-   - An external API is integrated into the app to fetch and display real-time data for enhanced functionality (e.g., weather information, golf course details).
+   - An external API (weather information with OpenWeather) is integrated into the app to fetch and display real-time data for enhanced functionality .
 
 ## Pending Functionalities
 
 1. **Notifications**
-   - Implementation of local or push notifications is planned for future iterations to improve user engagement and alertness.
+   - Implementation of local notifications is planned for future iterations to improve user engagement and alertness.
 
+<img src="./screenshots/Shopscreen.png" alt="Shop Screen" width="300" height="500" />
 
 
 ## Project Overview Iteration 1
 This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
-
-<img src="./screenshots/Shopscreen.png" alt="Shop Screen" width="500" height="300" />
-
 
 ## Features
 - **Product Listings**: Users can view, add, update, and delete product listings.
