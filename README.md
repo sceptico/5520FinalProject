@@ -83,7 +83,7 @@
 │   └── Shopscreen.png
 └── tree_structure.txt
 
-
+```
 
 
 
@@ -153,7 +153,7 @@ This project is a marketplace application designed for buying and selling golf e
 │   └── Screens.js                # Screen navigation setup (Pending)
 ├── package-lock.json
 └── package.json
-
+```
 
 ## Contributions Breakdown
 
