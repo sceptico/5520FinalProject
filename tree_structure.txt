@@ -1,0 +1,66 @@
+.
+├── App.js
+├── Component
+│   ├── EventItem.js
+│   ├── Header.js
+│   ├── ImageManager.js
+│   ├── ItemsList.js
+│   ├── LocationManager.js
+│   ├── Login.js
+│   ├── Map.js
+│   ├── PressableItem.js
+│   ├── ProductItem.js
+│   ├── RequireAuth.js
+│   ├── Signup.js
+│   └── Weather.js
+├── Firebase
+│   ├── firebaseHelper.js
+│   └── firebaseSetup.js
+├── README.md
+├── Screen
+│   ├── EditProfile.js
+│   ├── Event.js
+│   ├── EventDetail.js
+│   ├── Home.js
+│   ├── MyAccount.js
+│   ├── ProductDetail.js
+│   ├── ProductList.js
+│   ├── Sell.js
+│   ├── Shop.js
+│   └── UserFavorite.js
+├── Style
+│   ├── Color.js
+│   └── Styles.js
+├── app.json
+├── assets
+│   ├── Men.jpg
+│   ├── accessories.jpg
+│   ├── adaptive-icon.png
+│   ├── club.jpg
+│   ├── error.jpg
+│   ├── favicon.png
+│   ├── golfApparel.png
+│   ├── golfCourse.jpg
+│   ├── greenfuture.png
+│   ├── icon.png
+│   ├── kids.jpg
+│   ├── notice.jpg
+│   ├── notice.png
+│   ├── parteelogo.jpg
+│   ├── parteelogo.png
+│   ├── parteesplash.jpg
+│   ├── parteesplash.png
+│   ├── socialGolf.png
+│   ├── splash.png
+│   ├── uploadEvents.js
+│   └── women.jpg
+├── babel.config.js
+├── navigations
+│   └── Screens.js
+├── package-lock.json
+├── package.json
+├── screenshots
+│   └── Shopscreen.png
+└── tree_structure.txt
+
+8 directories, 56 files

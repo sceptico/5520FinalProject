@@ -86,8 +86,8 @@ export default function Login({navigation}) {
       <Text style={globalStyles.authText}>Don't have an account?</Text> 
       <Button title="Sign Up" onPress={() => navigation.replace('Signup')} />
       <View style={globalStyles.inputContainer}>
-        <Button title="Log in with Google" onPress={loginWithGoogle} />
-        <Button title="Log in with Facebook" onPress={loginWithFacebook} />
+        {/* <Button title="Log in with Google" onPress={loginWithGoogle} />
+        <Button title="Log in with Facebook" onPress={loginWithFacebook} /> */}
       </View>
     </View>
   );
