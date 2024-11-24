@@ -96,13 +96,11 @@ const handleSubmit = async () => {
 
   try {
 
-    if (isEdit) {
-      let uploadedImageUrl = imageUri;
+    let uploadedImageUrl = imageUri;
     if (imageUri) {
       uploadedImageUrl = await handleImageData(imageUri);
       console.log('upload image', uploadedImageUrl)
       }
-    }
 
     const productData = {
       title,
@@ -135,7 +133,7 @@ const handleSubmit = async () => {
   return (
     <View style={globalStyles.container}>
       {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
-      <ImageManager receiveImageUri={receiveImageUri} initialUri={imageUri} />
+      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
       <Text style={globalStyles.label}>Title</Text>
       <TextInput
         style={globalStyles.input}
