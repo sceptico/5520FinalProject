@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { auth, db } from '../Firebase/firebaseSetup';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import Color from '../Style/Color';
 import PressableItem from './PressableItem';
 import { globalStyles } from '../Style/Styles';
@@ -36,20 +36,33 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    // Fetch favorite items count if user is logged in
-    const fetchFavoritesCount = async () => {
-      if (user) {
-        const userDocRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          const data = userDoc.data();
+  // Set up a Firestore listener for real-time updates to likedProducts
+  let unsubscribe;
+
+  const fetchFavoritesCount = async () => {
+    if (user) {
+      const userDocRef = doc(db, 'users', user.uid);
+
+      unsubscribe = onSnapshot(userDocRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.data();
           setFavoritesCount(data.likedProducts?.length || 0);
         }
-      }
-    };
+      }, (error) => {
+        console.error("Error listening to user document:", error);
+      });
+    }
+  };
 
-    fetchFavoritesCount();
-  }, [user]);
+  fetchFavoritesCount();
+
+  // Cleanup the listener when the component unmounts
+  return () => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  };
+}, [user]);
 
   return (
     <View style={styles.headerContainer}>

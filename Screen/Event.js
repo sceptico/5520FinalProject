@@ -41,7 +41,11 @@ export default function Event({ navigation }) {
           <Text>Loading...</Text>
         ) : (
           // Use ItemsList to render event data
-          <ItemsList items={events} navigation={navigation} type="Event" />
+          events.length > 0 ? (
+           <ItemsList items={events} navigation={navigation} type="Event" />
+          ) : (
+            <Text>No Events Found</Text>
+          )
         )}
       </View>
     </>

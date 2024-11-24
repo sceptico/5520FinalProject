@@ -1,26 +1,55 @@
 import { Text, View, StyleSheet, Image, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { auth, db } from '../Firebase/firebaseSetup';
+import { auth, db, storage} from '../Firebase/firebaseSetup';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { isProductLikedByUser } from '../Firebase/firebaseHelper';
 
 export default function ProductItem({ item }) {
   const currentUser = auth.currentUser; // Get the current user
   const [liked, setLiked] = useState(false);
+  const [downloadURL, setDownloadURL] = useState('')
 
   useEffect(() => {
-    // Check if the current user has liked the product
-    if (currentUser && item.likedBy?.includes(currentUser.uid)) {
-      setLiked(true);
+    async function getImageDownloadURL() {
+      try {
+        if (item.imageUri) {
+          const imageRef = ref(storage, item.imageUri)
+          const downloadImageURL = await getDownloadURL(imageRef)
+          console.log('downloadImageURL', downloadImageURL)
+          setDownloadURL(downloadImageURL)
+        } 
+        } catch (error) {
+        console.log(error)
     }
-  }, [currentUser, item.likedBy]);
+    }
+    getImageDownloadURL()
+  }, [item])
+
+  useEffect(() => {
+    const checkLiked = async () => {
+      // Check if the product is liked by the current user
+      if (!currentUser) {
+        setLiked(false);
+        return
+      }
+      try {
+        const isLiked = await isProductLikedByUser(item.id, currentUser.uid);
+        console.log('itemId:', item.id, 'isLiked:', isLiked);
+        setLiked(isLiked);
+      } catch (error) {
+        console.error('Error checking if product is liked:', error);
+      }
+    }
+    checkLiked();
+  }, [item.id, currentUser]);
 
   const handleLikeToggle = async () => {
     if (!currentUser) {
       Alert.alert('Please login to like this product');
       return;
     }
-
     try {
       const userRef = doc(db, 'users', currentUser.uid);
 
@@ -46,7 +75,7 @@ export default function ProductItem({ item }) {
         {/* Product Image */}
         <View style={styles.photoContainer}>
           <Image
-            source={require('../assets/club.jpg')} 
+            source={downloadURL? ({uri:downloadURL}) : require('../assets/club.jpg') }
             style={styles.photo}
           />
         </View>
