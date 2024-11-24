@@ -24,7 +24,7 @@ export default function MyAccount({ navigation }) {
           setUser({
             email: currentUser.email,
             uid: currentUser.uid,
-            ...userData, // Merge Firestore data (e.g., userName, likedProducts, photoURI)
+            ...userData, // Merge Firestore data (e.g., userName, likedProducts, photoURL)
           });
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -45,8 +45,8 @@ export default function MyAccount({ navigation }) {
               {/* Avatar */}
               <Image
                 source={
-                  user.photoURI
-                    ? { uri: user.photoURI }
+                  user.photoURL
+                    ? { uri: user.photoURL }
                     : require("../assets/notice.jpg") // Replace with default avatar
                 }
                 style={{ width: 100, height: 100, borderRadius: 50, marginRight: 10 }}

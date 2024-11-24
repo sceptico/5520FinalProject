@@ -27,14 +27,10 @@ export default function EditProfile({navigation, route}) {
   }
   , [route.params])
 
-
-
-
   return (
     <View>
       <Text>EditProfile</Text>
            <LocationManager />
-
     </View>
   )
 }
