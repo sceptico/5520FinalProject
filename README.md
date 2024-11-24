@@ -27,18 +27,25 @@
 1. **Notifications**
    - Implementation of local notifications is planned for future iterations to improve user engagement and alertness.
 
-<div style="display: flex; justify-content: space-between;">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
 
-<img src="./screenshots/Shopscreen.png" alt="Shop Screen" width="300" height="500" />
-
-<img src="https://github.com/user-attachments/assets/73979402-1a9a-40b9-b2f4-24b277e87505" alt="Home Screen" width="300" height="500" />
+<img src="https://github.com/user-attachments/assets/73979402-1a9a-40b9-b2f4-24b277e87505" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/f6e6336b-4d8a-4bc6-935a-5ca260c80b65" alt="Simulator Screenshot 1" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/e15ffea9-9315-429d-b8b8-874ef4ac5e4a" alt="Simulator Screenshot 2" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/8bffb156-221d-4b0c-877d-bc810f8560d3" alt="Simulator Screenshot 3" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/542f22d6-fa76-46e0-a2ce-0b66d5d8d1e4" alt="Simulator Screenshot 4" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/02782ded-8972-4ffc-af20-67a56a7ca180" alt="Simulator Screenshot 5" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/d12c34dc-afe4-4ff3-ab16-3d678b6d5728" alt="Simulator Screenshot 6" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/6d31421a-0241-45df-b564-d2419e0a3988" alt="Simulator Screenshot 7" width="200" height="400" />
 
 </div>
 
 
 
+
 ## Project Overview Iteration 1
 This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
+
 
 ## Features
 - **Product Listings**: Users can view, add, update, and delete product listings.
@@ -52,10 +59,14 @@ This project is a marketplace application designed for buying and selling golf e
 ├── Component                     # Component directory (Haoyi created component breakdown)
 │   ├── Header.js 
 │   ├── ItemsList.js
+
 │   ├── PressableItem.js
+
 │   ├── EventItem.js
 │   └── ProductItem.js
-├── Firebase                      # Firebase configuration and helper functions (Jie set up Firebase, Haoyi updated read data functions, both memeber tested CRUD implementations on individual account)
+
+├── Firebase       
+              # Firebase configuration and helper functions (Jie set up Firebase, Haoyi updated read data functions, both memeber tested CRUD implementations on individual account)
 │   ├── firebaseHelper.js
 │   └── firebaseSetup.js
 ├── Screen                        # Screens for various app features
