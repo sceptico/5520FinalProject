@@ -29,7 +29,8 @@
 
 <img src="./screenshots/Shopscreen.png" alt="Shop Screen" width="300" height="500" />
 
-<img src="![simulator_screenshot_839E32F0-D161-4A98-8FF0-88F57DD3D720](https://github.com/user-attachments/assets/73979402-1a9a-40b9-b2f4-24b277e87505)" alt="Home Screen" width"300" height="500"/>
+<img src="https://github.com/user-attachments/assets/73979402-1a9a-40b9-b2f4-24b277e87505" alt="Home Screen" width="300" height="500" />
+
 
 ## Project Overview Iteration 1
 This project is a marketplace application designed for buying and selling golf equipment. It allows users to browse listings by category, post new items for sale, and view user profiles. The app features navigation, Firebase integration.
