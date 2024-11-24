@@ -19,12 +19,14 @@ export default function ImageManager({receiveImageUri, initialUri}) {
   }
 
   useEffect(() => {
-      if (initialUri) {
-        const fetchUrl = async () => {
-          const url = await fetchDownloadUrl(initialUri);
-          setImageUri(url);
-        };
-      fetchUrl();
+    if (initialUri) {
+      const fetchUrl = async () => {
+        const url = await fetchDownloadUrl(initialUri);
+        setImageUri(url);
+      };
+    fetchUrl();
+    } else {
+      setImageUri('')
     }
   }, [initialUri]);
 
