@@ -104,23 +104,6 @@ export default function Signup({ navigation }) {
     }
   };
 
-  // const writeUserDataToFirestore = async (userId, email, displayName) => {
-  //   try {
-  //     const userDocRef = doc(db, "users", userId);
-  //     await setDoc(userDocRef, {
-  //       userName: displayName,
-  //       email: email,
-  //       uid: userId,
-  //       photoURI: null, // Set photoURI to null initially
-  //       likedProducts: [], // Initialize liked products array
-  //     });
-
-  //     console.log("User data written to Firestore");
-  //   } catch (error) {
-  //     console.error("Error writing user data to Firestore:", error);
-  //   }
-  // };
-
   const loginHandler = () => navigation.replace("Login");
 
   return (
@@ -155,7 +138,7 @@ export default function Signup({ navigation }) {
           {confirmPasswordWarning}
         </Text>
       ) : null}
-      <View>
+      <View style={{gap:10}}>
         <Button title="Register" onPress={registerHandler} />
         <Button title="Already Registered? Login" onPress={loginHandler} />
       </View>

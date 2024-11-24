@@ -38,7 +38,7 @@ export const typography = {
     margin: spacing.small
   },
   body: {
-    fontSize: 14,
+    fontSize: 16,
   },
 };
 
@@ -189,6 +189,13 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
+  authText: {
+    padding:10,
+    fontSize:typography.body.fontSize
+  },
+  buttonContainer: {
+    padding:10
+  }
 
 
 
