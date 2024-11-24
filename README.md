@@ -35,7 +35,7 @@
 <img src="https://github.com/user-attachments/assets/8bffb156-221d-4b0c-877d-bc810f8560d3" alt="Simulator Screenshot 3" width="200" height="400" />
 <img src="https://github.com/user-attachments/assets/542f22d6-fa76-46e0-a2ce-0b66d5d8d1e4" alt="Simulator Screenshot 4" width="200" height="400" />
 <img src="https://github.com/user-attachments/assets/02782ded-8972-4ffc-af20-67a56a7ca180" alt="Simulator Screenshot 5" width="200" height="400" />
-<img src="https://github.com/user-attachments/assets/d12c34dc-afe4-4ff3-ab16-3d678b6d5728" alt="Simulator Screenshot 6" width="200" height="400" />
+
 <img src="https://github.com/user-attachments/assets/6d31421a-0241-45df-b564-d2419e0a3988" alt="Simulator Screenshot 7" width="200" height="400" />
 
 </div>
