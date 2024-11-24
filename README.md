@@ -11,6 +11,7 @@
 - Sign-in is required to:
   - List a product for sale.
   - Access the **My Account** section.
+  - Like a product / Mark an event.
 
 2. **Camera Use**
    - The app integrates the device's camera to allow users to capture photos for specific functionalities, such as adding a profile picture (pending) or uploading product images (done).
@@ -26,6 +27,19 @@
 
 1. **Notifications**
    - Implementation of local notifications is planned for future iterations to improve user engagement and alertness.
+
+## Firebase Database Rules and API Keys
+  - match /{document=**} {
+      allow read: if request.time < timestamp.date(2024, 12, 12);
+      allow write: if request.auth != null;
+    }
+    match /users/{userId} {
+    	allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    match /Product/{productId} {
+    	allow read: if request.time < timestamp.date(2024, 12, 12);
+    }
+  - Google Maps Key:AIzaSyDbtoksBI2YI7O1CDPoVSTS1X_Frep3rmg
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
 
