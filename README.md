@@ -41,7 +41,7 @@
 </div>
 
 # Project Directory Structure
-
+```plaintext
 ├── App.js                        # Haoyi and Jie worked on updating the stack structure and auth structure
 ├── Component 
 │   ├── EventItem.js              # Jie updated style and tested Firestore configuration on the event collection
