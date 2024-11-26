@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native'
+import { FlatList, View, Text } from 'react-native'
 import React from 'react'
 import PressableItem from './PressableItem'
 import ProductItem from './ProductItem'
@@ -9,6 +9,7 @@ export default function ItemsList({ items, navigation, type }) {
   console.log('ItemsList items:', items)
   return (
     <View>
+      {items.length > 0 ? (
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
@@ -30,7 +31,9 @@ export default function ItemsList({ items, navigation, type }) {
         }
       }
       ItemSeparatorComponent={() => <View style={globalStyles.listSeparator}/>}
-      />
+      />) : 
+      (<Text>No items</Text>)
+      }
     </View>
   )
 }
