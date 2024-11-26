@@ -153,7 +153,7 @@ const handleSubmit = async () => {
       />
 
       <Text style={globalStyles.label}>Category</Text>
-      <View style={{ zIndex: openCategory ? 2000 : 1 }}>
+      <View style={{ width:'80%', zIndex: openCategory ? 2000 : 1 }}>
         <DropDownPicker
           open={openCategory}
           value={category}
@@ -166,7 +166,7 @@ const handleSubmit = async () => {
       </View>
 
       <Text style={globalStyles.label}>Condition</Text>
-      <View style={{ zIndex: openCondition ? 2000 : 1 }}>
+      <View style={{ width:'80%', zIndex: openCondition ? 2000 : 1 }}>
         <DropDownPicker
           open={openCondition}
           value={condition}
