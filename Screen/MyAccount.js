@@ -1,9 +1,223 @@
-// 
+// import React, { useEffect, useState } from "react";
+// import { View, Text, StyleSheet, Image } from "react-native";
+// import { getAuth, signOut } from "firebase/auth";
+// import { getItem,updateDocument } from "../Firebase/firebaseHelper"; // Import the helper function
+// import { globalStyles } from "../Style/Styles";
+// import PressableItem from "../Component/PressableItem";
+// import FontAwesome from "react-native-vector-icons/FontAwesome";
+// import Color from "../Style/Color";
+// import LocationManager from "../Component/LocationManager";
 
+// export default function MyAccount({ navigation }) {
+//   const [user, setUser] = useState(null);
+//   const auth = getAuth();
+
+//   useEffect(() => {
+//     const fetchUserData = async () => {
+//       const currentUser = auth.currentUser;
+
+//       if (currentUser) {
+//         try {
+//           const userData = await getItem("users", currentUser.uid); // Fetch user data from Firestore
+//           setUser({
+//             email: currentUser.email,
+//             uid: currentUser.uid,
+//             ...userData, // Merge Firestore data (e.g., userName, likedProducts, photoURL)
+//           });
+//         } catch (error) {
+//           console.error("Error fetching user data:", error);
+//         }
+//       }
+//     };
+
+//     fetchUserData();
+//   }, [auth]);
+
+//   return (
+//     <View style={globalStyles.formContainer}>
+//       {user ? (
+//         <>
+//           <View style={styles.profileContainer}>
+//             {/* Avatar and User Info */}
+//             <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}>
+//               {/* Avatar */}
+//               <Image
+//                 source={
+//                   user.photoURL
+//                     ? { uri: user.photoURL }
+//                     : require("../assets/notice.jpg") // Replace with default avatar
+//                 }
+//                 style={{ width: 60, height: 50, borderRadius: 50, marginRight: 10 }}
+//               />
+
+//               {/* User Details */}
+//               <View>
+//                 {user.userName && <Text style={styles.userName}>{user.userName}</Text>}
+//                 <Text style={styles.userEmail}>
+//                   <FontAwesome name="envelope-o" size={16} color="black" style={{ left: 10 }} />{" "}
+//                   {user.email}
+//                 </Text>
+//               </View>
+//             </View>
+
+//             {/* Profile Details */}
+//             <View style={styles.profileDetail}>
+//               {/* Liked Products */}
+//               <PressableItem
+//                 pressedFunction={() =>
+//                   navigation.navigate("User Favorite", { type: "Product", userId: user.uid })
+//                 }
+//                 componentStyle={globalStyles.pressable}
+//                 pressedStyle={globalStyles.pressablePressed}
+//               >
+//                 <View style={{ flexDirection: "row", width: 160 }}>
+//                   <FontAwesome name="heart-o" size={16} color="black" style={{ left: 10 }} />
+//                   <Text style={{ left: 30 }}>Liked Products</Text>
+//                 </View>
+//               </PressableItem>
+
+//               {/* Interested Events */}
+//               <PressableItem
+//                 pressedFunction={() =>
+//                   navigation.navigate("User Favorite", { type: "Event", userId: user.uid })
+//                 }
+//                 componentStyle={globalStyles.pressable}
+//                 pressedStyle={globalStyles.pressablePressed}
+//               > 
+//                 <View style={{ flexDirection: "row", width: 160 }}>
+//                   <FontAwesome name="star-o" size={16} color="black" style={{ left: 10 }} />
+//                   <Text style={{ left: 30 }}>Interested Events</Text>
+//                 </View>
+//               </PressableItem>
+
+
+//                 {/* My Listings */}
+//                 <PressableItem
+//               pressedFunction={() => {
+//                 navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true });
+//               }}
+//               componentStyle={globalStyles.pressable}
+//               pressedStyle={globalStyles.pressablePressed}
+//             >
+//               <View style={{ flexDirection: 'row', width: 160 }}>
+//                 <FontAwesome
+//                   name={'list-alt'}
+//                   size={16}
+//                   color={'black'}
+//                   style={{ left: 10 }}
+//                 />
+//                 <Text style={{ left: 30 }}>My Listings</Text>
+//               </View>
+//             </PressableItem>
+
+//               {/* Set Reminder */}
+//               <PressableItem
+//               pressedFunction={() => {
+//                 navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true });
+//               }}
+//               componentStyle={globalStyles.pressable}
+//               pressedStyle={globalStyles.pressablePressed}
+//             >
+//               <View style={{ flexDirection: 'row', width: 160 }}>
+//                 <FontAwesome
+//                   name={'bell-o'}
+//                   size={16}
+//                   color={'black'}
+//                   style={{ left: 10 }}
+//                 />
+//                 <Text style={{ left: 30 }}>My reminders</Text>
+//               </View>
+//             </PressableItem>
+//             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+//             {/* Edit Profile */}
+//             <PressableItem
+//               componentStyle={{
+//                 backgroundColor: Color.headerBackground,
+//                 width: 80,
+//                 borderRadius: 5,
+//               }}
+//               pressedFunction={() => {
+//                 console.log({ user });
+//                 navigation.navigate('Edit Profile', { user });
+//               }}
+//             >
+//               <Text style={{ color: 'white' }}>Edit</Text>
+//             </PressableItem>
+  
+//             {/* Logout */}
+//             <PressableItem
+//               componentStyle={{
+//                 backgroundColor: Color.headerBackground,
+//                 width: 80,
+//                 borderRadius: 5,
+//               }}
+//               pressedFunction={() => {
+//                 signOut(auth);
+//                 setUser(null);
+//               }}
+//             >
+//               <Text style={{ color: 'white' }}>Logout</Text>
+//             </PressableItem>
+//           </View>
+//             </View>
+//           </View>
+
+//           {/* LocationManager Section */}
+//           <View style={styles.locationContainer}>
+//             <LocationManager />
+//           </View>
+//         </>
+//       ) : (
+//         <Text>Not logged in</Text>
+//       )}
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "white",
+//   },
+//   profileContainer: {
+//     flex: 6,
+//     backgroundColor: "white",
+//     padding: 20,
+//     borderRadius: 10,
+//     marginBottom: 20,
+//     shadowColor: "black",
+//     shadowOffset: { width: 0, height: 2 },
+//   },
+//   profileDetail: {
+//     flex: 3,
+//     backgroundColor: "grey",
+//     padding: 20,
+//     borderRadius: 10,
+//     shadowColor: "black",
+//     shadowOffset: { width: 0, height: 2 },
+//   },
+//   userName: {
+//     fontSize: 25,
+//     fontWeight: "bold",
+//   },
+//   userEmail: {
+//     fontSize: 14,
+//     color: "grey",
+//   },
+//   locationContainer: {
+//     flex: 2,
+//     backgroundColor: "white",
+//     padding: 20,
+//     borderRadius: 10,
+//     marginBottom: 20,
+//     shadowColor: "black",
+//     shadowOffset: { width: 0, height: 2 },
+//   },
+// });
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
-import { getItem,updateDocument } from "../Firebase/firebaseHelper"; // Import the helper function
+import { getItem } from "../Firebase/firebaseHelper";
 import { globalStyles } from "../Style/Styles";
 import PressableItem from "../Component/PressableItem";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -20,11 +234,11 @@ export default function MyAccount({ navigation }) {
 
       if (currentUser) {
         try {
-          const userData = await getItem("users", currentUser.uid); // Fetch user data from Firestore
+          const userData = await getItem("users", currentUser.uid);
           setUser({
             email: currentUser.email,
             uid: currentUser.uid,
-            ...userData, // Merge Firestore data (e.g., userName, likedProducts, photoURL)
+            ...userData,
           });
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -36,139 +250,108 @@ export default function MyAccount({ navigation }) {
   }, [auth]);
 
   return (
-    <View style={globalStyles.formContainer}>
+    <View style={styles.container}>
       {user ? (
-        <>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* Profile Header */}
           <View style={styles.profileContainer}>
-            {/* Avatar and User Info */}
-            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}>
-              {/* Avatar */}
+            <View style={styles.header}>
               <Image
                 source={
                   user.photoURL
                     ? { uri: user.photoURL }
-                    : require("../assets/notice.jpg") // Replace with default avatar
+                    : require("../assets/notice.jpg")
                 }
-                style={{ width: 100, height: 100, borderRadius: 50, marginRight: 10 }}
+                style={styles.avatar}
               />
-
-              {/* User Details */}
               <View>
                 {user.userName && <Text style={styles.userName}>{user.userName}</Text>}
                 <Text style={styles.userEmail}>
-                  <FontAwesome name="envelope-o" size={16} color="black" style={{ left: 10 }} />{" "}
-                  {user.email}
+                  <FontAwesome name="envelope-o" size={16} color="black" /> {user.email}
                 </Text>
               </View>
             </View>
-
-            {/* Profile Details */}
-            <View style={styles.profileDetail}>
-              {/* Liked Products */}
-              <PressableItem
-                pressedFunction={() =>
-                  navigation.navigate("User Favorite", { type: "Product", userId: user.uid })
-                }
-                componentStyle={globalStyles.pressable}
-                pressedStyle={globalStyles.pressablePressed}
-              >
-                <View style={{ flexDirection: "row", width: 160 }}>
-                  <FontAwesome name="heart-o" size={16} color="black" style={{ left: 10 }} />
-                  <Text style={{ left: 30 }}>Liked Products</Text>
-                </View>
-              </PressableItem>
-
-              {/* Interested Events */}
-              <PressableItem
-                pressedFunction={() =>
-                  navigation.navigate("User Favorite", { type: "Event", userId: user.uid })
-                }
-                componentStyle={globalStyles.pressable}
-                pressedStyle={globalStyles.pressablePressed}
-              > 
-                <View style={{ flexDirection: "row", width: 160 }}>
-                  <FontAwesome name="star-o" size={16} color="black" style={{ left: 10 }} />
-                  <Text style={{ left: 30 }}>Interested Events</Text>
-                </View>
-              </PressableItem>
-
-
-                {/* My Listings */}
-                <PressableItem
-              pressedFunction={() => {
-                navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true });
-              }}
-              componentStyle={globalStyles.pressable}
-              pressedStyle={globalStyles.pressablePressed}
-            >
-              <View style={{ flexDirection: 'row', width: 160 }}>
-                <FontAwesome
-                  name={'list-alt'}
-                  size={16}
-                  color={'black'}
-                  style={{ left: 10 }}
-                />
-                <Text style={{ left: 30 }}>My Listings</Text>
-              </View>
-            </PressableItem>
-
-              {/* Set Reminder */}
-              <PressableItem
-              pressedFunction={() => {
-                navigation.navigate('User Favorite', { type: 'Product', userId: user.uid, myListings: true });
-              }}
-              componentStyle={globalStyles.pressable}
-              pressedStyle={globalStyles.pressablePressed}
-            >
-              <View style={{ flexDirection: 'row', width: 160 }}>
-                <FontAwesome
-                  name={'bell-o'}
-                  size={16}
-                  color={'black'}
-                  style={{ left: 10 }}
-                />
-                <Text style={{ left: 30 }}>My reminders</Text>
-              </View>
-            </PressableItem>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-            {/* Edit Profile */}
-            <PressableItem
-              componentStyle={{
-                backgroundColor: Color.headerBackground,
-                width: 80,
-                borderRadius: 5,
-              }}
-              pressedFunction={() => {
-                console.log({ user });
-                navigation.navigate('Edit Profile', { user });
-              }}
-            >
-              <Text style={{ color: 'white' }}>Edit</Text>
-            </PressableItem>
-  
-            {/* Logout */}
-            <PressableItem
-              componentStyle={{
-                backgroundColor: Color.headerBackground,
-                width: 80,
-                borderRadius: 5,
-              }}
-              pressedFunction={() => {
-                signOut(auth);
-                setUser(null);
-              }}
-            >
-              <Text style={{ color: 'white' }}>Logout</Text>
-            </PressableItem>
           </View>
+
+          {/* Profile Details */}
+          <View style={styles.profileDetail}>
+            <PressableItem
+              pressedFunction={() =>
+                navigation.navigate("User Favorite", { type: "Product", userId: user.uid })
+              }
+              componentStyle={globalStyles.pressable}
+              pressedStyle={globalStyles.pressablePressed}
+            >
+              <View style={styles.detailRow}>
+                <FontAwesome name="heart-o" size={16} color="black" />
+                <Text style={styles.detailText}>Liked Products</Text>
+              </View>
+            </PressableItem>
+
+            <PressableItem
+              pressedFunction={() =>
+                navigation.navigate("User Favorite", { type: "Event", userId: user.uid })
+              }
+              componentStyle={globalStyles.pressable}
+              pressedStyle={globalStyles.pressablePressed}
+            >
+              <View style={styles.detailRow}>
+                <FontAwesome name="star-o" size={16} color="black" />
+                <Text style={styles.detailText}>Interested Events</Text>
+              </View>
+            </PressableItem>
+
+            {/* My Listings */}
+            <PressableItem
+              pressedFunction={() =>
+                navigation.navigate("User Favorite", { type: "Product", userId: user.uid, myListings: true })
+              }
+              componentStyle={globalStyles.pressable}
+              pressedStyle={globalStyles.pressablePressed}
+            >
+              <View style={styles.detailRow}>
+                <FontAwesome name="list-alt" size={16} color="black" />
+                <Text style={styles.detailText}>My Listings</Text>
+              </View>
+            </PressableItem>
+
+            {/* Reminders */}
+            <PressableItem
+              pressedFunction={() => navigation.navigate("Reminders", { userId: user.uid })}
+              componentStyle={globalStyles.pressable}
+              pressedStyle={globalStyles.pressablePressed}
+            >
+              <View style={styles.detailRow}>
+                <FontAwesome name="bell-o" size={16} color="black" />
+                <Text style={styles.detailText}>My Reminders</Text>
+              </View>
+            </PressableItem>
+
+            {/* Edit and Logout Buttons */}
+            <View style={styles.buttonRow}>
+              <PressableItem
+                componentStyle={styles.button}
+                pressedFunction={() => navigation.navigate("Edit Profile", { user })}
+              >
+                <Text style={styles.buttonText}>Edit</Text>
+              </PressableItem>
+              <PressableItem
+                componentStyle={styles.button}
+                pressedFunction={() => {
+                  signOut(auth);
+                  setUser(null);
+                }}
+              >
+                <Text style={styles.buttonText}>Logout</Text>
+              </PressableItem>
             </View>
           </View>
 
-          {/* LocationManager Section */}
+          {/* Location Manager */}
           <View style={styles.locationContainer}>
             <LocationManager />
           </View>
-        </>
+        </ScrollView>
       ) : (
         <Text>Not logged in</Text>
       )}
@@ -181,38 +364,65 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  profileContainer: {
-    flex: 6,
-    backgroundColor: "white",
+  scrollContainer: {
     padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
   },
-  profileDetail: {
-    flex: 3,
-    backgroundColor: "grey",
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
+  profileContainer: {
+    marginBottom: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    marginRight: 10,
   },
   userName: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
   },
   userEmail: {
     fontSize: 14,
     color: "grey",
   },
-  locationContainer: {
-    flex: 2,
-    backgroundColor: "white",
-    padding: 20,
+  profileDetail: {
+    padding: 15,
+    backgroundColor: "lightgray",
     borderRadius: 10,
-    marginBottom: 20,
-    shadowColor: "black",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  detailRow: {
+    flexDirection: "row",
+    alignItems: 'center',
+  },
+  detailText: {
+    marginLeft:10,
+    fontSize: 16,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: Color.headerBackground,
+    borderRadius: 5,
+    padding: 10,
+    width: "30%",
+  },
+  buttonText: {
+    color: "white",
+    textAlign: 'center',
+  },
+  locationContainer: {
+    marginTop: 10,
   },
 });
+

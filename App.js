@@ -23,10 +23,17 @@ import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
 import UserFavorite from './Screen/UserFavorite'
 import Map from './Component/Map';
-// import * as Notifications from 'expo-notifications';
+import * as Notifications from 'expo-notifications'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert:true
+    }
+  }
+})
 
 // MainTabs component
 function MainTabs() {

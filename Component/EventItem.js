@@ -95,7 +95,7 @@ export default function EventCard({ item }) {
         {/* Event Details */}
         <View style={styles.right}>
           <Text style={styles.name}>{event.name}</Text>
-          <Text style={styles.date}>{new Date(event.date.seconds * 1000).toLocaleString()}</Text>
+          <Text style={styles.date}>{new Date(event.date).toLocaleString()}</Text>
           <Text style={styles.description} numberOfLines={5}>
             {event.description}
           </Text>
