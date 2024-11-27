@@ -4,7 +4,7 @@ import { auth, db, storage} from '../Firebase/firebaseSetup';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { isProductLikedByUser } from '../Firebase/firebaseHelper';
+import { isLikedByUser } from '../Firebase/firebaseHelper';
 
 export default function ProductItem({ item }) {
   const currentUser = auth.currentUser; // Get the current user
@@ -35,7 +35,7 @@ export default function ProductItem({ item }) {
         return
       }
       try {
-        const isLiked = await isProductLikedByUser(item.id, currentUser.uid);
+        const isLiked = await isLikedByUser(item.id, currentUser.uid, "Product");
         console.log('itemId:', item.id, 'isLiked:', isLiked);
         setLiked(isLiked);
       } catch (error) {

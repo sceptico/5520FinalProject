@@ -5,8 +5,9 @@ import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-n
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db, auth } from "../Firebase/firebaseSetup";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { isLikedByUser } from "../Firebase/firebaseHelper";
 
-export default function EventCard({ item }) {
+export default function EventItem({ item }) {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false); // State to track if the event is liked
@@ -38,17 +39,23 @@ export default function EventCard({ item }) {
       Alert.alert("Please login to like this event");
       return;
     }
-
     try {
       const eventRef = doc(db, "Event", item.id); 
+      const userRef = doc(db, 'users', currentUser.uid);
       if (liked) {
         await updateDoc(eventRef, {
           likedBy: arrayRemove(currentUser.uid),
+        });
+        await updateDoc(userRef, {
+          interestedEvents: arrayRemove(item.id), // Remove the product ID from likedProducts
         });
         setLiked(false);
       } else {
         await updateDoc(eventRef, {
           likedBy: arrayUnion(currentUser.uid),
+        });
+        await updateDoc(userRef, {
+          interestedEvents: arrayUnion(item.id), // Add the product ID to likedProducts
         });
         setLiked(true);
       }
@@ -60,6 +67,24 @@ export default function EventCard({ item }) {
   useEffect(() => {
     fetchEvent();
   }, [item.id]); 
+
+  useEffect(() => {
+    const checkLiked = async () => {
+      // Check if the product is liked by the current user
+      if (!currentUser) {
+        setLiked(false);
+        return
+      }
+      try {
+        const isLiked = await isLikedByUser(item.id, currentUser.uid, "Event");
+        console.log('itemId:', item.id, 'isLiked:', isLiked);
+        setLiked(isLiked);
+      } catch (error) {
+        console.error('Error checking if product is liked:', error);
+      }
+    }
+    checkLiked();
+  }, [item.id, currentUser]);
 
   if (loading) {
     return (
@@ -95,7 +120,7 @@ export default function EventCard({ item }) {
         {/* Event Details */}
         <View style={styles.right}>
           <Text style={styles.name}>{event.name}</Text>
-          <Text style={styles.date}>{new Date(event.date.seconds * 1000).toLocaleString()}</Text>
+          <Text style={styles.date}>{new Date(event.date).toLocaleString()}</Text>
           <Text style={styles.description} numberOfLines={5}>
             {event.description}
           </Text>

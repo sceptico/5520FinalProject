@@ -116,9 +116,9 @@ async function fetchItemsByIds(collectionName, itemIds) {
     return items;
     }
 
-export async function fetchUserListings(userId) {
+export async function fetchUserListingsOrReminders(userId, collectionName) {
     try {
-        const q = query(collection(db, 'Product'), where('ownerId', '==', userId));
+        const q = query(collection(db, collectionName), where('ownerId', '==', userId));
         const querySnapshot = await getDocs(q);
         const items = [];
         querySnapshot.forEach((doc) => {
@@ -130,7 +130,7 @@ export async function fetchUserListings(userId) {
     }
 }
 
-export async function isProductLikedByUser(productId, userId) {
+export async function isLikedByUser(docId, userId, collectionName) {
     try {
         const userDocRef = doc(db, 'users', userId);
         const userDoc = await getDoc(userDocRef);
@@ -138,11 +138,15 @@ export async function isProductLikedByUser(productId, userId) {
         
 
         const userData = userDoc.data();
-        const userLikedProducts = userData.likedProducts || [];
-
-        return userLikedProducts.includes(productId);
+        if (collectionName === "Product") {
+            const userLikedProducts = userData.likedProducts || [];
+            return userLikedProducts.includes(docId);
+        } else {
+            const userInterestedEvents = userData.interestedEvents || []
+            return userInterestedEvents.includes(docId)
+        }
     } catch (error) {
-        console.error('Error checking if product is liked:', error)
+        console.error('Error checking if item is liked:', error)
         return false;
     }
 }
@@ -165,4 +169,14 @@ export async function writeUserDataToFirestore(userId, email, displayName) {
       console.error("Error writing user data to Firestore:", error);
     }
   }
+
+  export async function writeDocumentWithSpecificId(collectionName, documentId, data) {
+  try {
+    const docRef = doc(db, collectionName, documentId); // Specify the collection and document ID
+    await setDoc(docRef, data); // Write the data to Firestore
+    console.log("Document written with ID:", documentId);
+  } catch (error) {
+    console.error("Error writing document:", error);
+  }
+}
   

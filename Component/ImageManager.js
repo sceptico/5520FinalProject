@@ -61,7 +61,7 @@ export default function ImageManager({receiveImageUri, initialUri}) {
     }
   }
   return (
-    <View>
+    <View style={{margin:10}}>
       <Button title='Take an image' onPress={takeImageHandler}/>
       {imageUri && (
       <Image source={{uri:imageUri}} 

@@ -2,7 +2,7 @@ import { Text, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { globalStyles } from '../Style/Styles'
 import ItemsList from '../Component/ItemsList'
-import { getUserLikesOrInterests, fetchUserListings } from '../Firebase/firebaseHelper'
+import { getUserLikesOrInterests, fetchUserListingsOrReminders } from '../Firebase/firebaseHelper'
 
 
 export default function UserFavorite({navigation, route}) {
@@ -20,7 +20,7 @@ export default function UserFavorite({navigation, route}) {
   const fetchItems = async () => {
     try {
       if (myListings) {
-        data = await fetchUserListings(userId); // Fetch user's own listings
+        data = await fetchUserListingsOrReminders(userId, 'Product'); // Fetch user's own listings
       } else {
         data = await getUserLikesOrInterests(userId, type); 
       }

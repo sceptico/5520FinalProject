@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -23,10 +23,18 @@ import Login from './Component/Login';
 import RequireAuth from './Component/RequireAuth';
 import UserFavorite from './Screen/UserFavorite'
 import Map from './Component/Map';
-// import * as Notifications from 'expo-notifications';
+import UserReminders from './Component/UserReminders';
+import * as Notifications from 'expo-notifications'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert:true
+    }
+  }
+})
 
 // MainTabs component
 function MainTabs() {
@@ -160,6 +168,11 @@ export default function App() {
           name="Map"
           component={Map}
           options={{ title: 'Map' }}
+        />
+        <Stack.Screen
+          name="Reminders"
+          component={UserReminders}
+          options={{ title: 'My Reminders'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
