@@ -6,7 +6,6 @@ import { auth, db, storage } from '../Firebase/firebaseSetup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import DropDownPicker from 'react-native-dropdown-picker';
 import NotificationManager from '../Component/NotificationManager';
 
 export default function EventDetail() {
@@ -94,20 +93,7 @@ export default function EventDetail() {
   if (!event) {
     return <Text>Event not found</Text>;
   }
-
-  // const handleSetReminder = async () => {
-  //   if (!reminderTime) {
-  //     Alert.alert('Select Reminder Time', 'Please choose a time')
-  //     return
-  //   }
-  //   try {
-  //     await NotificationManager.scheduleReminder(event, reminderTime)
-  //     Alert.alert('Reminder set')
-  //   } catch (err) {
-  //     console.log('Error setting the reminder', err)
-  //   }
-  // }
-
+  console.log(event)
   const { name, description, location, date } = event;
 
   return (
@@ -134,7 +120,8 @@ export default function EventDetail() {
         color={interested ? 'gold' : 'black'}
         onPress={handleInterest}
       />
-      <NotificationManager event={event}/>
+      {interested ? (<NotificationManager event={event}/>) :
+      <></>}
     </View>
   );
 }

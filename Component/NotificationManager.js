@@ -1,10 +1,16 @@
-import { Alert, Button, Text, View } from 'react-native'
+import { Alert, Text, View } from 'react-native'
 import { globalStyles } from '../Style/Styles'
 import React, {useState} from 'react'
 import * as Notifications from "expo-notifications"
 import DropDownPicker from 'react-native-dropdown-picker'
+import PressableItem from './PressableItem'
+import { updateDocument, writeDocumentWithSpecificId } from '../Firebase/firebaseHelper'
+import { arrayUnion, Timestamp } from 'firebase/firestore'
+import { auth } from '../Firebase/firebaseSetup'
+
 
 export default function NotificationManager({event}) {
+  const eventName = event.name
   const eventDate = event.date
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
@@ -49,20 +55,38 @@ export default function NotificationManager({event}) {
         return
       }
 
-      await Notifications.scheduleNotificationAsync({
+      const notificationId = await Notifications.scheduleNotificationAsync({
         content:{
-          title:'Reminder set for Event name',
+          title:`Reminder for ${eventName}`,
           body: 'This is the body of the notification',
         },
-        trigger:reminderTime
+        trigger:{
+          second:3
+        }
+        // trigger:reminderTime
       })
+      const reminderData = {
+        eventName,
+        eventId:event.id,
+        time:Timestamp.fromDate(reminderTime),
+        ownerId:auth.currentUser.uid
+      }
+
+      await writeDocumentWithSpecificId("Reminder", notificationId, reminderData)
+      await updateDocument("users", auth.currentUser.uid, {
+        reminderSet:arrayUnion(
+          notificationId
+        )
+      })
+      console.log('user reminder updated')
       Alert.alert('Reminder has been set!')
     } catch (err) {
       console.log('Error scheduling notification', err)
     }
   }
   return (
-    <View style={{ marginTop:20, width:'80%', zIndex: open ? 2000 : 1 }}>
+    <View style={{alignItems:'flex-start'}}>
+      <View style={{ marginTop:20, width:'80%', zIndex: open ? 2000 : 1 }}>
         <DropDownPicker
           open={open}
           value={value}
@@ -73,7 +97,11 @@ export default function NotificationManager({event}) {
           placeholder="Select reminder time"
           style={globalStyles.picker}
         />
-      <Button title='Set Reminder for event' onPress={scheduleNotificationHandler}/>
+      </View>
+      <PressableItem 
+        pressedFunction={scheduleNotificationHandler}>
+        <Text style={globalStyles.buttonText}>Set Reminder</Text>
+      </PressableItem>
     </View>
   )
 }

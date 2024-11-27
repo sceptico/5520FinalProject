@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getItem, deleteDocument, isProductLikedByUser } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
+import { getItem, deleteDocument, isLikedByUser } from '../Firebase/firebaseHelper'; // Adjust the path to your helper function
 import { Alert } from 'react-native';
 import { auth, db, storage } from '../Firebase/firebaseSetup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -60,7 +60,7 @@ export default function ProductDetail() {
         return
       }
       try {
-        const isLiked = await isProductLikedByUser(itemId, currentUser.uid);
+        const isLiked = await isLikedByUser(itemId, currentUser.uid, "Product");
         console.log('itemId:', itemId, 'isLiked:', isLiked);
         setLiked(isLiked);
       } catch (error) {

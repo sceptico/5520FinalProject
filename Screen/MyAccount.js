@@ -317,7 +317,7 @@ export default function MyAccount({ navigation }) {
 
             {/* Reminders */}
             <PressableItem
-              pressedFunction={() => navigation.navigate("Reminders", { userId: user.uid })}
+              pressedFunction={() => navigation.navigate("Reminders")}
               componentStyle={globalStyles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >

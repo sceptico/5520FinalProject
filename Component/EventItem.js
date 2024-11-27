@@ -5,8 +5,9 @@ import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-n
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db, auth } from "../Firebase/firebaseSetup";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { isLikedByUser } from "../Firebase/firebaseHelper";
 
-export default function EventCard({ item }) {
+export default function EventItem({ item }) {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false); // State to track if the event is liked
@@ -60,6 +61,24 @@ export default function EventCard({ item }) {
   useEffect(() => {
     fetchEvent();
   }, [item.id]); 
+
+  useEffect(() => {
+    const checkLiked = async () => {
+      // Check if the product is liked by the current user
+      if (!currentUser) {
+        setLiked(false);
+        return
+      }
+      try {
+        const isLiked = await isLikedByUser(item.id, currentUser.uid, "Event");
+        console.log('itemId:', item.id, 'isLiked:', isLiked);
+        setLiked(isLiked);
+      } catch (error) {
+        console.error('Error checking if product is liked:', error);
+      }
+    }
+    checkLiked();
+  }, [item.id, currentUser]);
 
   if (loading) {
     return (
