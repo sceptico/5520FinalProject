@@ -39,17 +39,23 @@ export default function EventItem({ item }) {
       Alert.alert("Please login to like this event");
       return;
     }
-
     try {
       const eventRef = doc(db, "Event", item.id); 
+      const userRef = doc(db, 'users', currentUser.uid);
       if (liked) {
         await updateDoc(eventRef, {
           likedBy: arrayRemove(currentUser.uid),
+        });
+        await updateDoc(userRef, {
+          interestedEvents: arrayRemove(item.id), // Remove the product ID from likedProducts
         });
         setLiked(false);
       } else {
         await updateDoc(eventRef, {
           likedBy: arrayUnion(currentUser.uid),
+        });
+        await updateDoc(userRef, {
+          interestedEvents: arrayUnion(item.id), // Add the product ID to likedProducts
         });
         setLiked(true);
       }
