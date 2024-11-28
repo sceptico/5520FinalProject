@@ -279,7 +279,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Product", userId: user.uid })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -292,7 +292,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Event", userId: user.uid })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -306,7 +306,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Product", userId: user.uid, myListings: true })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -318,7 +318,7 @@ export default function MyAccount({ navigation }) {
             {/* Reminders */}
             <PressableItem
               pressedFunction={() => navigation.navigate("Reminders")}
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   profileDetail: {
     padding: 10,
-    backgroundColor: "lightgray",
+    backgroundColor:'lightgray',
     borderRadius: 10,
     alignItems:'center',
     shadowColor: "#000",
@@ -427,5 +427,14 @@ const styles = StyleSheet.create({
   locationContainer: {
     marginTop: 10,
   },
+  pressable: {
+    backgroundColor:'white',
+    width:"95%",
+    borderRadius: 20,
+    padding: 10,
+    marginVertical: 5,
+    justifyContent: 'center',
+    position: 'relative',
+  }
 });
 

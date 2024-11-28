@@ -181,7 +181,7 @@ export const globalStyles = StyleSheet.create({
     opacity: 0.2,
   },
   pressable: {
-    backgroundColor:'white',
+    backgroundColor:colors.pageBackground,
     width:"95%",
     borderRadius: 20,
     padding: 10,

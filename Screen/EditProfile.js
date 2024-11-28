@@ -12,9 +12,9 @@ export default function EditProfile({navigation, route}) {
   
   const [uid, setUid] = useState('')
   const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
+  const [userName, setUserName] = useState('')
   const [phone, setPhone] = useState('')
-  const [imageURL, setImageURL] = useState('')
+  const [photoURL, setPhotoURL] = useState('')
   const [DOB, setDOB] = useState('')
   const [golfYears, setGolfYears] = useState('')
 
@@ -22,16 +22,16 @@ export default function EditProfile({navigation, route}) {
     // const { uid, email, name, phone, imageURL } = route.params
     setUid(user.uid)
     setEmail(user.email)
-    setName(user.name)
+    setUserName(user.userName)
     setPhone(user.phone)
-    setImageURL(user.imageURL)
+    setPhotoURL(user.photoURL)
   }
   , [route.params])
 
   const updateProfile = async () => {
     try {
       const updatedData = {}
-      if (name !== user.name) updatedData.name = name
+      if (userName !== user.userName) updatedData.userName = userName
       if (phone !== user.phone) updatedData.phone = phone
 
       // Only update fields if they were changed
@@ -47,6 +47,14 @@ export default function EditProfile({navigation, route}) {
     }
   }
 
+  const handleUserNameChange = (text) => {
+    setUserName(text)
+  }
+
+  const handlePhoneChange = (number) => {
+    setPhone(number)
+  }
+
   return (
     <View style={globalStyles.formContainer}>
       <Text style={globalStyles.authText}>Email: {email}</Text>
@@ -55,8 +63,8 @@ export default function EditProfile({navigation, route}) {
       <Text style={globalStyles.authText}>User Name:</Text>
       <TextInput
         style={globalStyles.input}
-        value={name}
-        onChangeText={setName}
+        value={userName}
+        onChangeText={handleUserNameChange}
         placeholder="Enter new name"
       />
 
@@ -65,7 +73,7 @@ export default function EditProfile({navigation, route}) {
       <TextInput
         style={globalStyles.input}
         value={phone}
-        onChangeText={setPhone}
+        onChangeText={handlePhoneChange}
         placeholder="Enter new phone number"
       />
 
