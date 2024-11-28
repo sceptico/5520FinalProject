@@ -390,9 +390,10 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   profileDetail: {
-    padding: 15,
+    padding: 10,
     backgroundColor: "lightgray",
     borderRadius: 10,
+    alignItems:'center',
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -401,6 +402,7 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: "row",
     alignItems: 'center',
+    width:'50%'
   },
   detailText: {
     marginLeft:10,
@@ -410,6 +412,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+    width:'90%',
   },
   button: {
     backgroundColor: Color.headerBackground,
