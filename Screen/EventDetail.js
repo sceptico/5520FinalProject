@@ -113,7 +113,7 @@ export default function EventDetail() {
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.location}>Location: {location}</Text>
-      <Text style={styles.date}>Date: {new Date(date).toLocaleString()}</Text>
+      <Text style={styles.date}>Date: {new Date(event.date.seconds * 1000).toLocaleString()}</Text>
       <FontAwesome
         name={interested ? 'star' : 'star-o'}
         size={24}
