@@ -279,7 +279,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Product", userId: user.uid })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -292,7 +292,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Event", userId: user.uid })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -306,7 +306,7 @@ export default function MyAccount({ navigation }) {
               pressedFunction={() =>
                 navigation.navigate("User Favorite", { type: "Product", userId: user.uid, myListings: true })
               }
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -318,7 +318,7 @@ export default function MyAccount({ navigation }) {
             {/* Reminders */}
             <PressableItem
               pressedFunction={() => navigation.navigate("Reminders")}
-              componentStyle={globalStyles.pressable}
+              componentStyle={styles.pressable}
               pressedStyle={globalStyles.pressablePressed}
             >
               <View style={styles.detailRow}>
@@ -390,9 +390,10 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   profileDetail: {
-    padding: 15,
-    backgroundColor: "lightgray",
+    padding: 10,
+    backgroundColor:'lightgray',
     borderRadius: 10,
+    alignItems:'center',
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -401,6 +402,7 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: "row",
     alignItems: 'center',
+    width:'50%'
   },
   detailText: {
     marginLeft:10,
@@ -410,6 +412,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+    width:'90%',
   },
   button: {
     backgroundColor: Color.headerBackground,
@@ -424,5 +427,14 @@ const styles = StyleSheet.create({
   locationContainer: {
     marginTop: 10,
   },
+  pressable: {
+    backgroundColor:'white',
+    width:"95%",
+    borderRadius: 20,
+    padding: 10,
+    marginVertical: 5,
+    justifyContent: 'center',
+    position: 'relative',
+  }
 });
 

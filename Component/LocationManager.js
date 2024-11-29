@@ -15,6 +15,7 @@ import { auth } from "../Firebase/firebaseSetup";
 import PressableItem from "./PressableItem";
 import { globalStyles } from "../Style/Styles";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Color from "../Style/Color";
 
 export default function LocationManager() {
   const [location, setLocation] = useState(null);
@@ -115,14 +116,14 @@ export default function LocationManager() {
           componentStyle={globalStyles.pressable}
           pressedStyle={globalStyles.pressablePressed}
         >
-          <View style={{ flexDirection: "row", width: 200 }}>
+          <View style={{ borderRadius:10, padding:10, flexDirection: "row", width: 200, backgroundColor:Color.headerBackground }}>
             <FontAwesome
               name={route.name === "Event" ? "search" : "map-marker"}
               size={16}
-              color="black"
+              color="white"
               style={{ left: 10 }}
             />
-            <Text style={{ left: 30 }}>
+            <Text style={{ color:'white', left: 30 }}>
               {route.name === "Event" ? "View Nearby Events" : "Choose My Location"}
             </Text>
           </View>

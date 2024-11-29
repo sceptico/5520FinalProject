@@ -91,7 +91,7 @@ export default function Signup({ navigation }) {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
       console.log("userCred", userCred);
 
-      await writeUserDataToFirestore(userCred.user.uid, userCred.user.email, userName,null);
+      await writeUserDataToFirestore(userCred.user.uid, userCred.user.email, userName);
 
       Alert.alert("User registered successfully");
       navigation.navigate("Main Tabs", { screen: "My Account" });
