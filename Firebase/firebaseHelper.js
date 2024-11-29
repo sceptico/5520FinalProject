@@ -32,20 +32,47 @@ export async function getItem(collectionName, id) {
     }
 }
 
-export async function getItemsByCategory(collectionName, category) {
+// export async function getItemsByCategory(collectionName, category) {
+//     try {
+//         const querySnapshot = await getDocs(collection(db, collectionName));
+//         const items = [];
+//         querySnapshot.forEach((doc) => {
+//             if (doc.data().category === category) {
+//                 items.push({ id: doc.id, ...doc.data() });
+//             }
+//         });
+//         return items;
+//     } catch (err) {
+//         console.error(`Error fetching documents from ${collectionName}:`, err);
+//     }
+// }
+
+export async function getItemsByCategory(collectionName, { mainCategory, subCategory }) {
     try {
-        const querySnapshot = await getDocs(collection(db, collectionName));
-        const items = [];
-        querySnapshot.forEach((doc) => {
-            if (doc.data().category === category) {
-                items.push({ id: doc.id, ...doc.data() });
-            }
-        });
-        return items;
+      // Initialize query
+      let queryRef = collection(db, collectionName);
+  
+      // Add filters dynamically
+      if (mainCategory) {
+        queryRef = query(queryRef, where("mainCategory", "==", mainCategory));
+      }
+      if (subCategory) {
+        queryRef = query(queryRef, where("subCategory", "==", subCategory));
+      }
+  
+      // Execute query
+      const querySnapshot = await getDocs(queryRef);
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ id: doc.id, ...doc.data() });
+      });
+  
+      return items;
     } catch (err) {
-        console.error(`Error fetching documents from ${collectionName}:`, err);
+      console.error(`Error fetching documents from ${collectionName}:`, err);
+      throw err; // Re-throw error for further handling
     }
-}
+  }
 
 
 // Add a new document to a specified collection
