@@ -12,6 +12,7 @@ import { auth } from '../Firebase/firebaseSetup'
 export default function NotificationManager({event}) {
   const eventName = event.name
   const eventDate = event.date
+  
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
   const [items, setItems] = useState([
@@ -47,8 +48,7 @@ export default function NotificationManager({event}) {
         Alert.alert('Time needed', 'Please select a reminder time', [{text:'Ok'}])
         return
       }
-      const eventDateTime = new Date(eventDate)
-      const reminderTime = new Date(eventDateTime.getTime() - value * 1000)
+      const reminderTime = new Date(eventDate.seconds * 1000 - value * 1000)
 
       if (reminderTime <= new Date()) {
         Alert.alert('Reminder time has passed. Please select a different time')
