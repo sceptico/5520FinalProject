@@ -86,8 +86,16 @@ export default function Weather() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    flex: 1,
+    height: "50%",
+    width: "50%",
+    backgroundColor: "#fff",
+    alignItems: "left",
+    justifyContent: "center",
     padding: 20,
+    borderRadius: 40,
+    
+    
   },
   title: {
     fontSize: 20,
@@ -96,6 +104,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
+  
   },
   errorText: {
     color: "red",

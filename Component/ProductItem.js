@@ -80,10 +80,12 @@ export default function ProductItem({ item }) {
           />
         </View>
 
+  
         {/* Product Details */}
         <View style={styles.right}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.description} numberOfLines={2}>
+          <Text style={styles.price}>${item.price}</Text>
+          <Text style={styles.description} numberOfLines={1}>
             {item.description}
           </Text>
           <Text style={styles.condition}>Condition: {item.condition}</Text>
@@ -163,5 +165,12 @@ const styles = StyleSheet.create({
     right: 15,
     top: 2,
     backgroundColor: 'transparent',
+
+  },
+  price: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 5,
+    
   },
 });

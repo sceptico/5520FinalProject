@@ -26,6 +26,7 @@ export default function Sell() {
   const [openSubCategory, setOpenSubCategory] = useState(false);
   const [mainCategory, setMainCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
+  const [price, setPrice] = useState('');
 
   const receiveImageUri = (uri) => {
     setImageUri(uri)
@@ -72,6 +73,7 @@ export default function Sell() {
       setMainCategory(route.params.category || '');
       setSubCategory(route.params.subCategory || '');
       setImageUri(route.params.imageUri || '../assets/club.jpg')
+      setPrice(route.params.price ||  '');
     } else {
       resetForm(); // Reset form fields for add mode
     }
@@ -85,6 +87,7 @@ export default function Sell() {
     setSubCategory('');
     setIsEdit(false);
     setImageUri('../assets/club.jpg')
+    setPrice('');
   };
 
   async function handleImageData(uri){
@@ -104,7 +107,7 @@ export default function Sell() {
   }
 
 const handleSubmit = async () => {
-  if (!title || !description || !condition || !mainCategory || !subCategory || (!imageUri && !isEdit)) {
+  if (!title || !description || !condition || !mainCategory || !subCategory || !price ||(!imageUri && !isEdit)) {
     Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
     return;
   }
@@ -125,6 +128,7 @@ const handleSubmit = async () => {
       condition,
       mainCategory,
       subCategory,
+      price,
       createdAt: isEdit ? route.params.createdAt : new Date(),
       ownerId: auth.currentUser.uid,
       imageUri: uploadedImageUrl || '../assets/club.jpg'
@@ -158,6 +162,14 @@ const handleSubmit = async () => {
         value={title}
         onChangeText={setTitle}
         placeholder="Enter product title"
+      />
+
+<Text style={globalStyles.label}>Price</Text>
+      <TextInput
+        style={globalStyles.input}
+        value={price}
+        onChangeText={setPrice}
+        placeholder="Enter product price"
       />
 
       <Text style={globalStyles.label}>Description</Text>
@@ -222,6 +234,9 @@ const handleSubmit = async () => {
           style={globalStyles.picker}
         />
       </View>
+
+
+
       <Button
         title={isEdit ? 'Update Product' : 'Add Product'}
         onPress={handleSubmit}
