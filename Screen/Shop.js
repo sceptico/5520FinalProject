@@ -3,22 +3,48 @@ import React, { useState } from 'react';
 import { globalStyles } from '../Style/Styles';
 import PressableItem from '../Component/PressableItem';
 
+// const categories = [
+//   { id: '1', name: 'Clubs', image: require('../assets/club.jpg') },
+//   { id: '2', name: 'Apparel', image: require('../assets/golfApparel.png') },
+//   { id: '3', name: 'Accessories', image: require('../assets/accessories.jpg') },
+//   { id: '4', name: 'Men', image: require('../assets/Men.jpg') },
+//   { id: '5', name: 'Women', image: require('../assets/women.jpg') },
+//   { id: '6', name: 'Kids', image: require('../assets/kids.jpg') },
+// ];
+
 const categories = [
-  { id: '1', name: 'Clubs', image: require('../assets/club.jpg') },
-  { id: '2', name: 'Apparel', image: require('../assets/golfApparel.png') },
-  { id: '3', name: 'Accessories', image: require('../assets/accessories.jpg') },
-  { id: '4', name: 'Men', image: require('../assets/Men.jpg') },
-  { id: '5', name: 'Women', image: require('../assets/women.jpg') },
-  { id: '6', name: 'Kids', image: require('../assets/kids.jpg') },
+  { id: '1', name: 'Clubs', image: require('../assets/club.jpg'), isMainCategory: true },
+  { id: '2', name: 'Apparel', image: require('../assets/golfApparel.png'), isMainCategory: true },
+  { id: '3', name: 'Accessories', image: require('../assets/accessories.jpg'), isMainCategory: true },
+  { id: '4', name: 'Men', image: require('../assets/Men.jpg'), isSubCategory: true },
+  { id: '5', name: 'Women', image: require('../assets/women.jpg'), isSubCategory: true },
+  { id: '6', name: 'Kids', image: require('../assets/kids.jpg'), isSubCategory: true },
 ];
+
 
 export default function Shop({ navigation }) {
   const [searchText, setSearchText] = useState('');
 
+  // const onPressCategory = (category) => {
+  //   navigation.navigate('Product List', { categoryName: category.name })
+  //   console.log(`Pressed category: ${category.name}`);
+  // }
+
   const onPressCategory = (category) => {
-    navigation.navigate('Product List', { categoryName: category.name })
-    console.log(`Pressed category: ${category.name}`);
-  }
+    if (category.isMainCategory) {
+      // Handle navigation for mainCategory
+      navigation.navigate('Product List', { mainCategory: category.name });
+      console.log(`Pressed main category: ${category.name}`);
+    } else if (category.isSubCategory) {
+      // Handle navigation for subCategory
+      navigation.navigate('Product List', { subCategory: category.name });
+      console.log(`Pressed subcategory: ${category.name}`);
+    } else {
+      // Default or fallback logic (if needed)
+      console.log(`Unknown category type: ${category.name}`);
+    }
+  };
+  
 
   return (
     <View style={globalStyles.container}>

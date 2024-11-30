@@ -16,12 +16,17 @@ export default function Sell() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState('used');
-  const [category, setCategory] = useState('');
+  // const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false); // Local state for isEdit
-  const [imageUri, setImageUri] = useState(null)
+  const [imageUri, setImageUri] = useState('../assets/club.jpg');
   const [openCondition, setOpenCondition] = useState(false);
-  const [openCategory, setOpenCategory] = useState(false);
+  // const [openCategory, setOpenCategory] = useState(false);
+  const [openMainCategory, setOpenMainCategory] = useState(false);
+  const [openSubCategory, setOpenSubCategory] = useState(false);
+  const [mainCategory, setMainCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [price, setPrice] = useState('');
 
   const receiveImageUri = (uri) => {
     setImageUri(uri)
@@ -33,10 +38,21 @@ export default function Sell() {
     { label: 'Brand New', value: 'brandNew' },
   ];
 
-  const categories = [
+  // const categories = [
+  //   { label: 'Clubs', value: 'Clubs' },
+  //   { label: 'Apparel', value: 'Apparel' },
+  //   { label: 'Accessories', value: 'Accessories' },
+  //   { label: 'Men', value: 'Men' },
+  //   { label: 'Women', value: 'Women' },
+  //   { label: 'Kids', value: 'Kids' },
+  // ];
+  const mainCategories = [
     { label: 'Clubs', value: 'Clubs' },
     { label: 'Apparel', value: 'Apparel' },
     { label: 'Accessories', value: 'Accessories' },
+  ];
+  
+  const subCategories = [
     { label: 'Men', value: 'Men' },
     { label: 'Women', value: 'Women' },
     { label: 'Kids', value: 'Kids' },
@@ -54,8 +70,10 @@ export default function Sell() {
       setTitle(route.params.title || '');
       setDescription(route.params.description || '');
       setCondition(route.params.condition || 'used');
-      setCategory(route.params.category || '');
-      setImageUri(route.params.imageUri || '')
+      setMainCategory(route.params.category || '');
+      setSubCategory(route.params.subCategory || '');
+      setImageUri(route.params.imageUri || '../assets/club.jpg')
+      setPrice(route.params.price ||  '');
     } else {
       resetForm(); // Reset form fields for add mode
     }
@@ -65,9 +83,11 @@ export default function Sell() {
     setTitle('');
     setDescription('');
     setCondition('used');
-    setCategory('');
+    setMainCategory('');
+    setSubCategory('');
     setIsEdit(false);
-    setImageUri('')
+    setImageUri('../assets/club.jpg')
+    setPrice('');
   };
 
   async function handleImageData(uri){
@@ -87,7 +107,7 @@ export default function Sell() {
   }
 
 const handleSubmit = async () => {
-  if (!title || !description || !condition || !category || (!imageUri && !isEdit)) {
+  if (!title || !description || !condition || !mainCategory || !subCategory || !price ||(!imageUri && !isEdit)) {
     Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
     return;
   }
@@ -106,10 +126,12 @@ const handleSubmit = async () => {
       title,
       description,
       condition,
-      category,
+      mainCategory,
+      subCategory,
+      price,
       createdAt: isEdit ? route.params.createdAt : new Date(),
       ownerId: auth.currentUser.uid,
-      imageUri: uploadedImageUrl || route.params.imageUri
+      imageUri: uploadedImageUrl || '../assets/club.jpg'
     };
 
     if (isEdit) {
@@ -142,6 +164,14 @@ const handleSubmit = async () => {
         placeholder="Enter product title"
       />
 
+<Text style={globalStyles.label}>Price</Text>
+      <TextInput
+        style={globalStyles.input}
+        value={price}
+        onChangeText={setPrice}
+        placeholder="Enter product price"
+      />
+
       <Text style={globalStyles.label}>Description</Text>
       <TextInput
         style={[globalStyles.input, globalStyles.textArea]}
@@ -152,7 +182,7 @@ const handleSubmit = async () => {
         numberOfLines={4}
       />
 
-      <Text style={globalStyles.label}>Category</Text>
+      {/* <Text style={globalStyles.label}>Category</Text>
       <View style={{ width:'80%', zIndex: openCategory ? 2000 : 1 }}>
         <DropDownPicker
           open={openCategory}
@@ -163,7 +193,34 @@ const handleSubmit = async () => {
           placeholder="Select a category"
           style={globalStyles.picker}
         />
+      </View> */}
+
+      <Text style={globalStyles.label}>Main Category</Text>
+      <View style={{ width:'80%', zIndex: openMainCategory ? 2000 : 1 }}>
+        <DropDownPicker
+          open={openMainCategory}
+          value={mainCategory}
+          items={mainCategories}
+          setOpen={setOpenMainCategory}
+          setValue={setMainCategory}
+          placeholder="Select main category"
+          style={globalStyles.picker}
+        />
       </View>
+
+      <Text style={globalStyles.label}>Subcategory</Text>
+<View style={{ width: '80%', zIndex: openSubCategory ? 2000 : 1 }}>
+  <DropDownPicker
+    open={openSubCategory}
+    value={subCategory}
+    items={subCategories}
+    setOpen={setOpenSubCategory}
+    setValue={setSubCategory}
+    placeholder="Select a subcategory"
+    style={globalStyles.picker}
+  />
+</View>
+
 
       <Text style={globalStyles.label}>Condition</Text>
       <View style={{ width:'80%', zIndex: openCondition ? 2000 : 1 }}>
@@ -177,6 +234,9 @@ const handleSubmit = async () => {
           style={globalStyles.picker}
         />
       </View>
+
+
+
       <Button
         title={isEdit ? 'Update Product' : 'Add Product'}
         onPress={handleSubmit}

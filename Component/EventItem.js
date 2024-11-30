@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-native";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment } from "firebase/firestore";
 import { db, auth } from "../Firebase/firebaseSetup";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { isLikedByUser } from "../Firebase/firebaseHelper";
@@ -11,7 +11,9 @@ export default function EventItem({ item }) {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false); // State to track if the event is liked
+  const [likeCount, setLikeCount] = useState(0); // State to track the like count
   const currentUser = auth.currentUser;
+
 
   const fetchEvent = async () => {
     try {
@@ -19,7 +21,9 @@ export default function EventItem({ item }) {
       const eventSnapshot = await getDoc(eventDocRef);
 
       if (eventSnapshot.exists()) {
-        setEvent(eventSnapshot.data());
+        const eventData = eventSnapshot.data();
+        setEvent(eventData);
+        setLikeCount(eventData.likes || 0); // Initialize the like count
         // Check if the current user has liked the event
         if (currentUser && eventSnapshot.data().likedBy?.includes(currentUser.uid)) {
           setLiked(true);
@@ -45,19 +49,23 @@ export default function EventItem({ item }) {
       if (liked) {
         await updateDoc(eventRef, {
           likedBy: arrayRemove(currentUser.uid),
+          likes: increment(-1), // Decrement the like count
         });
         await updateDoc(userRef, {
-          interestedEvents: arrayRemove(item.id), // Remove the product ID from likedProducts
+          interestedEvents: arrayRemove(item.id), // Remove the event ID from likedEvent
         });
         setLiked(false);
+        setLikeCount((prev) => prev - 1);
       } else {
         await updateDoc(eventRef, {
           likedBy: arrayUnion(currentUser.uid),
+          likes: increment(1), // Increment the like count
         });
         await updateDoc(userRef, {
-          interestedEvents: arrayUnion(item.id), // Add the product ID to likedProducts
+          interestedEvents: arrayUnion(item.id), // Add the product ID to likedEvent
         });
         setLiked(true);
+        setLikeCount((prev) => prev + 1); // Update the local like count
       }
     } catch (error) {
       console.error("Error toggling like:", error);
