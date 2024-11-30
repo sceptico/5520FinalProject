@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const colors = {
-  headerBackground: 'rgba(105, 160, 0, 1)', 
+  // headerBackground: 'rgba(105, 160, 0, 1)', 
+  headerBackground: 'rgba(67, 163, 146, 0.9)',
   pageBackground: 'rgba(0, 0, 0, 0)', 
   darkPageBackground: 'rgba(220, 183, 173, 1)',
   headerText: 'rgba(255, 255, 255, 1)',
@@ -75,12 +76,12 @@ export const globalStyles = StyleSheet.create({
   categoryName: {
     marginTop: 5,
     fontSize: typography.body.fontSize,
-    color: colors.headerBackground,
+    color: 'rgba(31, 97, 76, 0.9)',
     fontWeight: 'bold',
   },
   listContainer: {
     flex: 1,
-    backgroundColor: colors.bkacjpageBackground,
+    backgroundColor: colors.pageBackground,
     alignItems: 'center',
     top: 10,
   },

@@ -2,7 +2,7 @@
 
 
 export default {
-    headerBackground: 'rgba(105, 160, 0, 1)', 
+    headerBackground: 'rgba(22, 146, 106, 0.9)', 
     pageBackground: 'rgba(0, 0, 0, 0)', 
     darkPageBackground: 'rgba(220, 183, 173, 1)',
     headerText: 'rgba(255, 255, 255, 1)',
@@ -16,7 +16,7 @@ export default {
     cancelButton: 'rgba(222, 16, 119, 1)',
     inputBorder: 'lightgrey',
     buttonText: 'rgba(245, 238, 11, 0.8)',
-    logoHeader:'rgba(105, 160, 0, 1)',
+    logoHeader:'rgba(22, 146, 106, 0.9)',
     logoHeaderBorderBottomColor:'rgba(255, 110, 0, 1)',
     tradeLogo:'rgba(255, 110, 0, 1)',
     searchBar: '#f0f0f0',

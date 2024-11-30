@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(80, 143, 142, 0.99)',
     padding: 10,
     borderRadius: 8,
-    height: 100,
-    width: 100,
+    height: 110,
+    width: 110,
 
     alignContent: 'center',
 
