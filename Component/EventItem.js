@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-native";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment, onSnapshot } from "firebase/firestore";
 import { db, auth } from "../Firebase/firebaseSetup";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { isLikedByUser } from "../Firebase/firebaseHelper";
+
+
 
 export default function EventItem({ item }) {
   const [event, setEvent] = useState(null);
@@ -14,29 +15,29 @@ export default function EventItem({ item }) {
   const [likeCount, setLikeCount] = useState(0); // State to track the like count
   const currentUser = auth.currentUser;
 
+  useEffect(() => {
+    const eventDocRef = doc(db, "Event", item.id);
 
-  const fetchEvent = async () => {
-    try {
-      const eventDocRef = doc(db, "Event", item.id); 
-      const eventSnapshot = await getDoc(eventDocRef);
-
-      if (eventSnapshot.exists()) {
-        const eventData = eventSnapshot.data();
+    const unsubscribe = onSnapshot(eventDocRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const eventData = snapshot.data();
         setEvent(eventData);
-        setLikeCount(eventData.likes || 0); // Initialize the like count
-        // Check if the current user has liked the event
-        if (currentUser && eventSnapshot.data().likedBy?.includes(currentUser.uid)) {
+        setLikeCount(eventData.likes || 0);
+        if (currentUser && eventData.likedBy?.includes(currentUser.uid)) {
           setLiked(true);
+        } else {
+          setLiked(false);
         }
       } else {
         console.log("Event not found.");
+        setEvent(null);
       }
-    } catch (error) {
-      console.error("Error fetching event:", error);
-    } finally {
       setLoading(false);
-    }
-  };
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
+  }, [item.id, currentUser]);
 
   const toggleLike = async () => {
     if (!currentUser) {
@@ -44,55 +45,30 @@ export default function EventItem({ item }) {
       return;
     }
     try {
-      const eventRef = doc(db, "Event", item.id); 
-      const userRef = doc(db, 'users', currentUser.uid);
+      const eventRef = doc(db, "Event", item.id);
+      const userRef = doc(db, "users", currentUser.uid);
+
       if (liked) {
         await updateDoc(eventRef, {
           likedBy: arrayRemove(currentUser.uid),
-          likes: increment(-1), // Decrement the like count
+          likes: increment(-1),
         });
         await updateDoc(userRef, {
-          interestedEvents: arrayRemove(item.id), // Remove the event ID from likedEvent
+          interestedEvents: arrayRemove(item.id),
         });
-        setLiked(false);
-        setLikeCount((prev) => prev - 1);
       } else {
         await updateDoc(eventRef, {
           likedBy: arrayUnion(currentUser.uid),
-          likes: increment(1), // Increment the like count
+          likes: increment(1),
         });
         await updateDoc(userRef, {
-          interestedEvents: arrayUnion(item.id), // Add the product ID to likedEvent
+          interestedEvents: arrayUnion(item.id),
         });
-        setLiked(true);
-        setLikeCount((prev) => prev + 1); // Update the local like count
       }
     } catch (error) {
       console.error("Error toggling like:", error);
     }
   };
-
-  useEffect(() => {
-    fetchEvent();
-  }, [item.id]); 
-
-  useEffect(() => {
-    const checkLiked = async () => {
-      // Check if the product is liked by the current user
-      if (!currentUser) {
-        setLiked(false);
-        return
-      }
-      try {
-        const isLiked = await isLikedByUser(item.id, currentUser.uid, "Event");
-        console.log('itemId:', item.id, 'isLiked:', isLiked);
-        setLiked(isLiked);
-      } catch (error) {
-        console.error('Error checking if product is liked:', error);
-      }
-    }
-    checkLiked();
-  }, [item.id, currentUser]);
 
   if (loading) {
     return (
@@ -148,6 +124,7 @@ export default function EventItem({ item }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   wrapper: {
