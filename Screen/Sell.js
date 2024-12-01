@@ -154,7 +154,8 @@ const handleSubmit = async () => {
 };
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.container}>
+    <ScrollView contentContainerStyle={{flexGrow:1}}>
+      <View style={globalStyles.container}>
        {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
 
 
@@ -257,7 +258,7 @@ const handleSubmit = async () => {
         color={Color.saveButton}
       /> */}
 
-<PressableItem
+    <PressableItem
       pressedFunction={handleSubmit}
       componentStyle={globalStyles.largePressable}
       pressedStyle={globalStyles.pressablePressed}
@@ -270,6 +271,7 @@ const handleSubmit = async () => {
        </View>
 
     </PressableItem>
+    </View>
     </ScrollView>
   );
 }
