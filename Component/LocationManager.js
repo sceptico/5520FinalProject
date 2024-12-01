@@ -113,10 +113,11 @@ export default function LocationManager() {
       ) : (
         <PressableItem
           pressedFunction={chooseLocationHandler}
-          componentStyle={globalStyles.pressable}
+          componentStyle={styles.locationPressable}
           pressedStyle={globalStyles.pressablePressed}
         >
-          <View style={{ borderRadius:10, padding:10, flexDirection: "row", width: 200, backgroundColor:Color.headerBackground }}>
+        
+            <View style={globalStyles.detailRow}>
             <FontAwesome
               name={route.name === "Event" ? "search" : "map-marker"}
               size={16}
@@ -126,7 +127,9 @@ export default function LocationManager() {
             <Text style={{ color:'white', left: 30 }}>
               {route.name === "Event" ? "View Nearby Events" : "Choose My Location"}
             </Text>
-          </View>
+            </View>
+          
+        
         </PressableItem>
       )}
     </View>
@@ -140,4 +143,23 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
   },
+
+  detailRow: {
+    flexDirection: "row",
+    alignItems: 'center',
+    width:'50%'
+  },
+
+  locationPressable: {
+    backgroundColor: Color.headerBackground,
+    width:"80%",
+    borderRadius: 20,
+    padding: 10,
+    marginVertical: 5,
+    justifyContent: 'center',
+    position: 'relative',
+    alignItems: 'center',
+    marginLeft: 40,
+  }
+
 });

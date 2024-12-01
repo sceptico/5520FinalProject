@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TextInput, View, Button, ActivityIndicator, Alert } from 'react-native';
+import { Text, TextInput, View, Button, ActivityIndicator, Alert,ScrollView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { globalStyles } from '../Style/Styles';
 import Color from '../Style/Color';
@@ -8,6 +8,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { auth, storage } from '../Firebase/firebaseSetup';
 import ImageManager from '../Component/ImageManager';
 import { ref, uploadBytesResumable } from 'firebase/storage'
+import PressableItem from '../Component/PressableItem';
 
 export default function Sell() {
   const route = useRoute();
@@ -153,21 +154,26 @@ const handleSubmit = async () => {
 };
 
   return (
-    <View style={globalStyles.container}>
-      {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
-      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
+    <ScrollView contentContainerStyle={globalStyles.container}>
+       {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
+
+
       <Text style={globalStyles.label}>Title</Text>
       <TextInput
         style={globalStyles.input}
         value={title}
         onChangeText={setTitle}
+  
         placeholder="Enter product title"
+        textSize={14}
       />
+
 
 <Text style={globalStyles.label}>Price</Text>
       <TextInput
         style={globalStyles.input}
         value={price}
+        textSize={14}
         onChangeText={setPrice}
         placeholder="Enter product price"
       />
@@ -178,25 +184,13 @@ const handleSubmit = async () => {
         value={description}
         onChangeText={setDescription}
         placeholder="Enter product description"
+        textSize={14}
         multiline
         numberOfLines={4}
       />
 
-      {/* <Text style={globalStyles.label}>Category</Text>
-      <View style={{ width:'80%', zIndex: openCategory ? 2000 : 1 }}>
-        <DropDownPicker
-          open={openCategory}
-          value={category}
-          items={categories}
-          setOpen={setOpenCategory}
-          setValue={setCategory}
-          placeholder="Select a category"
-          style={globalStyles.picker}
-        />
-      </View> */}
-
       <Text style={globalStyles.label}>Main Category</Text>
-      <View style={{ width:'80%', zIndex: openMainCategory ? 2000 : 1 }}>
+      <View style={{ width:'100%', zIndex: openMainCategory ? 2000 : 1 }}>
         <DropDownPicker
           open={openMainCategory}
           value={mainCategory}
@@ -204,12 +198,17 @@ const handleSubmit = async () => {
           setOpen={setOpenMainCategory}
           setValue={setMainCategory}
           placeholder="Select main category"
+          textStyle={{
+            textAlign: 'left', 
+            color: condition ? 'black' : 'gray', 
+            fontSize: 14, 
+          }}
           style={globalStyles.picker}
         />
       </View>
 
       <Text style={globalStyles.label}>Subcategory</Text>
-<View style={{ width: '80%', zIndex: openSubCategory ? 2000 : 1 }}>
+<View style={{ width: '100%', zIndex: openSubCategory ? 2000 : 1 }}>
   <DropDownPicker
     open={openSubCategory}
     value={subCategory}
@@ -217,13 +216,18 @@ const handleSubmit = async () => {
     setOpen={setOpenSubCategory}
     setValue={setSubCategory}
     placeholder="Select a subcategory"
+    textStyle={{
+      textAlign: 'left', 
+      color: condition ? 'black' : 'gray', 
+      fontSize: 14, 
+    }}
     style={globalStyles.picker}
   />
 </View>
 
 
       <Text style={globalStyles.label}>Condition</Text>
-      <View style={{ width:'80%', zIndex: openCondition ? 2000 : 1 }}>
+      <View style={{ width:'100%', zIndex: openCondition ? 2000 : 1 }}>
         <DropDownPicker
           open={openCondition}
           value={condition}
@@ -231,17 +235,41 @@ const handleSubmit = async () => {
           setOpen={setOpenCondition}
           setValue={setCondition}
           placeholder="Select condition"
+          // textStyle={{ fontSize: 16 }}
           style={globalStyles.picker}
+         textStyle={{
+            textAlign: 'left', 
+            color: condition ? 'black' : 'gray', 
+            fontSize: 14, 
+          }}
         />
       </View>
 
 
 
-      <Button
+      <Text style={globalStyles.label}>Add Photos</Text>
+      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
+
+
+      {/* <Button
         title={isEdit ? 'Update Product' : 'Add Product'}
         onPress={handleSubmit}
         color={Color.saveButton}
-      />
-    </View>
+      /> */}
+
+<PressableItem
+      pressedFunction={handleSubmit}
+      componentStyle={globalStyles.largePressable}
+      pressedStyle={globalStyles.pressablePressed}
+    >
+       <View style={globalStyles.detailRow}>
+       <Text style={{ color:'white', left:90, fontSize: 16 }}>
+
+        {isEdit ? 'Update Product' : 'Add Product'}
+      </Text>
+       </View>
+
+    </PressableItem>
+    </ScrollView>
   );
 }

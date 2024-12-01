@@ -34,6 +34,7 @@ export default function Event({ navigation }) {
   return (
     <>
       {/* Location Manager for map or geolocation */}
+      
       <LocationManager />
 
       <View style={globalStyles.container}>

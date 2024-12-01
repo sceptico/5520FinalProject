@@ -59,53 +59,59 @@ export default function Home() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <FlatList
-          data={images}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          ref={flatListRef}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => onNavigate(item.screen)}>
-              <Image source={item.src} style={styles.image} />
-            </TouchableOpacity>
-          )}
-          onScrollToIndexFailed={() => {}}
-        />
-        <View style={styles.row}>
-          <Weather />
-          <View style={styles.featuredEventContainer}>
-            {featuredEvent ? (
-              <View style={styles.featuredEventContent}>
-                <View style={styles.featuredEventDateContainer}>
-                  <View style={styles.dateRow}>
-                    <Text style={styles.featuredEventDay}>
-                      {new Date(featuredEvent.date.seconds * 1000).getDate()}
-                    </Text>
-                    <Text style={styles.featuredEventMonth}>
-                      {new Intl.DateTimeFormat('en-US', { month: 'short' }).format(
-                        new Date(featuredEvent.date.seconds * 1000)
-                      )}
-                    </Text>
+    <View style={styles.container}>
+      <FlatList
+        data={images}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              ref={flatListRef}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => onNavigate(item.screen)}>
+                  <Image source={item.src} style={styles.image} />
+                </TouchableOpacity>
+              )}
+              onScrollToIndexFailed={() => {}}
+            />
+            <View style={styles.row}>
+              <Weather />
+              <View style={styles.featuredEventContainer}>
+                {featuredEvent ? (
+                  <View style={styles.featuredEventContent}>
+                    <View style={styles.featuredEventDateContainer}>
+                      <View style={styles.dateRow}>
+                        <Text style={styles.featuredEventDay}>
+                          {new Date(featuredEvent.date.seconds * 1000).getDate()}
+                        </Text>
+                        <Text style={styles.featuredEventMonth}>
+                          {new Intl.DateTimeFormat('en-US', { month: 'short' }).format(
+                            new Date(featuredEvent.date.seconds * 1000)
+                          )}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.featuredEventDetailsContainer}>
+                      <Text style={styles.featuredEventTitle}>{featuredEvent.name}</Text>
+                      <Text style={styles.featuredEventLikes}>Likes: {featuredEvent.likes}</Text>
+                    </View>
                   </View>
-                </View>
-                <View style={styles.featuredEventDetailsContainer}>
-                  <Text style={styles.featuredEventTitle}>{featuredEvent.name}</Text>
-                  <Text style={styles.featuredEventLikes}>Likes: {featuredEvent.likes}</Text>
-                </View>
+                ) : (
+                  <Text style={styles.loadingText}>Loading...</Text>
+                )}
               </View>
-            ) : (
-              <Text style={styles.loadingText}>Loading...</Text>
-            )}
-          </View>
-        </View>
-        <ProductList mode="latest" navigation={navigation}/>
-      </View>
-    </ScrollView>
+            </View>
+      
+          <ProductList mode="latest" navigation={navigation} />
+
+    </View>
+        </ScrollView>
   );
 }
+
+
+
+
 
 
 

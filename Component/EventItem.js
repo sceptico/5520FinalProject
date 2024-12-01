@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    right: 5,
+   left: 5,
     top: 5,
   },
   loader: {

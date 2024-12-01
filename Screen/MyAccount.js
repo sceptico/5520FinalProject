@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
-    width:'90%',
+    marginTop: 10,
+    width:'70%',
   },
   button: {
     backgroundColor: Color.headerBackground,

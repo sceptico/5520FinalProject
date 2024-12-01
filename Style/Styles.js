@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const colors = {
   // headerBackground: 'rgba(105, 160, 0, 1)', 
-  headerBackground: 'rgba(67, 163, 146, 0.9)',
+  headerBackground: 'rgba(22, 146, 106, 0.9)',
   pageBackground: 'rgba(0, 0, 0, 0)', 
   darkPageBackground: 'rgba(220, 183, 173, 1)',
   headerText: 'rgba(255, 255, 255, 1)',
@@ -47,8 +47,9 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.pageBackground,
-    alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
   searchBar: {
     height: 40,
@@ -103,10 +104,9 @@ export const globalStyles = StyleSheet.create({
     // marginVertical: spacing.medium,
   },
   label: {
-    fontSize: typography.subtitle.fontSize,
-    fontWeight: typography.subtitle.fontWeight,
-    color: colors.darkText,
-    marginBottom: spacing.small,
+    fontSize: 15,
+    color: 'rgba(41, 88, 87, 0.99)',
+
   },
   authPage: {
     flex: 1,
@@ -130,7 +130,9 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: spacing.medium,
     fontSize: typography.body.fontSize,
-    width: '80%',
+    width: '100%',
+
+
   },
 
   textArea: {
@@ -196,7 +198,25 @@ export const globalStyles = StyleSheet.create({
   },
   buttonContainer: {
     padding:10
+  },
+  detailRow: {
+    flexDirection: "row",
+    alignItems: 'center',
+    width:'80%',
+  },
+
+  largePressable: {
+    backgroundColor: colors.headerBackground,
+    width:"100%",
+    borderRadius: 20,
+    padding: 10,
+    marginVertical: 5,
+    justifyContent: 'center',
+    position: 'relative',
+    alignItems: 'center',
   }
+   
+
 
 
 
