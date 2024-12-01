@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { getItem, updateDocument } from '../Firebase/firebaseHelper';
 import { auth, db, storage } from '../Firebase/firebaseSetup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, arrayRemove, increment } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import NotificationManager from '../Component/NotificationManager';
 
@@ -18,6 +18,7 @@ export default function EventDetail() {
   const [loading, setLoading] = useState(true);
   const [interested, setInterested] = useState(false); // Track user interest
   const [downloadURL, setDownloadURL] = useState(''); // Store image URL
+
   // const [reminderTime, setReminderTime] = useState(null)
 
   useEffect(() => {
@@ -63,28 +64,40 @@ export default function EventDetail() {
   }, [itemId]);
 
   const handleInterest = async () => {
-    if (!currentUser) {
-      Alert.alert('Please login to mark your interest in this event');
-      navigation.navigate('Login');
-      return;
+    if (!currentUser || !currentUser.uid) {
+        Alert.alert('Please log in to mark your interest in this event');
+        navigation.navigate('Login');
+        return;
     }
 
     try {
-      const userRef = doc(db, 'users', currentUser.uid);
-      if (interested) {
-        await updateDoc(userRef, {
-          interestedEvents: arrayRemove(itemId),
-        });
-      } else {
-        await updateDoc(userRef, {
-          interestedEvents: arrayUnion(itemId),
-        });
-      }
-      setInterested(!interested);
+        const eventRef = doc(db, "Event", itemId);
+        const userRef = doc(db, 'users', currentUser.uid);
+
+        if (interested) {
+            await updateDoc(userRef, {
+                interestedEvents: arrayRemove(itemId),
+            });
+            await updateDoc(eventRef, {
+                likedBy: arrayRemove(currentUser.uid),
+                likes: increment(-1), // Decrement the like count
+            });
+        } else {
+            await updateDoc(userRef, {
+                interestedEvents: arrayUnion(itemId),
+            });
+            await updateDoc(eventRef, {
+                likedBy: arrayUnion(currentUser.uid),
+                likes: increment(1), // Increment the like count
+            });
+        }
+
+        setInterested(!interested);
     } catch (error) {
-      console.error('Error updating interest:', error);
+        console.error('Error updating interest:', error);
     }
-  };
+};
+
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;

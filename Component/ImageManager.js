@@ -1,21 +1,23 @@
-import { StyleSheet, Image, View, Button } from 'react-native'
-import React, {useState, useEffect} from 'react'
-import * as ImagePicker from 'expo-image-picker'
-import { storage } from '../Firebase/firebaseSetup'
-import { ref, getDownloadURL } from "firebase/storage"
 
-export default function ImageManager({receiveImageUri, initialUri}) {
-  const [response, requestPermission] = ImagePicker.useCameraPermissions()
-  const [imageUri, setImageUri] = useState(initialUri || "")
+import { StyleSheet, Image, View, Alert, Modal, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../Firebase/firebaseSetup';
+import { ref, getDownloadURL } from 'firebase/storage';
+import PressableItem from './PressableItem';
+import { Ionicons } from '@expo/vector-icons';
+
+export default function ImageManager({ receiveImageUri, initialUri }) {
+  const [response, requestPermission] = ImagePicker.useCameraPermissions();
+  const [imageUri, setImageUri] = useState(initialUri || '');
+  const [modalVisible, setModalVisible] = useState(false);
 
   async function verifyPermission() {
-    //check if user has given permission
-    //return true if permission granted
     if (response.granted) {
-      return true
+      return true;
     }
-    const permissionResponse = await requestPermission()
-    return permissionResponse.granted
+    const permissionResponse = await requestPermission();
+    return permissionResponse.granted;
   }
 
   useEffect(() => {
@@ -24,9 +26,9 @@ export default function ImageManager({receiveImageUri, initialUri}) {
         const url = await fetchDownloadUrl(initialUri);
         setImageUri(url);
       };
-    fetchUrl();
+      fetchUrl();
     } else {
-      setImageUri('')
+      setImageUri('');
     }
   }, [initialUri]);
 
@@ -36,46 +38,158 @@ export default function ImageManager({receiveImageUri, initialUri}) {
       const url = await getDownloadURL(imageRef);
       return url;
     } catch (error) {
-      console.error("Error fetching download URL:", error);
+      console.error('Error fetching download URL:', error);
     }
   }
 
   async function takeImageHandler() {
     try {
-      //call verify permission
-      const hasPermission = await verifyPermission()
+      const hasPermission = await verifyPermission();
       if (!hasPermission) {
-        Alert.alert('Permission required', 'You need to grant camera permissions to use this feature', [{text:'Okay'}])
-        return
+        Alert.alert(
+          'Permission required',
+          'You need to grant camera permissions to use this feature',
+          [{ text: 'Okay' }]
+        );
+        return;
       }
-      const result = await ImagePicker.launchCameraAsync(
-        {allowsEditing:true}
-      )
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+      });
       if (!result.canceled) {
-        setImageUri(result.assets[0].uri)
-        //imageUri is still empty in the render
-        receiveImageUri(result.assets[0].uri)
+        setImageUri(result.assets[0].uri);
+        receiveImageUri(result.assets[0].uri);
+        setModalVisible(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
+
+  async function pickImageHandler() {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+      });
+      if (!result.canceled) {
+        setImageUri(result.assets[0].uri);
+        receiveImageUri(result.assets[0].uri);
+        setModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <View style={{margin:10}}>
-      <Button title='Take an image' onPress={takeImageHandler}/>
+    <View style={{ margin: 10 }}>
+
+      {/* Gallery Button */}
+      <PressableItem
+        pressedFunction={() => setModalVisible(true)}
+        componentStyle={styles.galleryButton}
+        pressedStyle={styles.galleryButtonPressed}
+      >
+        <Ionicons name="images" size={30} color="white" />
+      </PressableItem>
+
       {imageUri && (
-      <Image source={{uri:imageUri}} 
-      style={styles.image}
-      alt="preview of the image user has taken"/>
+        <Image
+          source={{ uri: imageUri }}
+          style={styles.image}
+          alt="preview of the image user has taken"
+        />
       )}
+
+      {/* Modal for Choosing Action */}
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choose an Action</Text>
+            <PressableItem
+              pressedFunction={takeImageHandler}
+              componentStyle={styles.modalButton}
+              pressedStyle={styles.modalButtonPressed}
+            >
+              <Ionicons name="camera" size={25} color="white" />
+              <Text style={styles.modalButtonText}>Take a Picture</Text>
+            </PressableItem>
+            <PressableItem
+              pressedFunction={pickImageHandler}
+              componentStyle={styles.modalButton}
+              pressedStyle={styles.modalButtonPressed}
+            >
+              <Ionicons name="images" size={25} color="white" />
+              <Text style={styles.modalButtonText}>Pick from Gallery</Text>
+            </PressableItem>
+            <PressableItem
+              pressedFunction={() => setModalVisible(false)}
+              componentStyle={styles.modalButton}
+              pressedStyle={styles.modalButtonPressed}
+            >
+              <Text style={styles.modalButtonText}>Cancel</Text>
+            </PressableItem>
+          </View>
+        </View>
+      </Modal>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   image: {
-    width: 150,
-    height: 150,
-    margin:10
+    width: 50,
+    height: 50,
+    margin: 10,
   },
-})
+
+  galleryButton: {
+    backgroundColor: 'rgba(70, 130, 180, 0.3)',
+    padding: 15,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+  },
+  galleryButtonPressed: {
+    backgroundColor: '#4682B4',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(70, 130, 180, 0.9)',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  modalButtonPressed: {
+    backgroundColor: '#4682B4',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    marginLeft: 10,
+  },
+});

@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import * as Location from "expo-location";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Weather() {
   const [weatherData, setWeatherData] = useState(null);
@@ -69,42 +69,52 @@ export default function Weather() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Weather</Text>
-      <Text style={styles.info}>
-        {weatherData.name || "Unknown Location"}, {weatherData.sys?.country || "Unknown Country"}
-      </Text>
-      <Text style={styles.info}>
-        Temperature: {weatherData.main?.temp?.toFixed(1) ?? "N/A"}°C
-      </Text>
-      <Text style={styles.info}>
-        {weatherData.weather?.[0]?.description ?? "No description available"}
-      </Text>
-    </View>
+    <LinearGradient
+      colors={["rgba(20, 55, 101, 0.89)", "rgba(36, 172, 95, 0.89)"]} 
+      style={styles.gradientContainer}
+    >
+      <View style={styles.container}>
+        {/* <Text style={styles.title}>Weather</Text> */}
+        <Text style={styles.info}>
+          {weatherData.name || "Unknown Location"} 
+          {/* {weatherData.sys?.country || "Unknown Country"} */}
+        </Text>
+        <Text style={styles.temp}>
+          {weatherData.main?.temp?.toFixed(1) ?? "N/A"}°C
+        </Text>
+        <Text style={styles.info}>
+          {weatherData.weather?.[0]?.description ?? "No description available"}
+        </Text>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: "50%",
-    width: "50%",
-    backgroundColor: "#fff",
-    alignItems: "left",
+  gradientContainer: {
+    alignItems: "center",
     justifyContent: "center",
-    padding: 20,
     borderRadius: 40,
-    
-    
+    height: 120,
+    width: "38%",
   },
-  title: {
-    fontSize: 20,
+  container: {
+    height: "95%",
+    width: "100%",
+    padding: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  temp: {
+    fontSize: 35,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#fff",
   },
   info: {
-    fontSize: 16,
-  
+    fontSize: 15,
+    marginBottom: 5,
+    color: "#fff", 
   },
   errorText: {
     color: "red",

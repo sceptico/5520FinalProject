@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   avatar: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     borderRadius: 50,
     marginRight: 10,
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   profileDetail: {
     padding: 10,
-    backgroundColor:'lightgray',
+    backgroundColor:'rgba(225, 238, 214, 1)',
     borderRadius: 10,
     alignItems:'center',
     shadowColor: "#000",
@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
-    width:'90%',
+    marginTop: 10,
+    width:'70%',
   },
   button: {
     backgroundColor: Color.headerBackground,
