@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ActivityIndicator, Alert } from "react-native";
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment, onSnapshot } from "firebase/firestore";
