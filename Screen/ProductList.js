@@ -21,6 +21,13 @@ export default function ProductList({ navigation, route, mode = 'default' }) {
   ];
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getItems();
+    });
+    return unsubscribe;
+  } , [navigation]);
+
+  useEffect(() => {
     if (mode === 'default') {
       if (mainCategory) {
         setFilters([

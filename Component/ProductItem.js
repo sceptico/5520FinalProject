@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Image, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { auth, db, storage} from '../Firebase/firebaseSetup';
-import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, arrayRemove,onSnapshot } from 'firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { isLikedByUser } from '../Firebase/firebaseHelper';
@@ -28,46 +28,47 @@ export default function ProductItem({ item }) {
   }, [item])
 
   useEffect(() => {
-    const checkLiked = async () => {
-      // Check if the product is liked by the current user
-      if (!currentUser) {
-        setLiked(false);
-        return
+    if (!currentUser) return;
+  
+    const userRef = doc(db, 'users', currentUser.uid);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        const likedProducts = userData.likedProducts || [];
+        setLiked(likedProducts.includes(item.id));
       }
-      try {
-        const isLiked = await isLikedByUser(item.id, currentUser.uid, "Product");
-        console.log('itemId:', item.id, 'isLiked:', isLiked);
-        setLiked(isLiked);
-      } catch (error) {
-        console.error('Error checking if product is liked:', error);
-      }
-    }
-    checkLiked();
-  }, [item.id, currentUser]);
+    });
+  
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, [currentUser, item.id]);
+  
 
-  const handleLikeToggle = async () => {
+  const handleLike = async ({ productId, itemId }) => {
     if (!currentUser) {
       Alert.alert('Please login to like this product');
       return;
     }
+  
     try {
       const userRef = doc(db, 'users', currentUser.uid);
-
+      const id = productId || itemId;
+  
       if (liked) {
         await updateDoc(userRef, {
-          likedProducts: arrayRemove(item.id), // Remove the product ID from likedProducts
+          likedProducts: arrayRemove(id),
         });
-        setLiked(false);
       } else {
         await updateDoc(userRef, {
-          likedProducts: arrayUnion(item.id), // Add the product ID to likedProducts
+          likedProducts: arrayUnion(id),
         });
-        setLiked(true);
       }
+  
+      setLiked(!liked); // Toggle state
     } catch (error) {
       console.error('Error toggling like:', error);
     }
   };
+  
 
   return (
     <View style={styles.wrapper}>
@@ -96,7 +97,7 @@ export default function ProductItem({ item }) {
             name={liked ? 'heart' : 'heart-o'}
             size={24}
             color={liked ? 'red' : 'black'}
-            onPress={handleLikeToggle}
+            onPress={() => handleLike({ productId: item.id })}
           />
         </View>
       </View>
