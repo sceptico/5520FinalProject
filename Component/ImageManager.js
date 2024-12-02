@@ -125,7 +125,8 @@ export default function ImageManager({ receiveImageUri, initialUri }) {
             </PressableItem>
             <PressableItem
               pressedFunction={() => setModalVisible(false)}
-              componentStyle={styles.modalButton}
+              componentStyle={[styles.modalButton,
+                 { backgroundColor: 'rgba(0, 0, 11, 0.41)' }]}  
               pressedStyle={styles.modalButtonPressed}
             >
               <Text style={styles.modalButtonText}>Cancel</Text>

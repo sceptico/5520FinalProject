@@ -202,11 +202,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.headerBackground,
     borderRadius: 5,
     padding: 10,
-    width: "30%",
+    width: "40%",
   },
   buttonText: {
     color: "white",
     textAlign: 'center',
+    fontSize:16,
   },
   locationContainer: {
     marginTop: 10,
