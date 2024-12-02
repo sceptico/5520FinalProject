@@ -1,6 +1,6 @@
 # Project README
 
-### Iteration 3: Functionalities Implemented
+# Iteration 3: Functionalities Implemented
 
 ## Functionalities Included
 
