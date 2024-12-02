@@ -74,6 +74,8 @@ export default function Home() {
               )}
               onScrollToIndexFailed={() => {}}
             />
+       </View>
+
             <View style={styles.row}>
               <Weather />
               <View style={styles.featuredEventContainer}>
@@ -103,8 +105,7 @@ export default function Home() {
             </View>
       
           <ProductList mode="latest" navigation={navigation} />
-
-    </View>
+  
         </ScrollView>
   );
 }
