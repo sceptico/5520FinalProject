@@ -154,7 +154,8 @@ const handleSubmit = async () => {
 };
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.container}>
+    <ScrollView contentContainerStyle={{flexGrow:1}}>
+      <View style={globalStyles.container}>
        {loading && <ActivityIndicator size="large" color={Color.saveButton} />}
 
 
@@ -250,7 +251,6 @@ const handleSubmit = async () => {
       <Text style={globalStyles.label}>Add Photos</Text>
       <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
 
-
 <PressableItem
       pressedFunction={handleSubmit}
       componentStyle={globalStyles.largePressable}
@@ -264,6 +264,7 @@ const handleSubmit = async () => {
        </View>
 
     </PressableItem>
+    </View>
     {/* Cancel Button */}
 {isEdit && (
   <PressableItem
@@ -278,7 +279,6 @@ const handleSubmit = async () => {
     </View>
   </PressableItem>
 )}
-
     </ScrollView>
   );
 }

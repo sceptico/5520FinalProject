@@ -48,8 +48,7 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.pageBackground,
     paddingTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    marginHorizontal:20
   },
   searchBar: {
     height: 40,

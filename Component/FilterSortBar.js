@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Modal, Pressable, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import PressableItem from "./PressableItem";
+import Color from "../Style/Color";
 
 const FilterSortBar = ({ filters, sortOptions, onFilterChange, onSortChange }) => {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -19,15 +21,23 @@ const FilterSortBar = ({ filters, sortOptions, onFilterChange, onSortChange }) =
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonContainer}>
       {/* Filter Button */}
-      <Pressable style={styles.button} onPress={() => setFilterModalVisible(true)}>
+      <PressableItem 
+      title="Filter" pressedFunction={() => setFilterModalVisible(true)} 
+      componentStyle={styles.button}
+      >
         <Text style={styles.buttonText}>Filter</Text>
-      </Pressable>
+      </PressableItem>
 
       {/* Sort Button */}
-      <Pressable style={styles.button} onPress={() => setSortModalVisible(true)}>
+      <PressableItem
+        title="Sort" pressedFunction={() => setSortModalVisible(true)}
+        componentStyle={styles.button}
+      >
         <Text style={styles.buttonText}>Sort</Text>
-      </Pressable>
+      </PressableItem>
+      </View>
 
       {/* Filter Modal */}
       <Modal visible={filterModalVisible} animationType="slide" transparent={true}>
@@ -89,13 +99,12 @@ const FilterSortBar = ({ filters, sortOptions, onFilterChange, onSortChange }) =
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: 'center',
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#f9f9f9",
   },
   button: {
-    backgroundColor: "#007bff",
+    backgroundColor: Color.headerBackground,
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
@@ -143,6 +152,12 @@ const styles = StyleSheet.create({
   doneButtonText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  buttonContainer: {
+    flex:1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });
 
