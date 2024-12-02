@@ -251,27 +251,36 @@ const handleSubmit = async () => {
       <Text style={globalStyles.label}>Add Photos</Text>
       <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
 
-
-      {/* <Button
-        title={isEdit ? 'Update Product' : 'Add Product'}
-        onPress={handleSubmit}
-        color={Color.saveButton}
-      /> */}
-
-    <PressableItem
+<PressableItem
       pressedFunction={handleSubmit}
       componentStyle={globalStyles.largePressable}
       pressedStyle={globalStyles.pressablePressed}
     >
        <View style={globalStyles.detailRow}>
-       <Text style={{ color:'white', left:90, fontSize: 16 }}>
+       <Text style={{ color:'white', left:100, fontSize: 16 }}>
 
-        {isEdit ? 'Update Product' : 'Add Product'}
+        {isEdit ? 'Update' : 'Add Product'}
       </Text>
        </View>
 
     </PressableItem>
     </View>
+    {/* Cancel Button */}
+{isEdit && (
+  <PressableItem
+    pressedFunction={() => navigation.goBack()} // Navigate to the previous page
+    componentStyle={[globalStyles.largePressable, { backgroundColor: 'gray', marginTop: 10 }]} // Gray background for Cancel button
+    pressedStyle={globalStyles.pressablePressed}
+  >
+    <View style={globalStyles.detailRow}>
+      <Text style={{ color: 'white', left: 100, fontSize: 16 }}>
+        Cancel
+      </Text>
+    </View>
+  </PressableItem>
+)}
     </ScrollView>
   );
 }
+
+

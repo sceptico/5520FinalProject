@@ -1,5 +1,19 @@
 # Project README
 
+# Iteration 3: Functionalities Implemented
+
+## Functionalities Included
+
+1. **Notification Management**
+- A notification feature has been added, enabling users to set reminders for specific events.
+- **Expo Notifications** is used to handle notification scheduling.
+- Users can select a reminder time (e.g., 5 minutes, 15 minutes, 1 hour) before an event using a dropdown menu.
+- Notifications include details such as event name and reminder message, ensuring timely alerts.
+- Firebase Firestore is used to store reminder data in the "Reminder" collection and update the user’s document with the reminder ID.
+- Sign-in is required to set reminders, linking them to the authenticated user’s account.
+
+
+
 # Iteration 2: Functionalities Implemented
 
 ## Functionalities Included
