@@ -75,11 +75,10 @@ export default function ProductItem({ item }) {
         {/* Product Image */}
         <View style={styles.photoContainer}>
           <Image
-            source={downloadURL? ({uri:downloadURL}) : require('../assets/club.jpg') }
+            source={downloadURL ? { uri: downloadURL } : require('../assets/club.jpg')}
             style={styles.photo}
           />
         </View>
-
   
         {/* Product Details */}
         <View style={styles.right}>

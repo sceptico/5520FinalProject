@@ -168,10 +168,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   confirmButton: {
-    backgroundColor: "blue",
+    backgroundColor: "rgba(22, 146, 106, 0.9)",
   },
   cancelButton: {
-    backgroundColor: "gray",
+    backgroundColor: "rgba(0, 0, 11, 0.41)",
   },
   buttonText: {
     color: "white",
