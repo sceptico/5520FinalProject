@@ -1,5 +1,19 @@
 # Project README
 
+## Firebase Database Rules and API Keys
+  - match /{document=**} {
+      allow read: if request.time < timestamp.date(2024, 12, 12);
+      allow write: if request.auth != null;
+    }
+    match /users/{userId} {
+    	allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    match /Product/{productId} {
+    	allow read: if request.time < timestamp.date(2024, 12, 12);
+    }
+
+  - Google Maps Key:AIzaSyDbtoksBI2YI7O1CDPoVSTS1X_Frep3rmg
+
 # Iteration 3: Functionalities Implemented
 
 ## Functionalities Included
@@ -50,20 +64,7 @@
 1. **Notifications**
    - Implementation of local notifications is planned for future iterations to improve user engagement and alertness.
 
-## Firebase Database Rules and API Keys
-  - match /{document=**} {
-      allow read: if request.time < timestamp.date(2024, 12, 12);
-      allow write: if request.auth != null;
-    }
-    match /users/{userId} {
-    	allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-    match /Product/{productId} {
-    	allow read: if request.time < timestamp.date(2024, 12, 12);
-    }
 
-
-  - Google Maps Key:AIzaSyDbtoksBI2YI7O1CDPoVSTS1X_Frep3rmg
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
 
