@@ -17,17 +17,21 @@ export default function Sell() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState('used');
-  // const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false); // Local state for isEdit
   const [imageUri, setImageUri] = useState('../assets/club.jpg');
   const [openCondition, setOpenCondition] = useState(false);
-  // const [openCategory, setOpenCategory] = useState(false);
   const [openMainCategory, setOpenMainCategory] = useState(false);
   const [openSubCategory, setOpenSubCategory] = useState(false);
   const [mainCategory, setMainCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
   const [price, setPrice] = useState('');
+
+  const [errors, setErrors] = useState({
+    title: '',
+    price: '',
+    description: '',
+  });
 
   const receiveImageUri = (uri) => {
     setImageUri(uri)
@@ -79,6 +83,38 @@ export default function Sell() {
     setPrice('');
   };
 
+
+
+  // Validation functions
+  const validateTitle = (text) => {
+    const wordCount = text.trim().split(/\s+/).length;
+    if (wordCount > 10) {
+      setErrors((prev) => ({ ...prev, title: 'Title cannot exceed 10 words.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, title: '' }));
+    }
+    setTitle(text);
+  };
+
+  const validatePrice = (text) => {
+    if (!/^\d+$/.test(text)) {
+      setErrors((prev) => ({ ...prev, price: 'Price must be a valid integer.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, price: '' }));
+    }
+    setPrice(text);
+  };
+
+  const validateDescription = (text) => {
+    const wordCount = text.trim().split(/\s+/).length;
+    if (wordCount < 10) {
+      setErrors((prev) => ({ ...prev, description: 'Description must be at least 10 words.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, description: '' }));
+    }
+    setDescription(text);
+  };
+
   async function handleImageData(uri){
     try {
       let uploadUrl = ""
@@ -100,6 +136,10 @@ const handleSubmit = async () => {
     Alert.alert('Missing Fields', 'Please fill in all fields before submitting.');
     return;
   }
+      if (errors.title || errors.price || errors.description) {
+      Alert.alert('Validation Error', 'Please fix the errors before submitting.');
+      return;
+    }
 
   setLoading(true);
 
@@ -151,32 +191,37 @@ const handleSubmit = async () => {
       <TextInput
         style={globalStyles.input}
         value={title}
-        onChangeText={setTitle}
+        // onChangeText={setTitle}
+        onChangeText={validateTitle}
   
         placeholder="Enter product title"
         textSize={14}
       />
-
+        {errors.title ? <Text style={globalStyles.errorText}>{errors.title}</Text> : null}
 
 <Text style={globalStyles.label}>Price</Text>
       <TextInput
         style={globalStyles.input}
         value={price}
         textSize={14}
-        onChangeText={setPrice}
+        // onChangeText={setPrice}
+        onChangeText={validatePrice}
         placeholder="Enter product price"
       />
+      {errors.price ? <Text style={globalStyles.errorText}>{errors.price}</Text> : null}
 
       <Text style={globalStyles.label}>Description</Text>
       <TextInput
         style={[globalStyles.input, globalStyles.textArea]}
         value={description}
-        onChangeText={setDescription}
+        // onChangeText={setDescription}
+        onChangeText={validateDescription}
         placeholder="Enter product description"
         textSize={14}
         multiline
         numberOfLines={4}
       />
+      {errors.description ? <Text style={globalStyles.errorText}>{errors.description}</Text> : null}
 
       <Text style={globalStyles.label}>Main Category</Text>
       <View style={{ width:'100%', zIndex: openMainCategory ? 2000 : 1 }}>
@@ -234,11 +279,6 @@ const handleSubmit = async () => {
         />
       </View>
 
-
-
-      {/* <Text style={globalStyles.label}>Add Photos</Text>
-      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} /> */}
-
 <Text style={globalStyles.label}>Add Photos</Text>
 <ImageManager 
   receiveImageUri={receiveImageUri} 
@@ -266,14 +306,11 @@ const handleSubmit = async () => {
         resetForm(); // Reset the form state
         navigation.navigate(route.params?.previousScreen || 'ProductDetail', {
         itemId: route.params?.id,
-        // imageUri: route.params?.imageUri,
-        // imageUri: await handleImageData(imageUri),
         imageUri: imageUri,
        
       });
     
       }}
-  // navigation.goBack()} // Navigate to the previous page
     componentStyle={[globalStyles.largePressable, { backgroundColor: 'gray', marginTop: 1 }]} // Gray background for Cancel button
     pressedStyle={globalStyles.pressablePressed}
   >

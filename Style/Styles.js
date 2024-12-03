@@ -213,11 +213,12 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
     alignItems: 'center',
-  }
+  },
    
-
-
-
+  errorText: {
+    color: colors.errorMessage,
+    marginBottom: 10,
+  },
 
 
 });
