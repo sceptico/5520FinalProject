@@ -125,7 +125,7 @@ export default function Signup({ navigation }) {
         secureTextEntry={true}
       />
       {passwordWarning ? (
-        <Text style={{ color: "red", marginBottom: 10 }}>{passwordWarning}</Text>
+        <Text style={globalStyles.errorText}>{passwordWarning}</Text>
       ) : null}
       <TextInput
         style={globalStyles.input}
