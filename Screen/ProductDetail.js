@@ -218,7 +218,7 @@ export default function ProductDetail() {
             <FontAwesome name={liked ? 'heart' : 'heart-o'} size={24} color={liked ? 'red' : 'black'} />
           </PressableItem>
         </View>
-  
+          <View style={styles.textContainer}>
         {/* Other Product Details */}
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.info}>Listed Date: {new Date(createdAt.seconds * 1000).toLocaleDateString()}</Text>
@@ -226,6 +226,7 @@ export default function ProductDetail() {
         <Text style={styles.info}>Price: ${price}</Text>
         <Text style={styles.info}>Seller: {ownerName}</Text>
       </View>
+    </View>
     </View>
     </ScrollView>
   );
@@ -278,10 +279,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
     marginBottom: 8,
+    textAlign: 'justify',
   },
   info: {
     fontSize: 14,
     color: '#888',
     marginBottom: 4,
+  },
+  textContainer: {
+    marginTop: 10,
+    alignContent: 'center',
   },
 });
