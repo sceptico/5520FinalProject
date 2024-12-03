@@ -11,6 +11,7 @@ import { arrayRemove, arrayUnion, updateDoc, onSnapshot } from 'firebase/firesto
 import { getDownloadURL, ref } from 'firebase/storage';
 import defaultImage from '../assets/club.jpg';
 import PressableItem from '../Component/PressableItem';
+import { ScrollView } from 'react-native';
 
 
 export default function ProductDetail() {
@@ -39,6 +40,9 @@ export default function ProductDetail() {
     }
     getImageDownloadURL();
   }, [route.params]);
+
+
+  
 
 
   useEffect(() => {
@@ -156,6 +160,7 @@ export default function ProductDetail() {
     }
 
     navigation.navigate('Trade', {
+      previousScreen: 'ProductDetail',
       title: item.title,
       description: item.description,
       createdAt: item.createdAt,
@@ -164,19 +169,22 @@ export default function ProductDetail() {
       imageUri: item.imageUri,
       isEdit: true,
       id: itemId,
+  
     });
   };
 
   const isOwnedByCurrentUser = currentUser && item?.ownerId === currentUser.uid;
 
   return (
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+
     <View style={styles.container}>
       {/* Product Image */}
       <Image 
         source={downloadURL ? { uri: downloadURL } : defaultImage} 
         style={styles.image} 
       />
-  
+     
       <View style={styles.content}>
         {/* Title and Absolute Icons */}
         <View style={styles.titleRow}>
@@ -219,8 +227,11 @@ export default function ProductDetail() {
         <Text style={styles.info}>Seller: {ownerName}</Text>
       </View>
     </View>
+    </ScrollView>
   );
+ 
 }
+
 
 const styles = StyleSheet.create({
   container: {
