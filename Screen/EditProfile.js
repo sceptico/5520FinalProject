@@ -28,24 +28,6 @@ export default function EditProfile({navigation, route}) {
   }
   , [route.params])
 
-  // const updateProfile = async () => {
-  //   try {
-  //     const updatedData = {}
-  //     if (userName !== user.userName) updatedData.userName = userName
-  //     if (phone !== user.phone) updatedData.phone = phone
-
-  //     // Only update fields if they were changed
-  //     if (Object.keys(updatedData).length > 0) {
-  //       await updateDocument('users', uid, updatedData)
-  //       console.log('Profile updated successfully')
-  //     } else {
-  //       console.log('No changes made')
-  //     }
-  //     navigation.goBack()
-  //   } catch (error) {
-  //     console.error('Error updating profile:', error)
-  //   }
-  // }
 
   const handleUserNameChange = (text) => {
     setUserName(text)

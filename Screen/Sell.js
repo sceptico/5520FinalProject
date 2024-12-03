@@ -282,7 +282,7 @@ const handleSubmit = async () => {
 <Text style={globalStyles.label}>Add Photos</Text>
 <ImageManager 
   receiveImageUri={receiveImageUri} 
-  initialUri={isEdit && imageUri ? { uri: imageUri } : require('../assets/club.jpg')} 
+  initialUri={isEdit && imageUri ? { uri: imageUri } : ''} 
 />
 <PressableItem
       pressedFunction={handleSubmit}
