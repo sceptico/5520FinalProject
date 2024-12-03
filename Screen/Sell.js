@@ -39,14 +39,6 @@ export default function Sell() {
     { label: 'Brand New', value: 'brandNew' },
   ];
 
-  // const categories = [
-  //   { label: 'Clubs', value: 'Clubs' },
-  //   { label: 'Apparel', value: 'Apparel' },
-  //   { label: 'Accessories', value: 'Accessories' },
-  //   { label: 'Men', value: 'Men' },
-  //   { label: 'Women', value: 'Women' },
-  //   { label: 'Kids', value: 'Kids' },
-  // ];
   const mainCategories = [
     { label: 'Clubs', value: 'Clubs' },
     { label: 'Apparel', value: 'Apparel' },
@@ -58,10 +50,6 @@ export default function Sell() {
     { label: 'Women', value: 'Women' },
     { label: 'Kids', value: 'Kids' },
   ];
-
-  // const isEdit = route.params?.isEdit || false;
-  //const productId = route.params.id;
-  //console.log('route.params:', route.params);
 
   useEffect(() => {
     // Dynamically update isEdit when route.params changes
@@ -248,9 +236,14 @@ const handleSubmit = async () => {
 
 
 
-      <Text style={globalStyles.label}>Add Photos</Text>
-      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} />
+      {/* <Text style={globalStyles.label}>Add Photos</Text>
+      <ImageManager receiveImageUri={receiveImageUri} initialUri={isEdit ? imageUri : ""} /> */}
 
+<Text style={globalStyles.label}>Add Photos</Text>
+<ImageManager 
+  receiveImageUri={receiveImageUri} 
+  initialUri={isEdit && imageUri ? { uri: imageUri } : require('../assets/club.jpg')} 
+/>
 <PressableItem
       pressedFunction={handleSubmit}
       componentStyle={globalStyles.largePressable}
@@ -264,12 +257,19 @@ const handleSubmit = async () => {
        </View>
 
     </PressableItem>
-    </View>
+    
     {/* Cancel Button */}
 {isEdit && (
   <PressableItem
-    pressedFunction={() => navigation.goBack()} // Navigate to the previous page
-    componentStyle={[globalStyles.largePressable, { backgroundColor: 'gray', marginTop: 10 }]} // Gray background for Cancel button
+ 
+      pressedFunction={() => {
+        resetForm(); // Reset the form state
+        navigation.navigate(route.params?.previousScreen || 'ProductDetail', {
+        itemId: route.params?.id,});
+    
+      }}
+  // navigation.goBack()} // Navigate to the previous page
+    componentStyle={[globalStyles.largePressable, { backgroundColor: 'gray', marginTop: 1 }]} // Gray background for Cancel button
     pressedStyle={globalStyles.pressablePressed}
   >
     <View style={globalStyles.detailRow}>
@@ -278,7 +278,9 @@ const handleSubmit = async () => {
       </Text>
     </View>
   </PressableItem>
+  
 )}
+</View>
     </ScrollView>
   );
 }

@@ -7,10 +7,11 @@ import { getItem, deleteDocument, isLikedByUser } from '../Firebase/firebaseHelp
 import { auth, db, storage } from '../Firebase/firebaseSetup';
 import { doc, getDoc } from 'firebase/firestore';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { arrayRemove, arrayUnion, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, updateDoc, onSnapshot } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import defaultImage from '../assets/club.jpg';
 import PressableItem from '../Component/PressableItem';
+import { ScrollView } from 'react-native';
 
 
 export default function ProductDetail() {
@@ -39,6 +40,10 @@ export default function ProductDetail() {
     }
     getImageDownloadURL();
   }, [route.params]);
+
+
+  
+
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -73,20 +78,20 @@ export default function ProductDetail() {
   }, [item]);
 
   useEffect(() => {
-    const checkLiked = async () => {
-      if (!currentUser) {
-        setLiked(false);
-        return;
+    if (!currentUser) return;
+  
+    const userRef = doc(db, 'users', currentUser.uid);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        const likedProducts = userData.likedProducts || [];
+        setLiked(likedProducts.includes(itemId)); 
       }
-      try {
-        const isLiked = await isLikedByUser(itemId, currentUser.uid, 'Product');
-        setLiked(isLiked);
-      } catch (error) {
-        console.error('Error checking if product is liked:', error);
-      }
-    };
-    checkLiked();
-  }, [itemId, currentUser]);
+    });
+  
+    return () => unsubscribe(); 
+  }, [currentUser, itemId]); 
+  
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -98,28 +103,33 @@ export default function ProductDetail() {
 
   const { title, description, createdAt, condition, price } = item;
 
-  const handleLike = async () => {
+
+  const handleLike = async ({ productId, itemId }) => {
     if (!currentUser) {
       Alert.alert('Please login to like this product');
-      navigation.navigate('Login');
       return;
     }
+  
     try {
       const userRef = doc(db, 'users', currentUser.uid);
+      const id = productId || itemId;
+  
       if (liked) {
         await updateDoc(userRef, {
-          likedProducts: arrayRemove(itemId),
+          likedProducts: arrayRemove(id),
         });
       } else {
         await updateDoc(userRef, {
-          likedProducts: arrayUnion(itemId),
+          likedProducts: arrayUnion(id),
         });
       }
-      setLiked(!liked);
+  
+      setLiked(!liked); // Toggle state
     } catch (error) {
-      console.error('Error liking product:', error);
+      console.error('Error toggling like:', error);
     }
   };
+  
 
   const handleDelete = () => {
     Alert.alert(
@@ -150,6 +160,7 @@ export default function ProductDetail() {
     }
 
     navigation.navigate('Trade', {
+      previousScreen: 'ProductDetail',
       title: item.title,
       description: item.description,
       createdAt: item.createdAt,
@@ -158,19 +169,22 @@ export default function ProductDetail() {
       imageUri: item.imageUri,
       isEdit: true,
       id: itemId,
+  
     });
   };
 
   const isOwnedByCurrentUser = currentUser && item?.ownerId === currentUser.uid;
 
   return (
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+
     <View style={styles.container}>
       {/* Product Image */}
       <Image 
         source={downloadURL ? { uri: downloadURL } : defaultImage} 
         style={styles.image} 
       />
-  
+     
       <View style={styles.content}>
         {/* Title and Absolute Icons */}
         <View style={styles.titleRow}>
@@ -197,7 +211,7 @@ export default function ProductDetail() {
           )}
           {/* Like Icon */}
           <PressableItem 
-            pressedFunction={handleLike} 
+            pressedFunction={() => handleLike({ itemId })} 
             componentStyle={[styles.iconButton, styles.likeIcon]} 
             pressedStyle={styles.pressedIconButton}
           >
@@ -213,8 +227,11 @@ export default function ProductDetail() {
         <Text style={styles.info}>Seller: {ownerName}</Text>
       </View>
     </View>
+    </ScrollView>
   );
+ 
 }
+
 
 const styles = StyleSheet.create({
   container: {
