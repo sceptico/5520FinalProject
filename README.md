@@ -12,6 +12,14 @@
 - Firebase Firestore is used to store reminder data in the "Reminder" collection and update the user’s document with the reminder ID.
 - Sign-in is required to set reminders, linking them to the authenticated user’s account.
 
+<img src="https://github.com/user-attachments/assets/a1cb6500-775a-42d5-ad9a-8efcf8142621" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/0b3a87da-6ce1-4f87-8b18-ce7c94f2a217" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/f2e9cee4-d4a9-447e-b7dd-4aa0510f97de" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/56c323f6-d69c-4a66-9aae-136057862d4a" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/b2a6dea6-45da-485c-94de-630e4b35beeb" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/2c054412-0041-4d0f-a87b-208757b4cf76" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/ffe43ce5-bf30-441e-8ad8-decb4936858a" alt="Home Screen" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/806b6e88-0c13-49e7-8df6-10849eab1c41" alt="Home Screen" width="200" height="400" />
 
 
 # Iteration 2: Functionalities Implemented
@@ -53,6 +61,8 @@
     match /Product/{productId} {
     	allow read: if request.time < timestamp.date(2024, 12, 12);
     }
+
+
   - Google Maps Key:AIzaSyDbtoksBI2YI7O1CDPoVSTS1X_Frep3rmg
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
