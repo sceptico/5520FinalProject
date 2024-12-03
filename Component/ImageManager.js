@@ -20,13 +20,37 @@ export default function ImageManager({ receiveImageUri, initialUri }) {
     return permissionResponse.granted;
   }
 
+  // useEffect(() => {
+  //   if (initialUri) {
+  //     const fetchUrl = async () => {
+  //       const url = await fetchDownloadUrl(initialUri);
+  //       setImageUri(url);
+  //     };
+  //     fetchUrl();
+  //   } else {
+  //     setImageUri('');
+  //   }
+  // }, [initialUri]);
+
   useEffect(() => {
     if (initialUri) {
-      const fetchUrl = async () => {
-        const url = await fetchDownloadUrl(initialUri);
-        setImageUri(url);
-      };
-      fetchUrl();
+      if (typeof initialUri === 'string') {
+        // If initialUri is a Firebase Storage path
+        const fetchUrl = async () => {
+          try {
+            const url = await fetchDownloadUrl(initialUri);
+            setImageUri(url);
+          } catch (error) {
+            console.error('Error fetching download URL:', error);
+          }
+        };
+        fetchUrl();
+      } else if (typeof initialUri === 'object' && initialUri.uri) {
+        // If initialUri is a local file reference
+        setImageUri(initialUri.uri);
+      } else {
+        setImageUri('');
+      }
     } else {
       setImageUri('');
     }

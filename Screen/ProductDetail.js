@@ -42,9 +42,6 @@ export default function ProductDetail() {
   }, [route.params]);
 
 
-  
-
-
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -165,8 +162,11 @@ export default function ProductDetail() {
       description: item.description,
       createdAt: item.createdAt,
       condition: item.condition,
-      category: item.category,
-      imageUri: item.imageUri,
+      // category: item.category,
+      mainCategory: item.mainCategory,
+      subCategory: item.subCategory,
+      imageUri: downloadURL,
+      price: item.price,
       isEdit: true,
       id: itemId,
   
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '50%',
+    height: 300,
     resizeMode: 'cover',
   },
   content: {

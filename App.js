@@ -134,11 +134,13 @@ export default function App() {
 
         <Stack.Screen name="Product List" 
         component={ProductList} />
+
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}
           options={{ title: 'Product Details' }}
         />
+        
         <Stack.Screen
           name="EventDetail"
           component={EventDetail}
@@ -159,6 +161,12 @@ export default function App() {
           component={UserFavorite}
           options={{ headershown:false }}
         />
+        <Stack.Screen
+          name="Trade"
+          component={Sell}
+          options={{ headershown:false }}
+        />
+        
         <Stack.Screen
           name="Edit Profile"
           component={EditProfile}

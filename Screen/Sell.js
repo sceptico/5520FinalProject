@@ -59,7 +59,7 @@ export default function Sell() {
       setTitle(route.params.title || '');
       setDescription(route.params.description || '');
       setCondition(route.params.condition || 'used');
-      setMainCategory(route.params.category || '');
+      setMainCategory(route.params.mainCategory || '');
       setSubCategory(route.params.subCategory || '');
       setImageUri(route.params.imageUri || '../assets/club.jpg')
       setPrice(route.params.price ||  '');
@@ -126,7 +126,7 @@ const handleSubmit = async () => {
     if (isEdit) {
       await updateDocument('Product', route.params.id, productData);
       console.log('Product updated successfully!');
-      navigation.navigate('ProductDetail', { itemId: route.params.id, imageUri: route.params.imageUri });
+      navigation.navigate('ProductDetail', { itemId: route.params.id, imageUri: uploadedImageUrl });
     } else {
       await addDocument('Product', productData);
       console.log('Product added successfully!');
@@ -265,7 +265,12 @@ const handleSubmit = async () => {
       pressedFunction={() => {
         resetForm(); // Reset the form state
         navigation.navigate(route.params?.previousScreen || 'ProductDetail', {
-        itemId: route.params?.id,});
+        itemId: route.params?.id,
+        // imageUri: route.params?.imageUri,
+        // imageUri: await handleImageData(imageUri),
+        imageUri: imageUri,
+       
+      });
     
       }}
   // navigation.goBack()} // Navigate to the previous page

@@ -58,7 +58,7 @@ export default function Home() {
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
     <View style={styles.container}>
       <FlatList
         data={images}
@@ -74,7 +74,6 @@ export default function Home() {
               )}
               onScrollToIndexFailed={() => {}}
             />
-       </View>
 
             <View style={styles.row}>
               <Weather />
@@ -103,10 +102,11 @@ export default function Home() {
                 )}
               </View>
             </View>
+          </View>
       
           <ProductList mode="latest" navigation={navigation} />
   
-        </ScrollView>
+        </View>
   );
 }
 

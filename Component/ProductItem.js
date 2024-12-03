@@ -11,38 +11,38 @@ export default function ProductItem({ item }) {
   const [liked, setLiked] = useState(false);
   const [downloadURL, setDownloadURL] = useState('')
 
-  // useEffect(() => {
-  //   async function getImageDownloadURL() {
-  //     try {
-  //       if (item.imageUri) {
-  //         const imageRef = ref(storage, item.imageUri)
-  //         const downloadImageURL = await getDownloadURL(imageRef)
-  //         console.log('downloadImageURL', downloadImageURL)
-  //         setDownloadURL(downloadImageURL)
-  //       } 
-  //       } catch (error) {
-  //       console.log(error)
-  //   }
-  //   }
-  //   getImageDownloadURL()
-  // }, [item])
-
   useEffect(() => {
     async function getImageDownloadURL() {
       try {
-        if (imageUri && typeof imageUri === 'string') {
-          const imageRef = ref(storage, imageUri);
-          const downloadImageURL = await getDownloadURL(imageRef);
-          setImageUri(downloadImageURL); // Update imageUri with the valid download URL
-        } else {
-          console.log('Invalid or undefined imageUri:', imageUri);
-        }
-      } catch (error) {
-        console.error('Error fetching download URL:', error);
-      }
+        if (item.imageUri) {
+          const imageRef = ref(storage, item.imageUri)
+          const downloadImageURL = await getDownloadURL(imageRef)
+          console.log('downloadImageURL', downloadImageURL)
+          setDownloadURL(downloadImageURL)
+        } 
+        } catch (error) {
+        console.log(error)
     }
-    getImageDownloadURL();
-  }, [item]);
+    }
+    getImageDownloadURL()
+  }, [item])
+
+  // useEffect(() => {
+  //   async function getImageDownloadURL() {
+  //     try {
+  //       if (imageUri && typeof imageUri === 'string') {
+  //         const imageRef = ref(storage, imageUri);
+  //         const downloadImageURL = await getDownloadURL(imageRef);
+  //         setImageUri(downloadImageURL); // Update imageUri with the valid download URL
+  //       } else {
+  //         console.log('Invalid or undefined imageUri:', imageUri);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching download URL:', error);
+  //     }
+  //   }
+  //   getImageDownloadURL();
+  // }, [item]);
   
 
 
