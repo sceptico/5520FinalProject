@@ -1,16 +1,29 @@
 # Project README
 
 ## Firebase Database Rules and API Keys
-  - match /{document=**} {
-      allow read: if request.time < timestamp.date(2024, 12, 12);
-      allow write: if request.auth != null;
+  match /databases/{database}/documents {
+    // Rules for the Product collection
+    match /Product/{productId} {
+      // Allow read for everyone (logged-in and not logged-in users)
+      allow read: if true;
+      // Allow create, update, and delete only for authenticated users who own the product
+      allow write: if request.auth != null &&
+            request.auth.uid == request.resource.data.ownerId;
+    }
+    // Rules for the Event collection
+    match /Event/{eventId} {
+      // Allow read for everyone (logged-in and not logged-in users)
+      allow read: if true;
     }
     match /users/{userId} {
-    	allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, update: if request.auth != null && request.auth.uid == userId;
     }
-    match /Product/{productId} {
-    	allow read: if request.time < timestamp.date(2024, 12, 12);
+    // Fallback for other document types
+    match /{document=**} {
+      allow read: if false; // No read access for other collections/documents
+      allow write: if false; // No write access for other collections/documents
     }
+  }
 
   - Google Maps Key:AIzaSyDbtoksBI2YI7O1CDPoVSTS1X_Frep3rmg
 
